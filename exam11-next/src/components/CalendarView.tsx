@@ -51,9 +51,6 @@ function MonthGrid({ year, month, eventMap }: {
         {DAY_NAMES.map(d => (
           <div key={d} className="cal-day-name">{d}</div>
         ))}
-      </div>
-
-      <div className="cal-grid">
         {emptyCells.map((_, i) => (
           <div key={`e${i}`} className="cal-cell empty" />
         ))}
