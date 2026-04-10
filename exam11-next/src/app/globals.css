@@ -415,19 +415,49 @@ body {
   filter: grayscale(30%);
 }
 
-/* ── Past view button ────────────────────────────────── */
-.view-btn-past {
-  border-color: var(--muted) !important;
-  color: var(--muted) !important;
+/* ── Past events toggle ──────────────────────────────── */
+.past-toggle-wrap {
+  margin-bottom: 0.75rem;
 }
 
-.view-btn-past.active,
-.view-btn-past:hover {
-  background: var(--muted) !important;
-  color: #fff !important;
+.past-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.55rem 1rem;
+  background: rgba(138,106,32,0.08);
+  border: 1.5px dashed var(--muted);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-align: right;
+  direction: rtl;
+}
+
+.past-toggle-btn:hover,
+.past-toggle-btn.open {
+  background: rgba(138,106,32,0.15);
+}
+
+.past-arrow {
+  margin-right: auto;
+  font-size: 0.7rem;
 }
 
 /* ── Past timeline ───────────────────────────────────── */
+.timeline-past {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(138,106,32,0.05);
+  border-radius: 8px;
+  border: 1px dashed rgba(138,106,32,0.25);
+}
+
 .timeline-past .month-label {
   color: var(--muted);
   border-color: var(--muted);

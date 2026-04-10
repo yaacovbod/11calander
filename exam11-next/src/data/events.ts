@@ -25,6 +25,9 @@ export const schedule: MonthGroup[] = [
   {
     month: 'אפריל 2026',
     items: [
+      { start: '20260409', end: '20260410', day: 'יום חמישי', display: '09/04/2026', events: [
+        { title: 'חזרה מחופשת הפסח', cat: 'holiday', tags: [] },
+      ]},
       { start: '20260414', end: '20260415', day: 'יום שלישי', display: '14/04/2026', events: [
         { title: 'מבחן בונוס מדעי המחשב', cat: 'mivhan', tags: ['מבחן'] },
       ]},

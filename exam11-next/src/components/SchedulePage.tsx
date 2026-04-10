@@ -23,7 +23,8 @@ function parseDate(yyyymmdd: string): Date {
 }
 
 export default function SchedulePage() {
-  const [view, setView] = useState<'events' | 'calendar' | 'past'>('events')
+  const [view, setView]         = useState<'events' | 'calendar'>('events')
+  const [showPast, setShowPast] = useState(false)
 
   const today = useMemo(() => {
     const d = new Date()
@@ -44,11 +45,9 @@ export default function SchedulePage() {
     return { upcoming, past }
   }, [today])
 
-  const showingEvents = view === 'events' || view === 'past'
-  const currentGroups = view === 'past' ? past : upcoming
-
   return (
     <>
+      {/* ── Main toggle ── */}
       <div className="view-toggle">
         <button
           className={`view-btn${view === 'events' ? ' active' : ''}`}
@@ -62,40 +61,62 @@ export default function SchedulePage() {
         >
           📅 לוח שנה
         </button>
-        <button
-          className={`view-btn view-btn-past${view === 'past' ? ' active' : ''}`}
-          onClick={() => setView('past')}
-        >
-          🕐 אירועי עבר
-        </button>
       </div>
 
-      {showingEvents && (
-        <div className="legend">
-          {LEGEND.map(({ color, label }) => (
-            <div key={label} className="legend-item">
-              <div className="legend-dot" style={{ background: color }} />
-              {label}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {showingEvents && (
-        <div className={`timeline${view === 'past' ? ' timeline-past' : ''}`}>
-          {currentGroups.length === 0 ? (
-            <div className="no-events">אין אירועים להצגה</div>
-          ) : (
-            currentGroups.map(group => (
-              <div key={group.month}>
-                <div className="month-label">{group.month}</div>
-                {group.items.map(item => (
-                  <EventCard key={item.start} item={item} isPast={view === 'past'} />
-                ))}
+      {/* ── Events view ── */}
+      {view === 'events' && (
+        <>
+          <div className="legend">
+            {LEGEND.map(({ color, label }) => (
+              <div key={label} className="legend-item">
+                <div className="legend-dot" style={{ background: color }} />
+                {label}
               </div>
-            ))
+            ))}
+          </div>
+
+          {/* Past events toggle button */}
+          {past.length > 0 && (
+            <div className="past-toggle-wrap">
+              <button
+                className={`past-toggle-btn${showPast ? ' open' : ''}`}
+                onClick={() => setShowPast(p => !p)}
+              >
+                🕐 אירועי עבר ({past.reduce((n, g) => n + g.items.length, 0)})
+                <span className="past-arrow">{showPast ? '▲' : '▼'}</span>
+              </button>
+
+              {showPast && (
+                <div className="timeline timeline-past">
+                  {past.map(group => (
+                    <div key={group.month}>
+                      <div className="month-label">{group.month}</div>
+                      {group.items.map(item => (
+                        <EventCard key={item.start} item={item} isPast />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
-        </div>
+
+          {/* Upcoming events */}
+          <div className="timeline">
+            {upcoming.length === 0 ? (
+              <div className="no-events">כל האירועים הסתיימו</div>
+            ) : (
+              upcoming.map(group => (
+                <div key={group.month}>
+                  <div className="month-label">{group.month}</div>
+                  {group.items.map(item => (
+                    <EventCard key={item.start} item={item} />
+                  ))}
+                </div>
+              ))
+            )}
+          </div>
+        </>
       )}
 
       {view === 'calendar' && <CalendarView />}
