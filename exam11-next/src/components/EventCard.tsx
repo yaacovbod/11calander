@@ -54,13 +54,13 @@ function CalButtons({ start, end, title }: { start: string; end: string; title: 
   )
 }
 
-export default function EventCard({ item }: { item: DateItem }) {
+export default function EventCard({ item, isPast }: { item: DateItem; isPast?: boolean }) {
   const [activeTab, setActiveTab] = useState(0)
   const isMulti = item.events.length > 1
   const activeCat = item.events[activeTab]?.cat ?? item.events[0].cat
 
   return (
-    <div className={`card cat-${activeCat}`}>
+    <div className={`card cat-${activeCat}${isPast ? ' card-past' : ''}`}>
       <div className="dot" />
       <div className="card-body">
         <div className="card-date">{item.day} &nbsp;|&nbsp; {item.display}</div>

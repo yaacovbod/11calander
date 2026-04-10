@@ -16,12 +16,10 @@ function buildEventMap(): Record<string, EventItem[]> {
   const map: Record<string, EventItem[]> = {}
   schedule.forEach(group => {
     group.items.forEach(item => {
-      // parse start / end
       const sy = +item.start.slice(0,4), sm = +item.start.slice(4,6)-1, sd = +item.start.slice(6,8)
       const ey = +item.end.slice(0,4),   em = +item.end.slice(4,6)-1,   ed = +item.end.slice(6,8)
       const cur  = new Date(sy, sm, sd)
       const stop = new Date(ey, em, ed)
-      // iterate every day in the range [start, end)
       while (cur < stop) {
         const k = dateKey(cur)
         if (!map[k]) map[k] = []
@@ -33,10 +31,17 @@ function buildEventMap(): Record<string, EventItem[]> {
   return map
 }
 
-function MonthGrid({ year, month, eventMap }: {
+function getToday(): Date {
+  const d = new Date()
+  d.setHours(0, 0, 0, 0)
+  return d
+}
+
+function MonthGrid({ year, month, eventMap, today }: {
   year: number
   month: number
   eventMap: Record<string, EventItem[]>
+  today: Date
 }) {
   const firstDow    = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
@@ -55,17 +60,24 @@ function MonthGrid({ year, month, eventMap }: {
           <div key={`e${i}`} className="cal-cell empty" />
         ))}
         {days.map(day => {
-          const dk       = dateKey(new Date(year, month, day))
           const cellDate = new Date(year, month, day)
+          const dk       = dateKey(cellDate)
           const isWip    = cellDate > CUTOFF_DATE
+          const isToday  = cellDate.getTime() === today.getTime()
+          const isPast   = cellDate < today
           const evs      = eventMap[dk] ?? []
           const hasEvent = evs.length > 0
 
+          const classes = [
+            'cal-cell',
+            isWip    && 'wip',
+            hasEvent && 'has-event',
+            isToday  && 'today',
+            isPast   && 'past',
+          ].filter(Boolean).join(' ')
+
           return (
-            <div
-              key={day}
-              className={['cal-cell', isWip && 'wip', hasEvent && 'has-event'].filter(Boolean).join(' ')}
-            >
+            <div key={day} className={classes}>
               <span className="cal-day-num">{day}</span>
               {isWip && <span className="cal-wip-label">🚧 בבנייה</span>}
               {!isWip && evs.map((ev, i) => {
@@ -91,11 +103,12 @@ function MonthGrid({ year, month, eventMap }: {
 
 export default function CalendarView() {
   const eventMap = useMemo(() => buildEventMap(), [])
+  const today    = useMemo(() => getToday(), [])
 
   return (
     <div id="calendar-view-inner">
       {MONTHS_TO_SHOW.map(([y, m]) => (
-        <MonthGrid key={`${y}-${m}`} year={y} month={m} eventMap={eventMap} />
+        <MonthGrid key={`${y}-${m}`} year={y} month={m} eventMap={eventMap} today={today} />
       ))}
     </div>
   )

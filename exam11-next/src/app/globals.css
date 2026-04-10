@@ -392,6 +392,55 @@ body {
   opacity: 0.5;
 }
 
+/* ── Today highlight ─────────────────────────────────── */
+.cal-cell.today {
+  border: 2px solid var(--border) !important;
+  box-shadow: 0 0 0 2px var(--accent);
+  background: rgba(212,160,53,0.12) !important;
+}
+
+.cal-cell.today .cal-day-num {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+/* ── Past days ───────────────────────────────────────── */
+.cal-cell.past {
+  opacity: 0.35;
+}
+
+/* ── Past event cards ────────────────────────────────── */
+.card-past {
+  opacity: 0.6;
+  filter: grayscale(30%);
+}
+
+/* ── Past view button ────────────────────────────────── */
+.view-btn-past {
+  border-color: var(--muted) !important;
+  color: var(--muted) !important;
+}
+
+.view-btn-past.active,
+.view-btn-past:hover {
+  background: var(--muted) !important;
+  color: #fff !important;
+}
+
+/* ── Past timeline ───────────────────────────────────── */
+.timeline-past .month-label {
+  color: var(--muted);
+  border-color: var(--muted);
+}
+
+/* ── No events message ───────────────────────────────── */
+.no-events {
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem;
+  font-size: 0.95rem;
+}
+
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 480px) {
   .cal-cell { min-height: 48px; }

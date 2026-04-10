@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "f5f93314fc28ede9",
+    "type": "split",
+    "children": [
+      {
+        "id": "78beef185b9753e4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f57a8223e8a26585",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "כרטיסייה חדשה"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "df32250c3f35b9dd",
+    "type": "split",
+    "children": [
+      {
+        "id": "226be5364b0e70fd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cf763aedd36b7e0e",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "סייר קבצים"
+            }
+          },
+          {
+            "id": "d0cbd64c8520b743",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "לחפש"
+            }
+          },
+          {
+            "id": "248b3eca32fb82c6",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "סימניות"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "814de7653a8d928a",
+    "type": "split",
+    "children": [
+      {
+        "id": "21b40feea6fe14c5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "192a9f94667927a4",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "קישורים נכנסים"
+            }
+          },
+          {
+            "id": "c14f6f652dcc435f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "קישורים יוצאים"
+            }
+          },
+          {
+            "id": "4ce12b521f10f2c7",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "תגים"
+            }
+          },
+          {
+            "id": "043243601e9f8dc1",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "כל המאפיינים"
+            }
+          },
+          {
+            "id": "2173149f2ec064e8",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "מתווה"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:פתח את המחליף המהיר": false,
+      "graph:פתח תצוגת גרף": false,
+      "canvas:צור קנבס חדש": false,
+      "daily-notes:פתח את ההערה של היום": false,
+      "templates:הכנס תבנית": false,
+      "command-palette:פתח את לוח הפקודות": false,
+      "bases:צור בסיס חדש": false
+    }
+  },
+  "active": "cf763aedd36b7e0e",
+  "lastOpenFiles": [
+    "historical-newspaper/src/app/guide/page.tsx.tmp.34412.1775542249636",
+    "historical-newspaper/src/components/OutputDisplay.tsx.tmp.34412.1775542183013",
+    "historical-newspaper/src/app/api/generate/route.ts.tmp.34412.1775542154763",
+    "historical-newspaper/src/app/api/accept-terms/route.ts",
+    "historical-newspaper/src/app/api/accept-terms",
+    "historical-newspaper/src/app/terms-accept/page.tsx",
+    "historical-newspaper/src/app/terms-accept/_form.tsx",
+    "historical-newspaper/src/app/terms-accept",
+    "historical-newspaper/src/app/api/verify-access/route.ts",
+    "historical-newspaper/src/app/api/verify-access",
+    "historical-newspaper/src/app/access/_form.tsx",
+    "bagrut_history/bagrut/public/emigration_chart.jpg",
+    "bagrut_history/bagrut/CLAUDE.md",
+    "historical-newspaper/CLAUDE.md",
+    "CLAUDE.md",
+    "bagrut_history/bagrut/public/krokodil.jpg",
+    "bagrut_history/bagrut/public/backround.png",
+    "bagrut_history/bagrut/node_modules/xlsx/formats.png",
+    "historical-newspaper/node_modules/trim-lines/readme.md",
+    "historical-newspaper/node_modules/style-to-js/README.md",
+    "historical-newspaper/node_modules/standardwebhooks/README.md",
+    "historical-newspaper/node_modules/micromark-util-types/readme.md",
+    "historical-newspaper/node_modules/micromark-util-symbol/readme.md",
+    "historical-newspaper/node_modules/micromark-util-normalize-identifier/readme.md",
+    "historical-newspaper/node_modules/fast-sha256/README.md",
+    "historical-newspaper/node_modules/estree-util-is-identifier-name/readme.md",
+    "historical-newspaper/node_modules/character-reference-invalid/readme.md",
+    "historical-newspaper/node_modules/micromark-util-resolve-all/readme.md",
+    "historical-newspaper/node_modules/micromark-util-chunked/readme.md",
+    "historical-newspaper/node_modules/decode-named-character-reference/readme.md",
+    "historical-newspaper/node_modules/redis-errors/README.md",
+    "historical-newspaper/node_modules/lodash.isarguments/README.md",
+    "historical-newspaper/node_modules/@vercel/kv/README.md",
+    "historical-newspaper/node_modules/@vercel/kv/license.md",
+    "historical-newspaper/node_modules/uncrypto/README.md",
+    "historical-newspaper/node_modules/@types/debug/README.md",
+    "historical-newspaper/node_modules/vfile/readme.md",
+    "historical-newspaper/node_modules/@types/hast/README.md",
+    "historical-newspaper/node_modules/dequal/readme.md",
+    "historical-newspaper/node_modules/micromark-util-encode/readme.md",
+    "historical-newspaper/public/background.png",
+    "historical-newspaper/public/background.jpg.png",
+    "background.jpg.png"
+  ]
+}
