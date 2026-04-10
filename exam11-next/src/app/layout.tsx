@@ -11,6 +11,7 @@ const rubik = Rubik({
 export const metadata: Metadata = {
   title: 'לוח מבחנים שכבת י"א | נעימת הלב',
   description: 'לוח מבחנים ובגרויות שכבת י"א בית ספר נעימת הלב 2026',
+  viewport: 'width=device-width, initial-scale=1',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
