@@ -1,0 +1,394 @@
+@import "tailwindcss";
+
+/* ── Golden Hour Theme ──────────────────────────────── */
+:root {
+  --bg:        #F8EDD0;
+  --card:      #FEF8EA;
+  --border:    #D4A035;
+  --accent:    #B87800;
+  --text:      #3D2B00;
+  --muted:     #8A6A20;
+  --shadow:    rgba(180,120,0,0.12);
+
+  /* category colors */
+  --c-bagrut-bg:      #8B2200; --c-bagrut-fg:    #fff; --c-bagrut-border:    #6B1A00;
+  --c-metakonet-bg:   #1A4A6B; --c-metakonet-fg: #fff; --c-metakonet-border: #123550;
+  --c-holiday-bg:     #2A6030; --c-holiday-fg:   #fff; --c-holiday-border:   #1E4522;
+  --c-army-bg:        #1A7A6A; --c-army-fg:      #fff; --c-army-border:      #125A4E;
+  --c-mivhan-bg:      #5A6B28; --c-mivhan-fg:    #fff; --c-mivhan-border:    #3E4A1C;
+  --c-gdna-bg:        #1A7A6A; --c-gdna-fg:      #fff; --c-gdna-border:      #125A4E;
+  --c-special-bg:     #5A6B28; --c-special-fg:   #fff; --c-special-border:   #3E4A1C;
+}
+
+/* ── Base ───────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rubik', Arial, sans-serif;
+  direction: rtl;
+  min-height: 100vh;
+}
+
+/* ── Float-up animation ─────────────────────────────── */
+@keyframes floatUp {
+  0%   { transform: translateY(0)   rotate(0deg);   opacity: 0;   }
+  5%   { opacity: 0.55; }
+  90%  { opacity: 0.45; }
+  100% { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
+}
+
+/* ── Layout wrapper ─────────────────────────────────── */
+.page-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+.page-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.school-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  box-shadow: 0 4px 16px var(--shadow);
+  margin-bottom: 0.75rem;
+}
+
+.page-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.page-sub {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+/* ── View toggle ─────────────────────────────────────── */
+.view-toggle {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.view-btn {
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: var(--accent);
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+.view-btn.active,
+.view-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ── Legend ─────────────────────────────────────────── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.2rem;
+  justify-content: center;
+  margin-bottom: 1.8rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Timeline ────────────────────────────────────────── */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.month-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent);
+  padding: 0.7rem 0 0.3rem;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 0.5rem;
+}
+
+/* ── Card ────────────────────────────────────────────── */
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-right: 5px solid var(--border);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.55rem;
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: box-shadow 0.15s;
+}
+
+.card:hover { box-shadow: 0 4px 18px var(--shadow); }
+
+.card.cat-bagrut    { border-right-color: var(--c-bagrut-bg); }
+.card.cat-metakonet { border-right-color: var(--c-metakonet-bg); }
+.card.cat-holiday   { border-right-color: var(--c-holiday-bg); }
+.card.cat-army      { border-right-color: var(--c-army-bg); }
+.card.cat-mivhan    { border-right-color: var(--c-mivhan-bg); }
+.card.cat-gdna      { border-right-color: var(--c-gdna-bg); }
+.card.cat-special   { border-right-color: var(--c-special-bg); }
+
+/* dot */
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 0.35rem;
+  background: var(--border);
+}
+
+.cat-bagrut    .dot { background: var(--c-bagrut-bg); }
+.cat-metakonet .dot { background: var(--c-metakonet-bg); }
+.cat-holiday   .dot { background: var(--c-holiday-bg); }
+.cat-army      .dot { background: var(--c-army-bg); }
+.cat-mivhan    .dot { background: var(--c-mivhan-bg); }
+.cat-gdna      .dot { background: var(--c-gdna-bg); }
+.cat-special   .dot { background: var(--c-special-bg); }
+
+.card-body { flex: 1; }
+
+.card-date {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* ── Tags ────────────────────────────────────────────── */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.tag {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tag-marathon {
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+
+/* ── Calendar buttons ───────────────────────────────── */
+.cal-buttons {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.cal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: 'Rubik', sans-serif;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+.cal-btn:hover { opacity: 0.85; }
+
+.cal-btn-google {
+  background: #fff;
+  color: #3c4043;
+  border: 1px solid #dadce0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.cal-btn-apple {
+  background: #1c1c1e;
+  color: #fff;
+}
+
+/* ── Tabs ────────────────────────────────────────────── */
+.tabs-header {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+
+.tab-btn {
+  padding: 0.2rem 0.8rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--accent);
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Calendar view ───────────────────────────────────── */
+#calendar-view-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.month-grid-wrap {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.month-grid-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.cal-day-name {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  padding: 0.3rem 0;
+}
+
+.cal-cell {
+  min-height: 64px;
+  background: var(--bg);
+  border: 1px solid rgba(212,160,53,0.2);
+  border-radius: 6px;
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.7rem;
+}
+
+.cal-cell.empty {
+  background: transparent;
+  border-color: transparent;
+}
+
+.cal-cell.has-event {
+  background: rgba(254,248,234,0.9);
+}
+
+.cal-day-num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.cal-event-label {
+  display: block;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cal-wip-label {
+  font-size: 0.6rem;
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.cal-cell.wip {
+  opacity: 0.5;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .cal-cell { min-height: 48px; }
+  .cal-event-label { font-size: 0.55rem; }
+}
