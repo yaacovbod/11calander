@@ -82,7 +82,7 @@ export default function SchedulePage() {
                 className={`past-toggle-btn${showPast ? ' open' : ''}`}
                 onClick={() => setShowPast(p => !p)}
               >
-                🕐 אירועי עבר ({past.reduce((n, g) => n + g.items.length, 0)})
+                🕐 אירועי עבר
                 <span className="past-arrow">{showPast ? '▲' : '▼'}</span>
               </button>
 
