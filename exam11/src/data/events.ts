@@ -81,6 +81,9 @@ export const schedule: MonthGroup[] = [
       { start: '20260514', end: '20260515', day: 'יום חמישי', display: '14/05/2026', events: [
         { title: 'צו ראשון', cat: 'army', tags: ['הכנה לצה"ל'] },
       ]},
+      { start: '20260517', end: '20260518', day: 'יום ראשון', display: '17/05/2026', events: [
+        { title: 'מתכונת בפיזיקה', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
       { start: '20260518', end: '20260519', day: 'יום שני', display: '18/05/2026', events: [
         { title: 'בגרות באנגלית לרמות 3 ו5 יח"ל', cat: 'bagrut', tags: ['בגרות'] },
       ]},
@@ -89,10 +92,10 @@ export const schedule: MonthGroup[] = [
       ]},
       { start: '20260520', end: '20260521', day: 'יום רביעי', display: '20/05/2026', events: [
         { title: 'מתכונת בניהול עסקי', cat: 'metakonet', tags: ['מתכונת'] },
+        { title: 'מתכונת מידע ונתונים', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260521', end: '20260523', day: 'חמישי ושישי', display: '21–22/05/2026', events: [
         { title: 'שבועות', cat: 'holiday', tags: ['חופש'] },
-        { title: 'מתכונת בפיזיקה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260524', end: '20260526', day: 'ראשון עד שני', display: '24–25/05/2026', events: [
         { title: 'טיול שנתי', cat: 'special', tags: ['טיול שנתי'] },
