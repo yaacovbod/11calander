@@ -101,7 +101,6 @@ export const schedule: MonthGroup[] = [
         { title: 'טיול שנתי', cat: 'special', tags: ['טיול שנתי'] },
       ]},
       { start: '20260528', end: '20260529', day: 'יום חמישי', display: '28/05/2026', events: [
-        { title: 'מבחן בביולוגיה', cat: 'mivhan', tags: ['מבחן'] },
         { title: 'מתכונת במדעי המחשב', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260531', end: '20260601', day: 'יום ראשון', display: '31/05/2026', events: [
@@ -114,6 +113,7 @@ export const schedule: MonthGroup[] = [
     month: 'יוני 2026',
     items: [
       { start: '20260601', end: '20260602', day: 'יום שני', display: '01/06/2026', events: [
+        { title: 'מבחן בביולוגיה', cat: 'mivhan', tags: ['מבחן'] },
         { title: 'מתכונת בפסיכולוגיה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260602', end: '20260603', day: 'יום שלישי', display: '02/06/2026', events: [
