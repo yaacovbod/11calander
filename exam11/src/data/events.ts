@@ -19,7 +19,7 @@ export interface MonthGroup {
   items: DateItem[]
 }
 
-export const CUTOFF_DATE = new Date(2026, 4, 21) // 21/05/2026
+export const CUTOFF_DATE = new Date(2026, 6, 10) // 10/07/2026
 
 export const schedule: MonthGroup[] = [
   {
@@ -44,7 +44,7 @@ export const schedule: MonthGroup[] = [
         { title: 'מתכונת באנגלית', cat: 'metakonet', tags: ['מתכונת'] },
         { title: 'מתכונת בפיזיקה',  cat: 'metakonet', tags: ['מתכונת'] },
       ]},
-      { start: '20260426', end: '20260501', day: '26–30', display: '26/04 – 30/04/2026', events: [
+      { start: '20260426', end: '20260501', day: 'ראשון עד חמישי', display: '26/04 – 30/04/2026', events: [
         { title: 'שבוע גדנ"ע', cat: 'army', tags: ['הכנה לצה"ל'] },
       ]},
       { start: '20260430', end: '20260501', day: 'יום חמישי', display: '30/04/2026', events: [
@@ -92,8 +92,8 @@ export const schedule: MonthGroup[] = [
       { start: '20260521', end: '20260522', day: 'יום חמישי', display: '21/05/2026', events: [
         { title: 'מתכונת בפיזיקה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
-      { start: '20260524', end: '20260526', day: 'יום ראשון–שני', display: '24–25/05/2026', events: [
-        { title: 'טיול שנתי', cat: 'special', tags: ['טיול'] },
+      { start: '20260524', end: '20260526', day: 'ראשון עד שני', display: '24–25/05/2026', events: [
+        { title: 'טיול שנתי', cat: 'special', tags: ['טיול שנתי'] },
       ]},
       { start: '20260528', end: '20260529', day: 'יום חמישי', display: '28/05/2026', events: [
         { title: 'מבחן בביולוגיה', cat: 'mivhan', tags: ['מבחן'] },

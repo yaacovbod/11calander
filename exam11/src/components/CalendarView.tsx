@@ -6,7 +6,7 @@ import { schedule, catColors, CUTOFF_DATE, type EventItem } from '@/data/events'
 const MONTH_NAMES = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר']
 const DAY_NAMES   = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳']
 
-const MONTHS_TO_SHOW: [number, number][] = [[2026,3],[2026,4],[2026,5]]
+const MONTHS_TO_SHOW: [number, number][] = [[2026,3],[2026,4],[2026,5],[2026,6]]
 
 function dateKey(d: Date): string {
   return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
