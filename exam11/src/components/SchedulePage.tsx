@@ -6,6 +6,7 @@ import { schedule, EventCategory, DateItem } from '@/data/events'
 import EventCard from './EventCard'
 
 const EXAM_CATS = new Set<EventCategory>(['mivhan', 'metakonet', 'bagrut'])
+const YEAR_END = new Date(2026, 6, 11) // 11/07/2026
 
 const CalendarView = dynamic(() => import('./CalendarView'), { ssr: false })
 
@@ -40,6 +41,16 @@ export default function SchedulePage() {
     d.setHours(0,0,0,0)
     return d
   }, [])
+
+  if (today >= YEAR_END) {
+    return (
+      <div className="year-end-wrap">
+        <div className="year-end-emoji">🎓</div>
+        <h2 className="year-end-title">שנת הלימודים הסתיימה!</h2>
+        <p className="year-end-sub">כל המבחנים והבגרויות עברו.<br />כיתת י"א נעימת הלב — בהצלחה!</p>
+      </div>
+    )
+  }
 
   const countdownMap = useMemo(() => {
     const allItems = schedule.flatMap(g => g.items)

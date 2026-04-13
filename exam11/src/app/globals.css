@@ -497,6 +497,33 @@ body {
   border-color: var(--muted);
 }
 
+/* ── Year-end screen ─────────────────────────────────── */
+.year-end-wrap {
+  text-align: center;
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.year-end-emoji {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.year-end-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.year-end-sub {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
 /* ── Countdown badge ─────────────────────────────────── */
 .countdown-badge {
   display: flex;
