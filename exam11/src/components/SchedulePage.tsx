@@ -11,8 +11,8 @@ const LEGEND = [
   { color: '#8B2200', label: 'בגרות רשמית' },
   { color: '#1A4A6B', label: 'מתכונת' },
   { color: '#2A6030', label: 'חופש / חג' },
-  { color: '#1A7A6A', label: 'מבחן' },
-  { color: '#5A6B28', label: 'הכנה לצה"ל' },
+  { color: '#1A7A6A', label: 'הכנה לצה"ל' },
+  { color: '#5A6B28', label: 'מבחן' },
 ]
 
 function parseDate(yyyymmdd: string): Date {
