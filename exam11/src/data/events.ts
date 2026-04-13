@@ -92,6 +92,69 @@ export const schedule: MonthGroup[] = [
       { start: '20260521', end: '20260522', day: 'יום חמישי', display: '21/05/2026', events: [
         { title: 'מתכונת בפיזיקה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
+      { start: '20260524', end: '20260526', day: 'יום ראשון–שני', display: '24–25/05/2026', events: [
+        { title: 'טיול שנתי', cat: 'special', tags: ['טיול'] },
+      ]},
+      { start: '20260528', end: '20260529', day: 'יום חמישי', display: '28/05/2026', events: [
+        { title: 'מבחן בביולוגיה', cat: 'mivhan', tags: ['מבחן'] },
+        { title: 'מתכונת במדעי המחשב', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260531', end: '20260601', day: 'יום ראשון', display: '31/05/2026', events: [
+        { title: 'הדמייה מידע ונתונים', cat: 'metakonet', tags: ['מתכונת'] },
+        { title: 'מתכונת בניהול עסקי', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+    ],
+  },
+  {
+    month: 'יוני 2026',
+    items: [
+      { start: '20260601', end: '20260602', day: 'יום שני', display: '01/06/2026', events: [
+        { title: 'מתכונת בפסיכולוגיה', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260602', end: '20260603', day: 'יום שלישי', display: '02/06/2026', events: [
+        { title: 'מתכונת בפיזיקה', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260604', end: '20260605', day: 'יום חמישי', display: '04/06/2026', events: [
+        { title: 'בגרות בניהול עסקי', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'מבחן באומנות', cat: 'mivhan', tags: ['מבחן'] },
+        { title: 'מבחן בתקשורת', cat: 'mivhan', tags: ['מבחן'] },
+        { title: 'מתכונת במוט"ל', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260608', end: '20260609', day: 'יום שני', display: '08/06/2026', events: [
+        { title: 'מתכונת בספרות', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260611', end: '20260612', day: 'יום חמישי', display: '11/06/2026', events: [
+        { title: 'מתכונת בספרות', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260615', end: '20260616', day: 'יום שני', display: '15/06/2026', events: [
+        { title: 'בגרות במוט"ל', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות בפיזיקה', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'מתכונת בפסיכולוגיה', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260617', end: '20260618', day: 'יום רביעי', display: '17/06/2026', events: [
+        { title: 'בגרות בספרות', cat: 'bagrut', tags: ['בגרות רשמית'] },
+      ]},
+      { start: '20260622', end: '20260623', day: 'יום שני', display: '22/06/2026', events: [
+        { title: 'בגרות בפסיכולוגיה', cat: 'bagrut', tags: ['בגרות רשמית'] },
+      ]},
+      { start: '20260625', end: '20260626', day: 'יום חמישי', display: '25/06/2026', events: [
+        { title: 'בגרות במידע ונתונים', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות במדעי המחשב', cat: 'bagrut', tags: ['בגרות רשמית'] },
+      ]},
+      { start: '20260630', end: '20260701', day: 'יום שלישי', display: '30/06/2026', events: [
+        { title: 'בגרות באנגלית (מועד ב\')', cat: 'bagrut', tags: ['בגרות רשמית', 'מועד ב\''] },
+      ]},
+    ],
+  },
+  {
+    month: 'יולי 2026',
+    items: [
+      { start: '20260706', end: '20260707', day: 'יום שני', display: '06/07/2026', events: [
+        { title: 'בגרות במתמטיקה (מועד ב\')', cat: 'bagrut', tags: ['בגרות רשמית', 'מועד ב\''] },
+      ]},
+      { start: '20260709', end: '20260710', day: 'יום חמישי', display: '09/07/2026', events: [
+        { title: 'בגרות במתמטיקה (מועד ב\')', cat: 'bagrut', tags: ['בגרות רשמית', 'מועד ב\''] },
+      ]},
     ],
   },
 ]
