@@ -69,7 +69,7 @@ function MonthGrid({ year, month, eventMap, today }: {
           const hasEvent = evs.length > 0
 
           const isSummer  = cellDate >= new Date(2026, 5, 19) && cellDate <= new Date(2026, 6, 31)
-          const isHoliday = evs.some(ev => ev.cat === 'holiday')
+          const isHoliday = evs.some(ev => ev.cat === 'holiday') && !evs.every(ev => ev.cat === 'memorial')
 
           const classes = [
             'cal-cell',

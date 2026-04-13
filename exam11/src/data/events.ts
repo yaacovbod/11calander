@@ -1,4 +1,4 @@
-export type EventCategory = 'bagrut' | 'metakonet' | 'holiday' | 'army' | 'mivhan' | 'gdna' | 'special'
+export type EventCategory = 'bagrut' | 'metakonet' | 'holiday' | 'army' | 'mivhan' | 'gdna' | 'special' | 'memorial'
 
 export interface EventItem {
   title: string
@@ -29,6 +29,7 @@ export const schedule: MonthGroup[] = [
         { title: 'חזרה מחופשת הפסח', cat: 'holiday', tags: [] },
       ]},
       { start: '20260414', end: '20260415', day: 'יום שלישי', display: '14/04/2026', events: [
+        { title: 'יום השואה', cat: 'memorial', tags: ['יום זיכרון'] },
         { title: 'מבחן בונוס מדעי המחשב', cat: 'mivhan', tags: ['מבחן'] },
       ]},
       { start: '20260415', end: '20260416', day: 'יום רביעי', display: '15/04/2026', events: [
@@ -36,6 +37,9 @@ export const schedule: MonthGroup[] = [
       ]},
       { start: '20260420', end: '20260421', day: 'יום שני', display: '20/04/2026', events: [
         { title: 'מתכונת ראשונה במתמטיקה', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260421', end: '20260422', day: 'יום שלישי', display: '21/04/2026', events: [
+        { title: 'יום הזיכרון', cat: 'memorial', tags: ['יום זיכרון'] },
       ]},
       { start: '20260422', end: '20260423', day: 'יום רביעי', display: '22/04/2026', events: [
         { title: 'יום העצמאות', cat: 'holiday', tags: ['חופש'] },
@@ -175,4 +179,5 @@ export const catColors: Record<EventCategory, { bg: string; color: string; borde
   mivhan:    { bg: '#e4f5f2', color: '#1A7A6A', border: '#80c4b8' },
   gdna:      { bg: '#fdf5d8', color: '#7A5000', border: '#e0c050' },
   special:   { bg: '#fdf0e0', color: '#7A3000', border: '#e0b070' },
+  memorial:  { bg: '#ededf0', color: '#2a2a3a', border: '#9090a8' },
 }
