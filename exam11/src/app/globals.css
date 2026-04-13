@@ -360,7 +360,7 @@ body {
 }
 
 .cal-cell.has-event {
-  background: rgba(254,248,234,0.9);
+  background: var(--bg);
 }
 
 .cal-day-num {
