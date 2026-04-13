@@ -56,16 +56,27 @@ export default function SchedulePage() {
 
   const countdownMap = useMemo(() => {
     const allItems = schedule.flatMap(g => g.items)
+    const map = new Map<string, { days: number; cat: EventCategory; festive?: boolean }>()
+
+    // top 3 upcoming exam events
     const examItems = allItems.filter(item =>
       parseDate(item.end) > today && item.events.some(e => EXAM_CATS.has(e.cat))
     )
-    const top3 = examItems.slice(0, 3)
-    const map = new Map<string, { days: number; cat: EventCategory }>()
-    top3.forEach(item => {
+    examItems.slice(0, 3).forEach(item => {
       const examEvent = item.events.find(e => EXAM_CATS.has(e.cat))!
       const days = Math.round((parseDate(item.start).getTime() - today.getTime()) / 86400000)
       map.set(item.start, { days, cat: examEvent.cat })
     })
+
+    // יום אחרון ללימודים
+    const lastDay = allItems.find(item =>
+      parseDate(item.end) > today && item.events.some(e => e.cat === 'special')
+    )
+    if (lastDay) {
+      const days = Math.round((parseDate(lastDay.start).getTime() - today.getTime()) / 86400000)
+      map.set(lastDay.start, { days, cat: 'special', festive: true })
+    }
+
     return map
   }, [today])
 

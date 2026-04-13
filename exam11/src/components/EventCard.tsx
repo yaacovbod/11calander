@@ -54,19 +54,21 @@ function CalButtons({ start, end, title }: { start: string; end: string; title: 
   )
 }
 
-function CountdownBadge({ days, cat }: { days: number; cat: EventCategory }) {
+function CountdownBadge({ days, cat, festive }: { days: number; cat: EventCategory; festive?: boolean }) {
   const c = catColors[cat]
+  const style = festive
+    ? { background: 'linear-gradient(135deg,#fff4cc,#ffe066)', color: '#7a4f00', border: '2px solid #e0b800' }
+    : { background: c.bg, color: c.color, border: `2px solid ${c.border}` }
+
   return (
-    <div
-      className="countdown-badge"
-      style={{ background: c.bg, color: c.color, border: `2px solid ${c.border}` }}
-    >
+    <div className={`countdown-badge${festive ? ' countdown-festive' : ''}`} style={style}>
       {days === 0 ? (
-        <span className="countdown-today">היום</span>
+        <span className="countdown-today">{festive ? '🎓 היום!' : 'היום'}</span>
       ) : days === 1 ? (
-        <span className="countdown-today">מחר</span>
+        <span className="countdown-today">{festive ? '🎓 מחר!' : 'מחר'}</span>
       ) : (
         <>
+          {festive && <span className="countdown-festive-icon">🎓</span>}
           <span className="countdown-num">{days}</span>
           <span className="countdown-unit">ימים</span>
         </>
@@ -82,7 +84,7 @@ export default function EventCard({
 }: {
   item: DateItem
   isPast?: boolean
-  countdown?: { days: number; cat: EventCategory }
+  countdown?: { days: number; cat: EventCategory; festive?: boolean }
 }) {
   const [activeTab, setActiveTab] = useState(0)
   const isMulti = item.events.length > 1
@@ -147,7 +149,7 @@ export default function EventCard({
           </>
         )}
       </div>
-      {countdown && <CountdownBadge days={countdown.days} cat={countdown.cat} />}
+      {countdown && <CountdownBadge days={countdown.days} cat={countdown.cat} festive={countdown.festive} />}
     </div>
   )
 }

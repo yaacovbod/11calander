@@ -562,6 +562,23 @@ body {
   line-height: 1.2;
 }
 
+.countdown-festive {
+  box-shadow: 0 0 0 2px #ffe066, 0 2px 10px rgba(200,160,0,0.25);
+  animation: festive-glow 2s ease-in-out infinite;
+}
+
+.countdown-festive-icon {
+  font-size: 1rem;
+  display: block;
+  line-height: 1;
+  margin-bottom: 1px;
+}
+
+@keyframes festive-glow {
+  0%, 100% { box-shadow: 0 0 0 2px #ffe066, 0 2px 10px rgba(200,160,0,0.2); }
+  50%       { box-shadow: 0 0 0 3px #ffd700, 0 4px 16px rgba(200,160,0,0.45); }
+}
+
 /* ── No events message ───────────────────────────────── */
 .no-events {
   text-align: center;
