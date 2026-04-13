@@ -19,7 +19,7 @@ export interface MonthGroup {
   items: DateItem[]
 }
 
-export const CUTOFF_DATE = new Date(2026, 6, 10) // 10/07/2026
+export const CUTOFF_DATE = new Date(2026, 7, 1) // 01/08/2026 — past end of calendar
 
 export const schedule: MonthGroup[] = [
   {
@@ -164,7 +164,7 @@ export const schedule: MonthGroup[] = [
         { title: 'בגרות במתמטיקה (מועד ב\')', cat: 'bagrut', tags: ['בגרות', 'מועד ב\''] },
       ]},
       { start: '20260709', end: '20260710', day: 'יום חמישי', display: '09/07/2026', events: [
-        { title: 'בגרות במתמטיקה (מועד ב\')', cat: 'bagrut', tags: ['בגרות', 'מועד ב\''] },
+        { title: 'בגרות בלשון (מועד ב\')', cat: 'bagrut', tags: ['בגרות', 'מועד ב\''] },
       ]},
     ],
   },
