@@ -392,6 +392,11 @@ body {
   opacity: 0.5;
 }
 
+/* ── Summer vacation ────────────────────────────────── */
+.cal-cell.summer {
+  background: rgba(255, 180, 60, 0.18);
+}
+
 /* ── Today highlight ─────────────────────────────────── */
 .cal-cell.today {
   border: 2px solid var(--border) !important;
