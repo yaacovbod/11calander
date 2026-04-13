@@ -59,7 +59,8 @@ export const schedule: MonthGroup[] = [
         { title: 'מתכונת שנייה במתמטיקה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260505', end: '20260506', day: 'יום שלישי', display: '05/05/2026', events: [
-        { title: 'לג בעומר (חופש) – מרתון פיזיקה', cat: 'holiday', tags: ['חופש', 'מרתון'] },
+        { title: 'לג בעומר', cat: 'holiday', tags: ['חופש'] },
+        { title: 'מרתון פיזיקה', cat: 'metakonet', tags: ['מרתון'] },
       ]},
       { start: '20260506', end: '20260507', day: 'יום רביעי', display: '06/05/2026', events: [
         { title: 'מתכונת באנגלית', cat: 'metakonet', tags: ['מתכונת'] },
