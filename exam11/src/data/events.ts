@@ -1,4 +1,4 @@
-export type EventCategory = 'bagrut' | 'metakonet' | 'holiday' | 'army' | 'mivhan' | 'gdna' | 'special' | 'memorial'
+export type EventCategory = 'bagrut' | 'metakonet' | 'holiday' | 'army' | 'mivhan' | 'gdna' | 'special' | 'memorial' | 'trip'
 
 export interface EventItem {
   title: string
@@ -64,7 +64,6 @@ export const schedule: MonthGroup[] = [
       ]},
       { start: '20260505', end: '20260506', day: 'יום שלישי', display: '05/05/2026', events: [
         { title: 'לג בעומר', cat: 'holiday', tags: ['חופש'] },
-        { title: 'מרתון פיזיקה', cat: 'metakonet', tags: ['מרתון'] },
       ]},
       { start: '20260506', end: '20260507', day: 'יום רביעי', display: '06/05/2026', events: [
         { title: 'מתכונת באנגלית', cat: 'metakonet', tags: ['מתכונת'] },
@@ -102,7 +101,7 @@ export const schedule: MonthGroup[] = [
         { title: 'שבועות', cat: 'holiday', tags: ['חופש'] },
       ]},
       { start: '20260524', end: '20260526', day: 'ראשון עד שני', display: '24–25/05/2026', events: [
-        { title: 'טיול שנתי', cat: 'special', tags: ['טיול שנתי'] },
+        { title: 'טיול שנתי', cat: 'trip', tags: ['טיול שנתי'] },
       ]},
       { start: '20260528', end: '20260529', day: 'יום חמישי', display: '28/05/2026', events: [
         { title: 'מתכונת במדעי המחשב', cat: 'metakonet', tags: ['מתכונת'] },
@@ -180,4 +179,5 @@ export const catColors: Record<EventCategory, { bg: string; color: string; borde
   gdna:      { bg: '#fdf5d8', color: '#7A5000', border: '#e0c050' },
   special:   { bg: '#fdf0e0', color: '#7A3000', border: '#e0b070' },
   memorial:  { bg: '#ededf0', color: '#2a2a3a', border: '#9090a8' },
+  trip:      { bg: '#e8f4fd', color: '#1A4A6B', border: '#80b8d8' },
 }

@@ -2,17 +2,16 @@
 
 import { useState, useMemo } from 'react'
 import dynamic from 'next/dynamic'
-import { schedule } from '@/data/events'
+import { schedule, EventCategory, DateItem } from '@/data/events'
 import EventCard from './EventCard'
 
 const CalendarView = dynamic(() => import('./CalendarView'), { ssr: false })
 
-const LEGEND = [
-  { color: '#8B2200', label: 'בגרות' },
-  { color: '#1A4A6B', label: 'מתכונת' },
-  { color: '#2A6030', label: 'חופש / חג' },
-  { color: '#1A7A6A', label: 'הכנה לצה"ל' },
-  { color: '#5A6B28', label: 'מבחן' },
+const FILTER_GROUPS: { label: string; cats: EventCategory[]; color: string }[] = [
+  { label: 'מבחן',           cats: ['mivhan', 'metakonet'], color: '#5A6B28' },
+  { label: 'בגרויות',        cats: ['bagrut'],              color: '#8B2200' },
+  { label: 'מועדים וחגים',   cats: ['holiday', 'memorial', 'special'], color: '#2A6030' },
+  { label: 'פעילות וטיולים', cats: ['army', 'trip'],        color: '#1A7A6A' },
 ]
 
 function parseDate(yyyymmdd: string): Date {
@@ -22,9 +21,17 @@ function parseDate(yyyymmdd: string): Date {
   return dt
 }
 
+function applyFilter(items: DateItem[], activeFilter: string | null): DateItem[] {
+  if (!activeFilter) return items
+  const group = FILTER_GROUPS.find(g => g.label === activeFilter)
+  if (!group) return items
+  return items.filter(item => item.events.some(e => group.cats.includes(e.cat)))
+}
+
 export default function SchedulePage() {
-  const [view, setView]         = useState<'events' | 'calendar'>('events')
-  const [showPast, setShowPast] = useState(false)
+  const [view, setView]               = useState<'events' | 'calendar'>('events')
+  const [showPast, setShowPast]       = useState(false)
+  const [activeFilter, setActiveFilter] = useState<string | null>(null)
 
   const today = useMemo(() => {
     const d = new Date()
@@ -45,6 +52,20 @@ export default function SchedulePage() {
     return { upcoming, past }
   }, [today])
 
+  const filteredUpcoming = useMemo(() =>
+    upcoming.map(group => ({
+      ...group,
+      items: applyFilter(group.items, activeFilter),
+    })).filter(group => group.items.length > 0),
+  [upcoming, activeFilter])
+
+  const filteredPast = useMemo(() =>
+    past.map(group => ({
+      ...group,
+      items: applyFilter(group.items, activeFilter),
+    })).filter(group => group.items.length > 0),
+  [past, activeFilter])
+
   return (
     <>
       {/* ── Main toggle ── */}
@@ -63,18 +84,26 @@ export default function SchedulePage() {
         </button>
       </div>
 
+      {/* ── Filter bar ── */}
+      {view === 'events' && (
+        <div className="filter-bar">
+          {FILTER_GROUPS.map(({ label, color }) => (
+            <button
+              key={label}
+              className={`filter-btn${activeFilter === label ? ' active' : ''}`}
+              style={{ '--filter-color': color } as React.CSSProperties}
+              onClick={() => setActiveFilter(prev => prev === label ? null : label)}
+            >
+              <span className="filter-dot" />
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* ── Events view ── */}
       {view === 'events' && (
         <>
-          <div className="legend">
-            {LEGEND.map(({ color, label }) => (
-              <div key={label} className="legend-item">
-                <div className="legend-dot" style={{ background: color }} />
-                {label}
-              </div>
-            ))}
-          </div>
-
           {/* Past events toggle button */}
           {past.length > 0 && (
             <div className="past-toggle-wrap">
@@ -88,7 +117,7 @@ export default function SchedulePage() {
 
               {showPast && (
                 <div className="timeline timeline-past">
-                  {past.map(group => (
+                  {filteredPast.map(group => (
                     <div key={group.month}>
                       <div className="month-label">{group.month}</div>
                       {group.items.map(item => (
@@ -103,10 +132,10 @@ export default function SchedulePage() {
 
           {/* Upcoming events */}
           <div className="timeline">
-            {upcoming.length === 0 ? (
-              <div className="no-events">כל האירועים הסתיימו</div>
+            {filteredUpcoming.length === 0 ? (
+              <div className="no-events">אין אירועים בקטגוריה זו</div>
             ) : (
-              upcoming.map(group => (
+              filteredUpcoming.map(group => (
                 <div key={group.month}>
                   <div className="month-label">{group.month}</div>
                   {group.items.map(item => (
