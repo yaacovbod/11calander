@@ -6,7 +6,8 @@ import { schedule, EventCategory, DateItem } from '@/data/events'
 import EventCard from './EventCard'
 
 const EXAM_CATS = new Set<EventCategory>(['mivhan', 'metakonet', 'bagrut'])
-const YEAR_END = new Date(2026, 6, 11) // 11/07/2026
+const SCHOOL_YEAR_END = new Date(2026, 5, 19) // 19/06/2026
+const ALL_EXAMS_DONE  = new Date(2026, 6, 11) // 11/07/2026
 
 const CalendarView = dynamic(() => import('./CalendarView'), { ssr: false })
 
@@ -42,12 +43,13 @@ export default function SchedulePage() {
     return d
   }, [])
 
-  if (today >= YEAR_END) {
+  if (today >= ALL_EXAMS_DONE) return null
+
+  if (today >= SCHOOL_YEAR_END) {
     return (
       <div className="year-end-wrap">
         <div className="year-end-emoji">🎓</div>
-        <h2 className="year-end-title">שנת הלימודים הסתיימה!</h2>
-        <p className="year-end-sub">כל המבחנים והבגרויות עברו.<br />כיתת י"א נעימת הלב — בהצלחה!</p>
+        <h2 className="year-end-title">סוף שנת הלימודים!</h2>
       </div>
     )
   }
