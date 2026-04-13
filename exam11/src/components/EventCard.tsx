@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { type DateItem, catColors } from '@/data/events'
+import { type DateItem, type EventCategory, catColors } from '@/data/events'
 
 function googleCalUrl(start: string, end: string, title: string) {
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}`
@@ -54,7 +54,36 @@ function CalButtons({ start, end, title }: { start: string; end: string; title: 
   )
 }
 
-export default function EventCard({ item, isPast }: { item: DateItem; isPast?: boolean }) {
+function CountdownBadge({ days, cat }: { days: number; cat: EventCategory }) {
+  const c = catColors[cat]
+  return (
+    <div
+      className="countdown-badge"
+      style={{ background: c.bg, color: c.color, border: `2px solid ${c.border}` }}
+    >
+      {days === 0 ? (
+        <span className="countdown-today">היום</span>
+      ) : days === 1 ? (
+        <span className="countdown-today">מחר</span>
+      ) : (
+        <>
+          <span className="countdown-num">{days}</span>
+          <span className="countdown-unit">ימים</span>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default function EventCard({
+  item,
+  isPast,
+  countdown,
+}: {
+  item: DateItem
+  isPast?: boolean
+  countdown?: { days: number; cat: EventCategory }
+}) {
   const [activeTab, setActiveTab] = useState(0)
   const isMulti = item.events.length > 1
   const activeCat = item.events[activeTab]?.cat ?? item.events[0].cat
@@ -118,6 +147,7 @@ export default function EventCard({ item, isPast }: { item: DateItem; isPast?: b
           </>
         )}
       </div>
+      {countdown && <CountdownBadge days={countdown.days} cat={countdown.cat} />}
     </div>
   )
 }

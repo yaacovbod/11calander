@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic'
 import { schedule, EventCategory, DateItem } from '@/data/events'
 import EventCard from './EventCard'
 
+const EXAM_CATS = new Set<EventCategory>(['mivhan', 'metakonet', 'bagrut'])
+
 const CalendarView = dynamic(() => import('./CalendarView'), { ssr: false })
 
 const FILTER_GROUPS: { label: string; cats: EventCategory[]; color: string }[] = [
@@ -38,6 +40,21 @@ export default function SchedulePage() {
     d.setHours(0,0,0,0)
     return d
   }, [])
+
+  const countdownMap = useMemo(() => {
+    const allItems = schedule.flatMap(g => g.items)
+    const examItems = allItems.filter(item =>
+      parseDate(item.end) > today && item.events.some(e => EXAM_CATS.has(e.cat))
+    )
+    const top3 = examItems.slice(0, 3)
+    const map = new Map<string, { days: number; cat: EventCategory }>()
+    top3.forEach(item => {
+      const examEvent = item.events.find(e => EXAM_CATS.has(e.cat))!
+      const days = Math.round((parseDate(item.start).getTime() - today.getTime()) / 86400000)
+      map.set(item.start, { days, cat: examEvent.cat })
+    })
+    return map
+  }, [today])
 
   const { upcoming, past } = useMemo(() => {
     const upcoming: typeof schedule = []
@@ -123,6 +140,7 @@ export default function SchedulePage() {
                       {group.items.map(item => (
                         <EventCard key={item.start} item={item} isPast />
                       ))}
+
                     </div>
                   ))}
                 </div>
@@ -139,7 +157,11 @@ export default function SchedulePage() {
                 <div key={group.month}>
                   <div className="month-label">{group.month}</div>
                   {group.items.map(item => (
-                    <EventCard key={item.start} item={item} />
+                    <EventCard
+                      key={item.start}
+                      item={item}
+                      countdown={countdownMap.get(item.start)}
+                    />
                   ))}
                 </div>
               ))

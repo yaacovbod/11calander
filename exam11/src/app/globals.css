@@ -497,6 +497,44 @@ body {
   border-color: var(--muted);
 }
 
+/* ── Countdown badge ─────────────────────────────────── */
+.countdown-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 54px;
+  min-height: 54px;
+  border-radius: 10px;
+  text-align: center;
+  padding: 0.3rem 0.5rem;
+  gap: 0;
+  align-self: center;
+}
+
+.countdown-num {
+  font-size: 1.55rem;
+  font-weight: 800;
+  line-height: 1.1;
+  display: block;
+}
+
+.countdown-unit {
+  font-size: 0.62rem;
+  font-weight: 600;
+  opacity: 0.85;
+  display: block;
+  margin-top: 1px;
+}
+
+.countdown-today {
+  font-size: 0.88rem;
+  font-weight: 800;
+  display: block;
+  line-height: 1.2;
+}
+
 /* ── No events message ───────────────────────────────── */
 .no-events {
   text-align: center;
