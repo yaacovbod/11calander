@@ -48,7 +48,7 @@ export const schedule: MonthGroup[] = [
         { title: 'שבוע גדנ"ע', cat: 'army', tags: ['הכנה לצה"ל'] },
       ]},
       { start: '20260430', end: '20260501', day: 'יום חמישי', display: '30/04/2026', events: [
-        { title: 'בגרות ברוסית', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות ברוסית', cat: 'bagrut', tags: ['בגרות'] },
       ]},
     ],
   },
@@ -66,26 +66,26 @@ export const schedule: MonthGroup[] = [
         { title: 'מתכונת באנגלית', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260507', end: '20260508', day: 'יום חמישי', display: '07/05/2026', events: [
-        { title: 'בגרות בלשון',             cat: 'bagrut',    tags: ['בגרות רשמית'] },
+        { title: 'בגרות בלשון',             cat: 'bagrut',    tags: ['בגרות'] },
         { title: 'מתכונת שיפור במתמטיקה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260510', end: '20260511', day: 'יום ראשון', display: '10/05/2026', events: [
         { title: 'מתכונת שיפור במתמטיקה לניגשי לשון', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260512', end: '20260513', day: 'יום שלישי', display: '12/05/2026', events: [
-        { title: 'בגרות מתמטיקה 3 ו4 יח"ל', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות מתמטיקה 3 ו4 יח"ל', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260513', end: '20260514', day: 'יום רביעי', display: '13/05/2026', events: [
-        { title: 'בגרות במתמטיקה יח"ל', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות במתמטיקה יח"ל', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260514', end: '20260515', day: 'יום חמישי', display: '14/05/2026', events: [
         { title: 'צו ראשון', cat: 'army', tags: ['הכנה לצה"ל'] },
       ]},
       { start: '20260518', end: '20260519', day: 'יום שני', display: '18/05/2026', events: [
-        { title: 'בגרות באנגלית לרמות 3 ו5 יח"ל', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות באנגלית לרמות 3 ו5 יח"ל', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260519', end: '20260520', day: 'יום שלישי', display: '19/05/2026', events: [
-        { title: 'בגרות באנגלית 4 יח"ל', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות באנגלית 4 יח"ל', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260520', end: '20260521', day: 'יום רביעי', display: '20/05/2026', events: [
         { title: 'מתכונת בניהול עסקי', cat: 'metakonet', tags: ['מתכונת'] },
@@ -116,7 +116,7 @@ export const schedule: MonthGroup[] = [
         { title: 'מתכונת בפיזיקה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260604', end: '20260605', day: 'יום חמישי', display: '04/06/2026', events: [
-        { title: 'בגרות בניהול עסקי', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות בניהול עסקי', cat: 'bagrut', tags: ['בגרות'] },
         { title: 'מבחן באומנות', cat: 'mivhan', tags: ['מבחן'] },
         { title: 'מבחן בתקשורת', cat: 'mivhan', tags: ['מבחן'] },
         { title: 'מתכונת במוט"ל', cat: 'metakonet', tags: ['מתכונת'] },
@@ -128,22 +128,22 @@ export const schedule: MonthGroup[] = [
         { title: 'מתכונת בספרות', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260615', end: '20260616', day: 'יום שני', display: '15/06/2026', events: [
-        { title: 'בגרות במוט"ל', cat: 'bagrut', tags: ['בגרות רשמית'] },
-        { title: 'בגרות בפיזיקה', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות במוט"ל', cat: 'bagrut', tags: ['בגרות'] },
+        { title: 'בגרות בפיזיקה', cat: 'bagrut', tags: ['בגרות'] },
         { title: 'מתכונת בפסיכולוגיה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260617', end: '20260618', day: 'יום רביעי', display: '17/06/2026', events: [
-        { title: 'בגרות בספרות', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות בספרות', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260622', end: '20260623', day: 'יום שני', display: '22/06/2026', events: [
-        { title: 'בגרות בפסיכולוגיה', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות בפסיכולוגיה', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260625', end: '20260626', day: 'יום חמישי', display: '25/06/2026', events: [
-        { title: 'בגרות במידע ונתונים', cat: 'bagrut', tags: ['בגרות רשמית'] },
-        { title: 'בגרות במדעי המחשב', cat: 'bagrut', tags: ['בגרות רשמית'] },
+        { title: 'בגרות במידע ונתונים', cat: 'bagrut', tags: ['בגרות'] },
+        { title: 'בגרות במדעי המחשב', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260630', end: '20260701', day: 'יום שלישי', display: '30/06/2026', events: [
-        { title: 'בגרות באנגלית (מועד ב\')', cat: 'bagrut', tags: ['בגרות רשמית', 'מועד ב\''] },
+        { title: 'בגרות באנגלית (מועד ב\')', cat: 'bagrut', tags: ['בגרות', 'מועד ב\''] },
       ]},
     ],
   },
@@ -151,10 +151,10 @@ export const schedule: MonthGroup[] = [
     month: 'יולי 2026',
     items: [
       { start: '20260706', end: '20260707', day: 'יום שני', display: '06/07/2026', events: [
-        { title: 'בגרות במתמטיקה (מועד ב\')', cat: 'bagrut', tags: ['בגרות רשמית', 'מועד ב\''] },
+        { title: 'בגרות במתמטיקה (מועד ב\')', cat: 'bagrut', tags: ['בגרות', 'מועד ב\''] },
       ]},
       { start: '20260709', end: '20260710', day: 'יום חמישי', display: '09/07/2026', events: [
-        { title: 'בגרות במתמטיקה (מועד ב\')', cat: 'bagrut', tags: ['בגרות רשמית', 'מועד ב\''] },
+        { title: 'בגרות במתמטיקה (מועד ב\')', cat: 'bagrut', tags: ['בגרות', 'מועד ב\''] },
       ]},
     ],
   },

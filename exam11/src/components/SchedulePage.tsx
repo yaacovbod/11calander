@@ -8,7 +8,7 @@ import EventCard from './EventCard'
 const CalendarView = dynamic(() => import('./CalendarView'), { ssr: false })
 
 const LEGEND = [
-  { color: '#8B2200', label: 'בגרות רשמית' },
+  { color: '#8B2200', label: 'בגרות' },
   { color: '#1A4A6B', label: 'מתכונת' },
   { color: '#2A6030', label: 'חופש / חג' },
   { color: '#1A7A6A', label: 'הכנה לצה"ל' },
