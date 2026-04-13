@@ -17,7 +17,7 @@ export default function Home() {
             priority
           />
           <h1 className="page-title">לוח מבחנים שכבת י"א<br />נעימת הלב</h1>
-          <p className="page-sub">עדכון אחרון: 09/04/26 &nbsp;|&nbsp; הלוח מעודכן עד 21/05/26</p>
+          <p className="page-sub">עדכון אחרון: 14/04/26</p>
         </header>
         <SchedulePage />
       </div>
