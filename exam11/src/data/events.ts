@@ -143,7 +143,7 @@ export const schedule: MonthGroup[] = [
         { title: 'בגרות בספרות', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260618', end: '20260619', day: 'יום חמישי', display: '18/06/2026', events: [
-        { title: 'יום אחרון ללימודים', cat: 'special', tags: ['יום אחרון'] },
+        { title: '🎓 יום אחרון ללימודים! 🎓', cat: 'special', tags: ['יום אחרון'] },
       ]},
       { start: '20260622', end: '20260623', day: 'יום שני', display: '22/06/2026', events: [
         { title: 'בגרות בפסיכולוגיה', cat: 'bagrut', tags: ['בגרות'] },
