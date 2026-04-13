@@ -90,7 +90,8 @@ export const schedule: MonthGroup[] = [
       { start: '20260520', end: '20260521', day: 'יום רביעי', display: '20/05/2026', events: [
         { title: 'מתכונת בניהול עסקי', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
-      { start: '20260521', end: '20260522', day: 'יום חמישי', display: '21/05/2026', events: [
+      { start: '20260521', end: '20260523', day: 'חמישי ושישי', display: '21–22/05/2026', events: [
+        { title: 'שבועות', cat: 'holiday', tags: ['חופש'] },
         { title: 'מתכונת בפיזיקה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260524', end: '20260526', day: 'ראשון עד שני', display: '24–25/05/2026', events: [

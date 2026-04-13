@@ -68,15 +68,16 @@ function MonthGrid({ year, month, eventMap, today }: {
           const evs      = eventMap[dk] ?? []
           const hasEvent = evs.length > 0
 
-          const isSummer = cellDate >= new Date(2026, 5, 19) && cellDate <= new Date(2026, 6, 31)
+          const isSummer  = cellDate >= new Date(2026, 5, 19) && cellDate <= new Date(2026, 6, 31)
+          const isHoliday = evs.some(ev => ev.cat === 'holiday')
 
           const classes = [
             'cal-cell',
-            isWip    && 'wip',
-            hasEvent && 'has-event',
-            isToday  && 'today',
-            isPast   && 'past',
-            isSummer && 'summer',
+            isWip        && 'wip',
+            hasEvent     && 'has-event',
+            isToday      && 'today',
+            isPast       && 'past',
+            (isSummer || isHoliday) && 'summer',
           ].filter(Boolean).join(' ')
 
           return (
