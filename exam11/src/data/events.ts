@@ -30,7 +30,6 @@ export const schedule: MonthGroup[] = [
       ]},
       { start: '20260414', end: '20260415', day: 'יום שלישי', display: '14/04/2026', events: [
         { title: 'יום השואה', cat: 'memorial', tags: ['יום זיכרון'] },
-        { title: 'מבחן בונוס מדעי המחשב', cat: 'mivhan', tags: ['מבחן'] },
       ]},
       { start: '20260415', end: '20260416', day: 'יום רביעי', display: '15/04/2026', events: [
         { title: 'מתכונת באנגלית', cat: 'metakonet', tags: ['מתכונת'] },
