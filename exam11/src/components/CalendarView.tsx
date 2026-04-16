@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { schedule, catColors, CUTOFF_DATE, type EventItem } from '@/data/events'
+import { catColors, CUTOFF_DATE, type EventItem, type MonthGroup } from '@/data/events'
 
 const MONTH_NAMES = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר']
 const DAY_NAMES   = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳']
@@ -12,7 +12,7 @@ function dateKey(d: Date): string {
   return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
 }
 
-function buildEventMap(): Record<string, EventItem[]> {
+function buildEventMap(schedule: MonthGroup[]): Record<string, EventItem[]> {
   const map: Record<string, EventItem[]> = {}
   schedule.forEach(group => {
     group.items.forEach(item => {
@@ -105,8 +105,8 @@ function MonthGrid({ year, month, eventMap, today }: {
   )
 }
 
-export default function CalendarView() {
-  const eventMap = useMemo(() => buildEventMap(), [])
+export default function CalendarView({ schedule }: { schedule: MonthGroup[] }) {
+  const eventMap = useMemo(() => buildEventMap(schedule), [schedule])
   const today    = useMemo(() => getToday(), [])
 
   return (

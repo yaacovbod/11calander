@@ -6,7 +6,6 @@ import {
   catColors,
   EventCategory,
   type MonthGroup,
-  type DateItem,
   type EventItem,
 } from '@/data/events'
 
@@ -23,8 +22,7 @@ interface AdminEvent {
 
 /* ── Constants ─────────────────────────────────────────────────── */
 
-const STORAGE_KEY = 'exam11_admin_v1'
-const PASSWORD    = process.env.NEXT_PUBLIC_ADMIN_PASS ?? 'neimat2026'
+const PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASS ?? 'neimat2026'
 
 const CATEGORIES: { value: EventCategory; label: string }[] = [
   { value: 'bagrut',    label: 'בגרות' },
@@ -247,32 +245,48 @@ export default function AdminPage() {
   const [passInput, setPassInput] = useState('')
   const [passErr,  setPassErr] = useState(false)
 
-  const [events,   setEvents]  = useState<AdminEvent[]>([])
-  const [form,     setForm]    = useState(emptyForm())
-  const [editId,   setEditId]  = useState<string | null>(null)
-  const [saved,    setSaved]   = useState(false)
+  const [events,     setEvents]    = useState<AdminEvent[]>([])
+  const [form,       setForm]      = useState(emptyForm())
+  const [editId,     setEditId]    = useState<string | null>(null)
+  const [saved,      setSaved]     = useState(false)
+  const [saving,     setSaving]    = useState(false)
+  const [saveError,  setSaveError] = useState(false)
   const [exportOpen, setExportOpen] = useState(false)
-  const [copied,   setCopied]  = useState(false)
+  const [copied,     setCopied]    = useState(false)
 
-  // Load from localStorage on auth
+  // Load from API on auth
   useEffect(() => {
     if (!authed) return
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) {
-      try { setEvents(JSON.parse(raw)) } catch { initFromStatic() }
-    } else {
-      initFromStatic()
-    }
+    fetch('/api/events')
+      .then(r => r.json())
+      .then((data: MonthGroup[]) => {
+        if (Array.isArray(data)) setEvents(scheduleToAdminEvents(data))
+        else setEvents(scheduleToAdminEvents(staticSchedule))
+      })
+      .catch(() => setEvents(scheduleToAdminEvents(staticSchedule)))
   }, [authed])
 
-  function initFromStatic() {
-    setEvents(scheduleToAdminEvents(staticSchedule))
-  }
-
-  function saveToStorage(evs: AdminEvent[]) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(evs))
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2500)
+  async function saveToApi(evs: AdminEvent[]) {
+    setSaving(true)
+    setSaveError(false)
+    try {
+      const schedule = adminEventsToSchedule(evs)
+      const res = await fetch('/api/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(schedule),
+      })
+      if (res.ok) {
+        setSaved(true)
+        setTimeout(() => setSaved(false), 2500)
+      } else {
+        setSaveError(true)
+      }
+    } catch {
+      setSaveError(true)
+    } finally {
+      setSaving(false)
+    }
   }
 
   function login() {
@@ -311,13 +325,13 @@ export default function AdminPage() {
         ev.id === editId ? { ...ev, start, end, title: form.title.trim(), cat: form.cat, tags } : ev
       )
       setEvents(updated)
-      saveToStorage(updated)
+      saveToApi(updated)
       setEditId(null)
     } else {
       const newEv: AdminEvent = { id: makeId(), start, end, title: form.title.trim(), cat: form.cat, tags }
       const updated = [...events, newEv]
       setEvents(updated)
-      saveToStorage(updated)
+      saveToApi(updated)
     }
 
     setForm(emptyForm())
@@ -344,13 +358,14 @@ export default function AdminPage() {
     if (!confirm('למחוק אירוע זה?')) return
     const updated = events.filter(ev => ev.id !== id)
     setEvents(updated)
-    saveToStorage(updated)
+    saveToApi(updated)
   }
 
   function resetToStatic() {
     if (!confirm('לאפס את כל הנתונים לברירת המחדל המקורית?')) return
-    initFromStatic()
-    saveToStorage(scheduleToAdminEvents(staticSchedule))
+    const reset = scheduleToAdminEvents(staticSchedule)
+    setEvents(reset)
+    saveToApi(reset)
   }
 
   const exportCode = useCallback(() => {
@@ -408,7 +423,9 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {saved && <div style={S.successBanner}>✅ הנתונים נשמרו בהצלחה</div>}
+        {saving    && <div style={{ ...S.successBanner, background: '#fff8e0', color: '#6B4F00', borderColor: '#e0c050' }}>⏳ שומר...</div>}
+        {saved     && <div style={S.successBanner}>✅ נשמר בהצלחה — השינויים יופיעו באתר תוך שניות</div>}
+        {saveError && <div style={S.errorBanner}>❌ שגיאה בשמירה. בדוק את חיבור ה-Blob ב-Vercel.</div>}
 
         {/* Add / Edit form */}
         <div style={S.card}>

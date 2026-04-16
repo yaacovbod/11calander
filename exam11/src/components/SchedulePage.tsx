@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import { schedule, EventCategory, DateItem } from '@/data/events'
+import { schedule as staticSchedule, EventCategory, DateItem, type MonthGroup } from '@/data/events'
 import EventCard from './EventCard'
 
 const EXAM_CATS = new Set<EventCategory>(['mivhan', 'metakonet', 'bagrut'])
@@ -33,9 +33,17 @@ function applyFilter(items: DateItem[], activeFilter: string | null): DateItem[]
 }
 
 export default function SchedulePage() {
-  const [view, setView]               = useState<'events' | 'calendar'>('events')
-  const [showPast, setShowPast]       = useState(false)
+  const [view, setView]                 = useState<'events' | 'calendar'>('events')
+  const [showPast, setShowPast]         = useState(false)
   const [activeFilter, setActiveFilter] = useState<string | null>(null)
+  const [schedule, setSchedule]         = useState<MonthGroup[]>(staticSchedule)
+
+  useEffect(() => {
+    fetch('/api/events')
+      .then(r => r.json())
+      .then(data => { if (Array.isArray(data)) setSchedule(data) })
+      .catch(() => {/* fallback to static */})
+  }, [])
 
   const today = useMemo(() => {
     const d = new Date()
@@ -58,7 +66,6 @@ export default function SchedulePage() {
     const allItems = schedule.flatMap(g => g.items)
     const map = new Map<string, { days: number; cat: EventCategory; festive?: boolean }>()
 
-    // top 3 upcoming exam events
     const examItems = allItems.filter(item =>
       parseDate(item.end) > today && item.events.some(e => EXAM_CATS.has(e.cat))
     )
@@ -68,7 +75,6 @@ export default function SchedulePage() {
       map.set(item.start, { days, cat: examEvent.cat })
     })
 
-    // יום אחרון ללימודים
     const lastDay = allItems.find(item =>
       parseDate(item.end) > today && item.events.some(e => e.cat === 'special')
     )
@@ -78,11 +84,11 @@ export default function SchedulePage() {
     }
 
     return map
-  }, [today])
+  }, [schedule, today])
 
   const { upcoming, past } = useMemo(() => {
-    const upcoming: typeof schedule = []
-    const past:     typeof schedule = []
+    const upcoming: MonthGroup[] = []
+    const past:     MonthGroup[] = []
 
     schedule.forEach(group => {
       const upItems   = group.items.filter(item => parseDate(item.end) > today)
@@ -91,7 +97,7 @@ export default function SchedulePage() {
       if (pastItems.length) past.push(    { month: group.month, items: pastItems })
     })
     return { upcoming, past }
-  }, [today])
+  }, [schedule, today])
 
   const filteredUpcoming = useMemo(() =>
     upcoming.map(group => ({
@@ -145,7 +151,6 @@ export default function SchedulePage() {
       {/* ── Events view ── */}
       {view === 'events' && (
         <>
-          {/* Past events toggle button */}
           {past.length > 0 && (
             <div className="past-toggle-wrap">
               <button
@@ -164,7 +169,6 @@ export default function SchedulePage() {
                       {group.items.map(item => (
                         <EventCard key={item.start} item={item} isPast />
                       ))}
-
                     </div>
                   ))}
                 </div>
@@ -172,7 +176,6 @@ export default function SchedulePage() {
             </div>
           )}
 
-          {/* Upcoming events */}
           <div className="timeline">
             {filteredUpcoming.length === 0 ? (
               <div className="no-events">אין אירועים בקטגוריה זו</div>
@@ -194,7 +197,7 @@ export default function SchedulePage() {
         </>
       )}
 
-      {view === 'calendar' && <CalendarView />}
+      {view === 'calendar' && <CalendarView schedule={schedule} />}
     </>
   )
 }
