@@ -60,7 +60,7 @@ export const schedule: MonthGroup[] = [
     items: [
       { start: '20260504', end: '20260505', day: 'יום שני', display: '04/05/2026', events: [
         { title: 'מתכונת שנייה במתמטיקה', cat: 'metakonet', tags: ['מתכונת'] },
-        { title: 'מתכונת בניהול עסקי', cat: 'metakonet', tags: ['מתכונת'] },
+        { title: 'מתכונת בניהול עסקי (כיתת אתגר)', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260505', end: '20260506', day: 'יום שלישי', display: '05/05/2026', events: [
         { title: 'לג בעומר', cat: 'holiday', tags: ['חופש'] },
