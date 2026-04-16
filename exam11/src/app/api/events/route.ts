@@ -2,16 +2,15 @@ import { put, list } from '@vercel/blob'
 import { NextResponse } from 'next/server'
 import { schedule as staticSchedule } from '@/data/events'
 
+export const dynamic = 'force-dynamic'
+
 const BLOB_PATH = 'events-data.json'
 
 export async function GET() {
   try {
     const { blobs } = await list({ prefix: BLOB_PATH })
     if (blobs.length > 0) {
-      const res = await fetch(blobs[0].url, {
-          cache: 'no-store',
-          headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
-        })
+      const res = await fetch(blobs[0].downloadUrl, { cache: 'no-store' })
       const data = await res.json()
       return NextResponse.json(data)
     }
