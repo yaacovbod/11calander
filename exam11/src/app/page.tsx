@@ -3,7 +3,7 @@ import FloatingElements from '@/components/FloatingElements'
 import SchedulePage from '@/components/SchedulePage'
 
 function buildTimestamp(): string {
-  const now = new Date()
+  const now = new Date(Date.now() + 3 * 60 * 60 * 1000)
   const dd   = String(now.getDate()).padStart(2, '0')
   const mm   = String(now.getMonth() + 1).padStart(2, '0')
   const yy   = String(now.getFullYear()).slice(2)
