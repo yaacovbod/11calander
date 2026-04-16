@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json()
     await put(BLOB_PATH, JSON.stringify(body), {
-      access: 'public',
+      access: 'private',
       addRandomSuffix: false,
       allowOverwrite: true,
       contentType: 'application/json',
