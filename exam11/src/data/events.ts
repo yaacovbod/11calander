@@ -105,7 +105,7 @@ export const schedule: MonthGroup[] = [
       ]},
       { start: '20260528', end: '20260529', day: 'יום חמישי', display: '28/05/2026', events: [
         { title: 'מתכונת במדעי המחשב', cat: 'metakonet', tags: ['מתכונת'] },
-        { title: 'בגרות תנ"ך (משלימים)', cat: 'bagrut', tags: ['בגרות'] },
+        { title: 'בגרות תנ"ך', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260531', end: '20260601', day: 'יום ראשון', display: '31/05/2026', events: [
         { title: 'הדמייה מידע ונתונים', cat: 'metakonet', tags: ['מתכונת'] },
