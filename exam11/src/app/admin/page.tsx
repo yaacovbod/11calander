@@ -250,7 +250,7 @@ export default function AdminPage() {
   const [editId,     setEditId]    = useState<string | null>(null)
   const [saved,      setSaved]     = useState(false)
   const [saving,     setSaving]    = useState(false)
-  const [saveError,  setSaveError] = useState(false)
+  const [saveError,  setSaveError] = useState('')
   const [exportOpen, setExportOpen] = useState(false)
   const [copied,     setCopied]    = useState(false)
 
@@ -268,22 +268,23 @@ export default function AdminPage() {
 
   async function saveToApi(evs: AdminEvent[]) {
     setSaving(true)
-    setSaveError(false)
+    setSaveError('')
     try {
-      const schedule = adminEventsToSchedule(evs)
+      const sched = adminEventsToSchedule(evs)
       const res = await fetch('/api/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(schedule),
+        body: JSON.stringify(sched),
       })
+      const json = await res.json()
       if (res.ok) {
         setSaved(true)
         setTimeout(() => setSaved(false), 2500)
       } else {
-        setSaveError(true)
+        setSaveError(json.error ?? `HTTP ${res.status}`)
       }
-    } catch {
-      setSaveError(true)
+    } catch (e) {
+      setSaveError(e instanceof Error ? e.message : String(e))
     } finally {
       setSaving(false)
     }
@@ -425,7 +426,7 @@ export default function AdminPage() {
 
         {saving    && <div style={{ ...S.successBanner, background: '#fff8e0', color: '#6B4F00', borderColor: '#e0c050' }}>⏳ שומר...</div>}
         {saved     && <div style={S.successBanner}>✅ נשמר בהצלחה — השינויים יופיעו באתר תוך שניות</div>}
-        {saveError && <div style={S.errorBanner}>❌ שגיאה בשמירה. בדוק את חיבור ה-Blob ב-Vercel.</div>}
+        {saveError && <div style={S.errorBanner}>❌ שגיאה בשמירה: {saveError}</div>}
 
         {/* Add / Edit form */}
         <div style={S.card}>

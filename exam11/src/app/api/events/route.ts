@@ -24,11 +24,13 @@ export async function POST(req: Request) {
     await put(BLOB_PATH, JSON.stringify(body), {
       access: 'public',
       addRandomSuffix: false,
+      allowOverwrite: true,
       contentType: 'application/json',
     })
     return NextResponse.json({ ok: true })
   } catch (e) {
-    console.error('Blob POST error:', e)
-    return NextResponse.json({ ok: false, error: String(e) }, { status: 500 })
+    const msg = e instanceof Error ? e.message : String(e)
+    console.error('Blob POST error:', msg)
+    return NextResponse.json({ ok: false, error: msg }, { status: 500 })
   }
 }
