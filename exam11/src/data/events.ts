@@ -129,18 +129,15 @@ export const schedule: MonthGroup[] = [
         { title: 'מתכונת במוט"ל', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260608', end: '20260609', day: 'יום שני', display: '08/06/2026', events: [
-        { title: 'מתכונת בספרות', cat: 'metakonet', tags: ['מתכונת'] },
+        { title: 'בגרות פנימית בספרות', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260611', end: '20260612', day: 'יום חמישי', display: '11/06/2026', events: [
-        { title: 'מתכונת בספרות', cat: 'metakonet', tags: ['מתכונת'] },
+        { title: 'בגרות פנימית בספרות מועד ב\'', cat: 'bagrut', tags: ['בגרות', 'מועד ב\''] },
       ]},
       { start: '20260615', end: '20260616', day: 'יום שני', display: '15/06/2026', events: [
         { title: 'בגרות במוט"ל', cat: 'bagrut', tags: ['בגרות'] },
         { title: 'בגרות בפיזיקה', cat: 'bagrut', tags: ['בגרות'] },
         { title: 'מתכונת בפסיכולוגיה', cat: 'metakonet', tags: ['מתכונת'] },
-      ]},
-      { start: '20260617', end: '20260618', day: 'יום רביעי', display: '17/06/2026', events: [
-        { title: 'בגרות בספרות', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260618', end: '20260619', day: 'יום חמישי', display: '18/06/2026', events: [
         { title: '🎓 יום אחרון ללימודים! 🎓', cat: 'special', tags: ['יום אחרון'] },
