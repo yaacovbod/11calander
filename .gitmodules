@@ -1,0 +1,3 @@
+[submodule "cards-yom-kippur"]
+	path = cards-yom-kippur
+	url = https://github.com/yaacovbod/cards-yom-kippur.git
