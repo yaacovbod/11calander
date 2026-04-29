@@ -79,7 +79,7 @@ export const schedule: MonthGroup[] = [
         { title: 'בגרות מתמטיקה 3 ו4 יח"ל', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260513', end: '20260514', day: 'יום רביעי', display: '13/05/2026', events: [
-        { title: 'בגרות במתמטיקה יח"ל', cat: 'bagrut', tags: ['בגרות'] },
+        { title: 'בגרות במתמטיקה 5 יח"ל', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260514', end: '20260515', day: 'יום חמישי', display: '14/05/2026', events: [
         { title: 'צו ראשון', cat: 'army', tags: ['הכנה לצה"ל'] },
