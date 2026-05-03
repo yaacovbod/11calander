@@ -12,12 +12,12 @@ export async function GET() {
     if (blobs.length > 0) {
       const res = await fetch(blobs[0].downloadUrl, { cache: 'no-store' })
       const data = await res.json()
-      return NextResponse.json(data)
+      return NextResponse.json(data, { headers: { 'Access-Control-Allow-Origin': '*' } })
     }
   } catch (e) {
     console.error('Blob GET error:', e)
   }
-  return NextResponse.json(staticSchedule)
+  return NextResponse.json(staticSchedule, { headers: { 'Access-Control-Allow-Origin': '*' } })
 }
 
 export async function POST(req: Request) {
