@@ -80,6 +80,7 @@ export const schedule: MonthGroup[] = [
       ]},
       { start: '20260513', end: '20260514', day: 'יום רביעי', display: '13/05/2026', events: [
         { title: 'בגרות במתמטיקה 5 יח"ל', cat: 'bagrut', tags: ['בגרות'] },
+        { title: 'מתכונת משלימים באנגלית', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260514', end: '20260515', day: 'יום חמישי', display: '14/05/2026', events: [
         { title: 'צו ראשון', cat: 'army', tags: ['הכנה לצה"ל'] },
@@ -148,6 +149,9 @@ export const schedule: MonthGroup[] = [
       { start: '20260625', end: '20260626', day: 'יום חמישי', display: '25/06/2026', events: [
         { title: 'בגרות במידע ונתונים', cat: 'bagrut', tags: ['בגרות'] },
         { title: 'בגרות במדעי המחשב', cat: 'bagrut', tags: ['בגרות'] },
+      ]},
+      { start: '20260629', end: '20260630', day: 'יום שני', display: '29/06/2026', events: [
+        { title: 'בגרות מדעי המחשב (תלמידי מידע ונתונים)', cat: 'bagrut', tags: ['בגרות'] },
       ]},
       { start: '20260630', end: '20260701', day: 'יום שלישי', display: '30/06/2026', events: [
         { title: 'בגרות באנגלית (מועד ב\')', cat: 'bagrut', tags: ['בגרות', 'מועד ב\''] },
