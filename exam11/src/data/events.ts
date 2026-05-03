@@ -132,6 +132,9 @@ export const schedule: MonthGroup[] = [
       { start: '20260608', end: '20260609', day: 'יום שני', display: '08/06/2026', events: [
         { title: 'בגרות פנימית בספרות', cat: 'bagrut', tags: ['בגרות'] },
       ]},
+      { start: '20260610', end: '20260611', day: 'יום רביעי', display: '10/06/2026', events: [
+        { title: 'מתכונת בפיזיקה', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
       { start: '20260611', end: '20260612', day: 'יום חמישי', display: '11/06/2026', events: [
         { title: 'בגרות פנימית בספרות מועד ב\'', cat: 'bagrut', tags: ['בגרות', 'מועד ב\''] },
       ]},
