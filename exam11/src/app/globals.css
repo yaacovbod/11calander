@@ -329,6 +329,22 @@ body {
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
+.tab-time {
+  display: inline-block;
+  margin-right: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.event-time {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 0.15rem;
+  margin-bottom: 0.2rem;
+}
+
 /* ── Calendar view ───────────────────────────────────── */
 #calendar-view-inner {
   display: flex;

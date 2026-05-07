@@ -106,6 +106,7 @@ export default function EventCard({
                   onClick={() => setActiveTab(i)}
                 >
                   {ev.title}
+                  {ev.time && <span className="tab-time">{ev.time}</span>}
                 </button>
               ))}
             </div>
@@ -114,6 +115,7 @@ export default function EventCard({
               return (
                 <div key={i} className={`tab-panel${i === activeTab ? ' active' : ''}`}>
                   <div className="card-title" style={{ marginTop: '0.5rem' }}>{ev.title}</div>
+                  {ev.time && <div className="event-time">🕐 {ev.time}</div>}
                   <div className="card-footer">
                     <div className="tags">
                       {ev.tags.map(t => (
@@ -132,6 +134,7 @@ export default function EventCard({
         ) : (
           <>
             <div className="card-title">{item.events[0].title}</div>
+            {item.events[0].time && <div className="event-time">🕐 {item.events[0].time}</div>}
             <div className="card-footer">
               <div className="tags">
                 {item.events[0].tags.map(t => {
