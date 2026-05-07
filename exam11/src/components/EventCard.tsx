@@ -3,18 +3,40 @@
 import { useState } from 'react'
 import { type DateItem, type EventCategory, catColors } from '@/data/events'
 
-function googleCalUrl(start: string, end: string, title: string) {
+function timeToHHMM(time: string): string {
+  return time.replace(':', '') + '00'
+}
+
+function addMinutes(time: string, mins: number): string {
+  const [h, m] = time.split(':').map(Number)
+  const total = h * 60 + m + mins
+  return `${String(Math.floor(total / 60) % 24).padStart(2, '0')}${String(total % 60).padStart(2, '0')}00`
+}
+
+function googleCalUrl(start: string, end: string, title: string, time?: string) {
+  if (time) {
+    const startDT = `${start}T${timeToHHMM(time)}`
+    const endDT   = `${start}T${addMinutes(time, 180)}`
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDT}/${endDT}&ctz=Asia/Jerusalem`
+  }
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}`
 }
 
-function downloadICS(start: string, end: string, title: string) {
+function downloadICS(start: string, end: string, title: string, time?: string) {
   const uid = `exam-${start}-${Math.random().toString(36).slice(2)}@exam-schedule`
+  const dtStart = time
+    ? `DTSTART;TZID=Asia/Jerusalem:${start}T${timeToHHMM(time)}`
+    : `DTSTART;VALUE=DATE:${start}`
+  const dtEnd = time
+    ? `DTEND;TZID=Asia/Jerusalem:${start}T${addMinutes(time, 180)}`
+    : `DTEND;VALUE=DATE:${end}`
+
   const ics = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'CALSCALE:GREGORIAN',
     'PRODID:-//לוח מבחנים 2026//HE', 'BEGIN:VEVENT',
     `UID:${uid}`,
-    `DTSTART;VALUE=DATE:${start}`,
-    `DTEND;VALUE=DATE:${end}`,
+    dtStart,
+    dtEnd,
     `SUMMARY:${title}`,
     'END:VEVENT', 'END:VCALENDAR',
   ].join('\r\n')
@@ -41,13 +63,13 @@ const AppleIcon = () => (
   </svg>
 )
 
-function CalButtons({ start, end, title }: { start: string; end: string; title: string }) {
+function CalButtons({ start, end, title, time }: { start: string; end: string; title: string; time?: string }) {
   return (
     <div className="cal-buttons">
-      <a className="cal-btn cal-btn-google" href={googleCalUrl(start, end, title)} target="_blank" rel="noopener">
+      <a className="cal-btn cal-btn-google" href={googleCalUrl(start, end, title, time)} target="_blank" rel="noopener">
         <GoogleIcon /><span>Google</span>
       </a>
-      <button className="cal-btn cal-btn-apple" onClick={() => downloadICS(start, end, title)}>
+      <button className="cal-btn cal-btn-apple" onClick={() => downloadICS(start, end, title, time)}>
         <AppleIcon /><span>Apple</span>
       </button>
     </div>
@@ -125,7 +147,7 @@ export default function EventCard({
                         </span>
                       ))}
                     </div>
-                    <CalButtons start={item.start} end={item.end} title={ev.title} />
+                    <CalButtons start={item.start} end={item.end} title={ev.title} time={ev.time} />
                   </div>
                 </div>
               )
@@ -147,7 +169,7 @@ export default function EventCard({
                   )
                 })}
               </div>
-              <CalButtons start={item.start} end={item.end} title={item.events[0].title} />
+              <CalButtons start={item.start} end={item.end} title={item.events[0].title} time={item.events[0].time} />
             </div>
           </>
         )}
