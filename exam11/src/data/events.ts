@@ -104,8 +104,8 @@ export const schedule: MonthGroup[] = [
       { start: '20260521', end: '20260523', day: 'חמישי ושישי', display: '21–22/05/2026', events: [
         { title: 'שבועות', cat: 'holiday', tags: ['חופש'] },
       ]},
-      { start: '20260524', end: '20260526', day: 'ראשון עד שני', display: '24–25/05/2026', events: [
-        { title: 'טיול שנתי', cat: 'trip', tags: ['טיול שנתי'] },
+      { start: '20260524', end: '20260525', day: 'יום ראשון', display: '24/05/2026', events: [
+        { title: 'טיול לעיר דוד בירושלים', cat: 'trip', tags: ['טיול'] },
       ]},
       { start: '20260528', end: '20260529', day: 'יום חמישי', display: '28/05/2026', events: [
         { title: 'מתכונת במדעי המחשב', cat: 'metakonet', tags: ['מתכונת'] },
@@ -145,6 +145,9 @@ export const schedule: MonthGroup[] = [
         { title: 'בגרות במוט"ל', cat: 'bagrut', tags: ['בגרות'], time: '10:00' },
         { title: 'בגרות בפיזיקה', cat: 'bagrut', tags: ['בגרות'], time: '13:00' },
         { title: 'מתכונת בפסיכולוגיה', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260616', end: '20260617', day: 'יום שלישי', display: '16/06/2026', events: [
+        { title: 'טיול לדרום רמת הגולן', cat: 'trip', tags: ['טיול'] },
       ]},
       { start: '20260618', end: '20260619', day: 'יום חמישי', display: '18/06/2026', events: [
         { title: '🎓 יום אחרון ללימודים! 🎓', cat: 'special', tags: ['יום אחרון'] },
