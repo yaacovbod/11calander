@@ -645,40 +645,64 @@ body {
 /* ── Subject wheel ───────────────────────────────────── */
 .subject-wheel-wrap {
   margin-bottom: 0.75rem;
-  text-align: center;
 }
 
 .subject-wheel-title {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: #0891B2;
+  color: #6B7280;
   margin-bottom: 0.5rem;
-  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.subject-wheel-svg {
-  max-width: 220px;
-  display: block;
-  margin: 0 auto;
+.subject-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
-.wheel-reset-btn {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.25rem 0.85rem;
+.subject-chip {
+  padding: 0.3rem 0.8rem;
   border-radius: 999px;
   border: 1.5px solid #BAE6FD;
   background: transparent;
   color: #0891B2;
   font-family: 'Rubik', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  min-height: 34px;
+}
+
+.subject-chip:hover {
+  background: #E0F2FE;
+}
+
+.subject-chip.active {
+  background: #0891B2;
+  color: #fff;
+  border-color: #0891B2;
+}
+
+.wheel-reset-btn {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #D1D5DB;
+  background: transparent;
+  color: #6B7280;
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .wheel-reset-btn:hover {
-  background: #E0F2FE;
+  background: #F3F4F6;
 }
 
 .marathon-hint {
