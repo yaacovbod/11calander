@@ -227,11 +227,6 @@ export default function SchedulePage() {
               onReset={reset}
             />
 
-            {selected.size === 0 && (
-              <div className="marathon-hint">
-                לחץ על מקצוע בגלגל כדי לסנן את המרתונים שלך
-              </div>
-            )}
 
             <div className="timeline" style={{ marginTop: '0.75rem' }}>
               {filteredMarathons.length === 0 ? (
