@@ -637,6 +637,24 @@ body {
   border-bottom: 2px solid var(--border);
 }
 
+.col-heading-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.col-chevron {
+  display: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 2.5px solid currentColor;
+  border-bottom: 2.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-inline-start: 0.5rem;
+}
+
 .marathon-col .col-heading {
   color: #0891B2;
   border-bottom-color: #BAE6FD;
@@ -770,6 +788,23 @@ body {
     border-top: 2px solid #BAE6FD;
     padding-top: 1rem;
     margin-top: 0.5rem;
+  }
+
+  .col-heading-toggle {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .col-chevron {
+    display: inline-block;
+  }
+
+  .col-collapsed .col-chevron {
+    transform: rotate(-45deg);
+  }
+
+  .col-collapsed .col-body {
+    display: none;
   }
 }
 

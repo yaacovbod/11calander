@@ -54,6 +54,8 @@ export default function SchedulePage() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null)
   const [schedule, setSchedule]         = useState<MonthGroup[]>(staticSchedule)
   const [marathons, setMarathons]       = useState<MonthGroup[]>(staticMarathons)
+  const [eventsOpen, setEventsOpen]     = useState(true)
+  const [marathonsOpen, setMarathonsOpen] = useState(true)
 
   const { selected, toggle, reset } = useSelectedSubjects()
 
@@ -155,9 +157,13 @@ export default function SchedulePage() {
         <div className="timeline-grid">
 
           {/* ── Events column ── */}
-          <div className="timeline-col">
-            <div className="col-heading">📋 אירועי השכבה</div>
+          <div className={`timeline-col${eventsOpen ? '' : ' col-collapsed'}`}>
+            <div className="col-heading col-heading-toggle" onClick={() => setEventsOpen(p => !p)}>
+              📋 אירועי השכבה
+              <span className="col-chevron" />
+            </div>
 
+            <div className="col-body">
             <div className="filter-bar">
               {FILTER_GROUPS.map(({ label, color }) => (
                 <button
@@ -214,12 +220,17 @@ export default function SchedulePage() {
                 ))
               )}
             </div>
+            </div>{/* col-body */}
           </div>
 
           {/* ── Marathons column ── */}
-          <div className="timeline-col marathon-col">
-            <div className="col-heading">🎯 ימי מרתון</div>
+          <div className={`timeline-col marathon-col${marathonsOpen ? '' : ' col-collapsed'}`}>
+            <div className="col-heading col-heading-toggle" onClick={() => setMarathonsOpen(p => !p)}>
+              🎯 ימי מרתון
+              <span className="col-chevron" />
+            </div>
 
+            <div className="col-body">
             <SubjectWheel
               subjects={MARATHON_SUBJECTS}
               selected={selected}
@@ -242,6 +253,7 @@ export default function SchedulePage() {
                 ))
               )}
             </div>
+            </div>{/* col-body */}
           </div>
 
         </div>
