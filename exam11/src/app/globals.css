@@ -595,6 +595,134 @@ body {
   50%       { box-shadow: 0 0 0 3px #ffd700, 0 4px 16px rgba(200,160,0,0.45); }
 }
 
+/* ── Marathon category card ──────────────────────────── */
+:root {
+  --c-marathon-bg:  #0891B2; --c-marathon-fg: #fff; --c-marathon-border: #0369a1;
+}
+
+.card.cat-marathon { border-right-color: var(--c-marathon-bg); }
+.cat-marathon .dot  { background: var(--c-marathon-bg); }
+
+.marathon-teacher {
+  font-size: 0.78rem;
+  color: #0891B2;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.marathon-tab.active {
+  background: #0891B2;
+  border-color: #0891B2;
+  color: #fff;
+}
+
+/* ── Two-column events layout ────────────────────────── */
+.timeline-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.timeline-col {
+  min-width: 0;
+}
+
+.col-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.marathon-col .col-heading {
+  color: #0891B2;
+  border-bottom-color: #BAE6FD;
+}
+
+/* ── Subject wheel ───────────────────────────────────── */
+.subject-wheel-wrap {
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.subject-wheel-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0891B2;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.subject-wheel-svg {
+  max-width: 220px;
+  display: block;
+  margin: 0 auto;
+}
+
+.wheel-reset-btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.85rem;
+  border-radius: 999px;
+  border: 1.5px solid #BAE6FD;
+  background: transparent;
+  color: #0891B2;
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.wheel-reset-btn:hover {
+  background: #E0F2FE;
+}
+
+.marathon-hint {
+  font-size: 0.78rem;
+  color: #6B7280;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* ── Marathon toggle in CalendarView ─────────────────── */
+.marathon-toggle-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.marathon-toggle-btn {
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  border: 2px solid #BAE6FD;
+  background: transparent;
+  color: #0891B2;
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+.marathon-toggle-btn.active,
+.marathon-toggle-btn:hover {
+  background: #0891B2;
+  color: #fff;
+  border-color: #0891B2;
+}
+
+/* ── Marathon calendar label ─────────────────────────── */
+.cal-marathon-label {
+  background: #E0F2FE !important;
+  color: #0369a1 !important;
+  border: 1px solid #7DD3FC !important;
+}
+
 /* ── No events message ───────────────────────────────── */
 .no-events {
   text-align: center;
@@ -604,6 +732,29 @@ body {
 }
 
 /* ── Responsive ──────────────────────────────────────── */
+/* ── Responsive: two-column → single ─────────────────── */
+@media (max-width: 768px) {
+  .page-wrap {
+    max-width: 100%;
+  }
+
+  .timeline-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .marathon-col {
+    border-top: 2px solid #BAE6FD;
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .page-wrap {
+    max-width: 1100px;
+  }
+}
+
 @media (max-width: 640px) {
   .page-wrap {
     padding: 1.25rem 0.6rem 3rem;

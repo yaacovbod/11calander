@@ -1,10 +1,12 @@
-export type EventCategory = 'bagrut' | 'metakonet' | 'holiday' | 'army' | 'mivhan' | 'gdna' | 'special' | 'memorial' | 'trip'
+export type EventCategory = 'bagrut' | 'metakonet' | 'holiday' | 'army' | 'mivhan' | 'gdna' | 'special' | 'memorial' | 'trip' | 'marathon'
 
 export interface EventItem {
   title: string
   cat: EventCategory
   tags: string[]
-  time?: string   // HH:MM
+  time?: string     // HH:MM
+  teacher?: string  // מרתונים: שם המורה
+  subject?: string  // מרתונים: שם המקצוע לפילטר
 }
 
 export interface DateItem {
@@ -190,4 +192,5 @@ export const catColors: Record<EventCategory, { bg: string; color: string; borde
   special:   { bg: '#fdf0e0', color: '#7A3000', border: '#e0b070' },
   memorial:  { bg: '#ededf0', color: '#2a2a3a', border: '#9090a8' },
   trip:      { bg: '#e8f4fd', color: '#1A4A6B', border: '#80b8d8' },
+  marathon:  { bg: '#e0f2fe', color: '#0369a1', border: '#7dd3fc' },
 }

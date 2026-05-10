@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { catColors, CUTOFF_DATE, type EventItem, type MonthGroup } from '@/data/events'
 
 const MONTH_NAMES = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר']
@@ -12,9 +12,9 @@ function dateKey(d: Date): string {
   return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
 }
 
-function buildEventMap(schedule: MonthGroup[]): Record<string, EventItem[]> {
+function buildEventMap(groups: MonthGroup[]): Record<string, EventItem[]> {
   const map: Record<string, EventItem[]> = {}
-  schedule.forEach(group => {
+  groups.forEach(group => {
     group.items.forEach(item => {
       const sy = +item.start.slice(0,4), sm = +item.start.slice(4,6)-1, sd = +item.start.slice(6,8)
       const ey = +item.end.slice(0,4),   em = +item.end.slice(4,6)-1,   ed = +item.end.slice(6,8)
@@ -37,10 +37,12 @@ function getToday(): Date {
   return d
 }
 
-function MonthGrid({ year, month, eventMap, today }: {
+function MonthGrid({ year, month, eventMap, marathonMap, showMarathons, today }: {
   year: number
   month: number
   eventMap: Record<string, EventItem[]>
+  marathonMap: Record<string, EventItem[]>
+  showMarathons: boolean
   today: Date
 }) {
   const firstDow    = new Date(year, month, 1).getDay()
@@ -66,7 +68,8 @@ function MonthGrid({ year, month, eventMap, today }: {
           const isToday  = cellDate.getTime() === today.getTime()
           const isPast   = cellDate < today
           const evs      = eventMap[dk] ?? []
-          const hasEvent = evs.length > 0
+          const mevs     = showMarathons ? (marathonMap[dk] ?? []) : []
+          const hasEvent = evs.length > 0 || mevs.length > 0
 
           const isSummer  = cellDate >= new Date(2026, 5, 19) && cellDate <= new Date(2026, 6, 31)
           const isHoliday = evs.some(ev => ev.cat === 'holiday') && !evs.every(ev => ev.cat === 'memorial')
@@ -97,6 +100,15 @@ function MonthGrid({ year, month, eventMap, today }: {
                   </span>
                 )
               })}
+              {!isWip && mevs.map((ev, i) => (
+                <span
+                  key={`m${i}`}
+                  className="cal-event-label cal-marathon-label"
+                  title={ev.title}
+                >
+                  {ev.title}
+                </span>
+              ))}
             </div>
           )
         })}
@@ -105,15 +117,58 @@ function MonthGrid({ year, month, eventMap, today }: {
   )
 }
 
-export default function CalendarView({ schedule }: { schedule: MonthGroup[] }) {
+export default function CalendarView({
+  schedule,
+  marathons = [],
+  selectedSubjects = new Set(),
+}: {
+  schedule: MonthGroup[]
+  marathons?: MonthGroup[]
+  selectedSubjects?: Set<string>
+}) {
+  const [showMarathons, setShowMarathons] = useState(false)
+
   const eventMap = useMemo(() => buildEventMap(schedule), [schedule])
   const today    = useMemo(() => getToday(), [])
 
+  const filteredMarathons = useMemo(() => {
+    if (selectedSubjects.size === 0) return marathons
+    return marathons.map(group => ({
+      ...group,
+      items: group.items
+        .map(item => ({
+          ...item,
+          events: item.events.filter(ev => ev.subject && selectedSubjects.has(ev.subject)),
+        }))
+        .filter(item => item.events.length > 0),
+    })).filter(group => group.items.length > 0)
+  }, [marathons, selectedSubjects])
+
+  const marathonMap = useMemo(() => buildEventMap(filteredMarathons), [filteredMarathons])
+
   return (
-    <div id="calendar-view-inner">
-      {MONTHS_TO_SHOW.map(([y, m]) => (
-        <MonthGrid key={`${y}-${m}`} year={y} month={m} eventMap={eventMap} today={today} />
-      ))}
+    <div>
+      <div className="marathon-toggle-wrap">
+        <button
+          className={`marathon-toggle-btn${showMarathons ? ' active' : ''}`}
+          onClick={() => setShowMarathons(p => !p)}
+        >
+          🎯 {showMarathons ? 'הסתר מרתונים' : 'הצג מרתונים בלוח'}
+        </button>
+      </div>
+
+      <div id="calendar-view-inner">
+        {MONTHS_TO_SHOW.map(([y, m]) => (
+          <MonthGrid
+            key={`${y}-${m}`}
+            year={y} month={m}
+            eventMap={eventMap}
+            marathonMap={marathonMap}
+            showMarathons={showMarathons}
+            today={today}
+          />
+        ))}
+      </div>
     </div>
   )
 }
