@@ -928,3 +928,52 @@ body {
     font-size: 0.78rem;
   }
 }
+
+/* ── Add-all-to-calendar button ─────────────────────────── */
+.add-all-cal-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  margin-top: -0.5rem;
+}
+
+.add-all-cal-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.add-all-cal-hint {
+  font-size: 0.72rem;
+  color: var(--muted);
+  direction: rtl;
+}
+
+.add-all-cal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.38rem 0.9rem;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: var(--accent);
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  min-height: 36px;
+}
+
+.add-all-cal-btn:hover {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+@media (max-width: 520px) {
+  .add-all-cal-btn {
+    font-size: 0.75rem;
+    padding: 0.32rem 0.7rem;
+  }
+}

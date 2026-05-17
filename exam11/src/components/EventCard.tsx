@@ -48,6 +48,39 @@ function downloadICS(start: string, end: string, title: string, time?: string) {
   URL.revokeObjectURL(a.href)
 }
 
+export function downloadAllICS(items: DateItem[], filename = 'לוח-מבחנים-2026.ics') {
+  const vevents: string[] = []
+
+  for (const item of items) {
+    for (const ev of item.events) {
+      const uid = `exam-${item.start}-${Math.random().toString(36).slice(2)}@exam-schedule`
+      const dtStart = ev.time
+        ? `DTSTART;TZID=Asia/Jerusalem:${item.start}T${timeToHHMM(ev.time)}`
+        : `DTSTART;VALUE=DATE:${item.start}`
+      const dtEnd = ev.time
+        ? `DTEND;TZID=Asia/Jerusalem:${item.start}T${addMinutes(ev.time, 180)}`
+        : `DTEND;VALUE=DATE:${item.end}`
+
+      vevents.push(
+        ['BEGIN:VEVENT', `UID:${uid}`, dtStart, dtEnd, `SUMMARY:${ev.title}`, 'END:VEVENT'].join('\r\n')
+      )
+    }
+  }
+
+  const ics = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'CALSCALE:GREGORIAN',
+    'PRODID:-//לוח מבחנים 2026//HE',
+    ...vevents,
+    'END:VCALENDAR',
+  ].join('\r\n')
+
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }))
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(a.href)
+}
+
 const GoogleIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
