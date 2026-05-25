@@ -109,8 +109,10 @@ export const schedule: MonthGroup[] = [
       { start: '20260524', end: '20260525', day: 'יום ראשון', display: '24/05/2026', events: [
         { title: 'טיול לעיר דוד בירושלים', cat: 'trip', tags: ['טיול'] },
       ]},
-      { start: '20260528', end: '20260529', day: 'יום חמישי', display: '28/05/2026', events: [
+      { start: '20260527', end: '20260528', day: 'יום רביעי', display: '27/05/2026', events: [
         { title: 'מתכונת במדעי המחשב', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260528', end: '20260529', day: 'יום חמישי', display: '28/05/2026', events: [
         { title: 'בגרות תנ"ך', cat: 'bagrut', tags: ['בגרות'], time: '12:00' },
       ]},
       { start: '20260531', end: '20260601', day: 'יום ראשון', display: '31/05/2026', events: [
