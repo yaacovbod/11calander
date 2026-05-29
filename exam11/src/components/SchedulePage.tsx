@@ -95,14 +95,14 @@ export default function SchedulePage() {
     examItems.slice(0, 3).forEach(item => {
       const examEvent = item.events.find(e => EXAM_CATS.has(e.cat))!
       const days = Math.round((parseDate(item.start).getTime() - today.getTime()) / 86400000)
-      map.set(item.start, { days, cat: examEvent.cat })
+      map.set(item.id ?? item.start, { days, cat: examEvent.cat })
     })
     const lastDay = allItems.find(item =>
       parseDate(item.end) > today && item.events.some(e => e.cat === 'special')
     )
     if (lastDay) {
       const days = Math.round((parseDate(lastDay.start).getTime() - today.getTime()) / 86400000)
-      map.set(lastDay.start, { days, cat: 'special', festive: true })
+      map.set(lastDay.id ?? lastDay.start, { days, cat: 'special', festive: true })
     }
     return map
   }, [schedule, today])
@@ -192,7 +192,7 @@ export default function SchedulePage() {
                       <div key={group.month}>
                         <div className="month-label">{group.month}</div>
                         {group.items.map(item => (
-                          <EventCard key={item.start} item={item} isPast />
+                          <EventCard key={item.id ?? item.start} item={item} isPast />
                         ))}
                       </div>
                     ))}
@@ -210,9 +210,9 @@ export default function SchedulePage() {
                     <div className="month-label">{group.month}</div>
                     {group.items.map(item => (
                       <EventCard
-                        key={item.start}
+                        key={item.id ?? item.start}
                         item={item}
-                        countdown={countdownMap.get(item.start)}
+                        countdown={countdownMap.get(item.id ?? item.start)}
                       />
                     ))}
                   </div>

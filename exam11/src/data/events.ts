@@ -10,6 +10,7 @@ export interface EventItem {
 }
 
 export interface DateItem {
+  id?: string     // ייחודי רק כשיש שני כרטיסים לאותו תאריך
   start: string   // YYYYMMDD
   end: string     // YYYYMMDD
   day: string
@@ -125,16 +126,14 @@ export const schedule: MonthGroup[] = [
     items: [
       { start: '20260601', end: '20260602', day: 'יום שני', display: '01/06/2026', events: [
         { title: 'מבחן בביולוגיה', cat: 'mivhan', tags: ['מבחן'] },
-        { title: 'מתכונת בפסיכולוגיה', cat: 'metakonet', tags: ['מתכונת'] },
         { title: 'בגרות בהיסטוריה', cat: 'bagrut', tags: ['בגרות'], time: '13:00' },
-      ]},
-      { start: '20260602', end: '20260603', day: 'יום שלישי', display: '02/06/2026', events: [
         { title: 'מתכונת בפיזיקה', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { start: '20260603', end: '20260604', day: 'יום רביעי', display: '03/06/2026', events: [
+        { title: 'מתכונת בפסיכולוגיה', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260604', end: '20260605', day: 'יום חמישי', display: '04/06/2026', events: [
         { title: 'בגרות בניהול עסקי', cat: 'bagrut', tags: ['בגרות'], time: '13:00' },
-        { title: 'מבחן באומנות', cat: 'mivhan', tags: ['מבחן'] },
-        { title: 'מבחן בתקשורת', cat: 'mivhan', tags: ['מבחן'] },
         { title: 'מתכונת במוט"ל', cat: 'metakonet', tags: ['מתכונת'] },
       ]},
       { start: '20260608', end: '20260609', day: 'יום שני', display: '08/06/2026', events: [
@@ -154,7 +153,10 @@ export const schedule: MonthGroup[] = [
       { start: '20260616', end: '20260617', day: 'יום שלישי', display: '16/06/2026', events: [
         { title: 'טיול לדרום רמת הגולן', cat: 'trip', tags: ['טיול'] },
       ]},
-      { start: '20260618', end: '20260619', day: 'יום חמישי', display: '18/06/2026', events: [
+      { id: '20260618-metakonet', start: '20260618', end: '20260619', day: 'יום חמישי', display: '18/06/2026', events: [
+        { title: 'מתכונת מידע ונתונים', cat: 'metakonet', tags: ['מתכונת'] },
+      ]},
+      { id: '20260618-special', start: '20260618', end: '20260619', day: 'יום חמישי', display: '18/06/2026', events: [
         { title: '🎓 יום אחרון ללימודים! 🎓', cat: 'special', tags: ['יום אחרון'] },
       ]},
       { start: '20260622', end: '20260623', day: 'יום שני', display: '22/06/2026', events: [
