@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import { schedule as staticSchedule, EventCategory, DateItem, type MonthGroup } from '@/data/events'
 import { marathons as staticMarathons, MARATHON_SUBJECTS } from '@/data/marathons'
 import { useSelectedSubjects } from '@/hooks/useSelectedSubjects'
-import EventCard, { downloadAllICS } from './EventCard'
+import EventCard from './EventCard'
 import MarathonCard from './MarathonCard'
 import SubjectWheel from './SubjectWheel'
 
@@ -177,20 +177,6 @@ export default function SchedulePage() {
                 </button>
               ))}
             </div>
-            <div className="add-all-cal-wrap">
-              <div className="add-all-cal-group">
-                <button
-                  className="add-all-cal-btn"
-                  onClick={() => downloadAllICS(upcoming.flatMap(g => g.items))}
-                >
-                  📥 הוסף הכל ליומן (.ics)
-                </button>
-                <span className="add-all-cal-hint">
-                  Apple: לחיצה כפולה על הקובץ &nbsp;|&nbsp; Google: הגדרות ← ייבוא
-                </span>
-              </div>
-            </div>
-
             {past.length > 0 && (
               <div className="past-toggle-wrap">
                 <button
