@@ -141,7 +141,12 @@ export default function EventCard({
   isPast?: boolean
   countdown?: { days: number; cat: EventCategory; festive?: boolean }
 }) {
-  const [activeTab, setActiveTab] = useState(0)
+  const CAT_PRIORITY: Partial<Record<EventCategory, number>> = { bagrut: 0, metakonet: 1, mivhan: 2 }
+  const defaultTab = item.events.reduce((best, ev, i) => {
+    const p = CAT_PRIORITY[ev.cat] ?? 99
+    return p < (CAT_PRIORITY[item.events[best]?.cat] ?? 99) ? i : best
+  }, 0)
+  const [activeTab, setActiveTab] = useState(defaultTab)
   const isMulti = item.events.length > 1
   const activeCat = item.events[activeTab]?.cat ?? item.events[0].cat
 
