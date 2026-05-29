@@ -149,9 +149,10 @@ export default function EventCard({
   const [activeTab, setActiveTab] = useState(defaultTab)
   const isMulti = item.events.length > 1
   const activeCat = item.events[activeTab]?.cat ?? item.events[0].cat
+  const isLastDay = item.events.length === 1 && item.events[0].cat === 'special'
 
   return (
-    <div className={`card cat-${activeCat}${isPast ? ' card-past' : ''}`}>
+    <div className={`card cat-${activeCat}${isPast ? ' card-past' : ''}${isLastDay ? ' card-last-day' : ''}`}>
       <div className="dot" />
       <div className="card-body">
         <div className="card-date">{item.day} &nbsp;|&nbsp; {item.display}</div>
