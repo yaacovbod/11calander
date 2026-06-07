@@ -654,6 +654,64 @@ body {
   100% { transform: translateX(220%); }
 }
 
+/* ── Aqua כיף card ───────────────────────────────────── */
+.card-aqua {
+  background: linear-gradient(135deg, #e0f7ff 0%, #bae6fd 55%, #7dd3fc 100%);
+  border: 2px solid #0ea5e9;
+  border-right: 6px solid #0284c7;
+  box-shadow: 0 2px 18px rgba(14,165,233,0.28);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-aqua::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 60%;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
+  animation: aqua-shimmer 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.card-aqua::after {
+  content: '🌊';
+  position: absolute;
+  left: 0.9rem;
+  bottom: 0.5rem;
+  font-size: 1.6rem;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.card-aqua .dot {
+  background: #0284c7;
+  width: 15px;
+  height: 15px;
+  box-shadow: 0 0 8px rgba(2,132,199,0.5);
+}
+
+.card-aqua .card-date {
+  color: #075985;
+  font-weight: 700;
+}
+
+.card-aqua .card-title {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: #0c4a6e;
+}
+
+.card-aqua:hover {
+  box-shadow: 0 4px 28px rgba(14,165,233,0.42);
+}
+
+@keyframes aqua-shimmer {
+  0%   { transform: translateX(-120%); }
+  60%  { transform: translateX(220%); }
+  100% { transform: translateX(220%); }
+}
+
 /* ── Marathon category card ──────────────────────────── */
 :root {
   --c-marathon-bg:  #0891B2; --c-marathon-fg: #fff; --c-marathon-border: #0369a1;
