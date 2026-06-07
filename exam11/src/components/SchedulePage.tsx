@@ -3,11 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { schedule as staticSchedule, EventCategory, DateItem, type MonthGroup } from '@/data/events'
-import { marathons as staticMarathons, MARATHON_SUBJECTS } from '@/data/marathons'
-import { useSelectedSubjects } from '@/hooks/useSelectedSubjects'
 import EventCard from './EventCard'
-import MarathonCard from './MarathonCard'
-import SubjectWheel from './SubjectWheel'
 
 const EXAM_CATS = new Set<EventCategory>(['mivhan', 'metakonet', 'bagrut'])
 const SCHOOL_YEAR_END = new Date(2026, 5, 19)
@@ -53,19 +49,10 @@ export default function SchedulePage() {
   const [showPast, setShowPast]         = useState(false)
   const [activeFilter, setActiveFilter] = useState<string | null>(null)
   const [schedule, setSchedule]         = useState<MonthGroup[]>(staticSchedule)
-  const [marathons, setMarathons]       = useState<MonthGroup[]>(staticMarathons)
-  const [eventsOpen, setEventsOpen]     = useState(true)
-  const [marathonsOpen, setMarathonsOpen] = useState(true)
-
-  const { selected, toggle, reset } = useSelectedSubjects()
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/events').then(r => r.json()).catch(() => null),
-      fetch('/api/marathons').then(r => r.json()).catch(() => null),
-    ]).then(([evData, mData]) => {
-      if (Array.isArray(evData))  setSchedule(evData)
-      if (Array.isArray(mData))   setMarathons(mData)
+    fetch('/api/events').then(r => r.json()).catch(() => null).then(evData => {
+      if (Array.isArray(evData)) setSchedule(evData)
     })
   }, [])
 
@@ -109,8 +96,6 @@ export default function SchedulePage() {
 
   const { upcoming, past } = useMemo(() => splitUpcomingPast(schedule, today), [schedule, today])
 
-  const { upcoming: upcomingMarathons } = useMemo(() => splitUpcomingPast(marathons, today), [marathons, today])
-
   const filteredUpcoming = useMemo(() =>
     upcoming.map(group => ({ ...group, items: applyFilter(group.items, activeFilter) }))
       .filter(group => group.items.length > 0),
@@ -121,22 +106,8 @@ export default function SchedulePage() {
       .filter(group => group.items.length > 0),
   [past, activeFilter])
 
-  const filteredMarathons = useMemo(() => {
-    if (selected.size === 0) return upcomingMarathons
-    return upcomingMarathons.map(group => ({
-      ...group,
-      items: group.items
-        .map(item => ({
-          ...item,
-          events: item.events.filter(ev => ev.subject && selected.has(ev.subject)),
-        }))
-        .filter(item => item.events.length > 0),
-    })).filter(group => group.items.length > 0)
-  }, [upcomingMarathons, selected])
-
   return (
     <>
-      {/* ── Main toggle ── */}
       <div className="view-toggle">
         <button
           className={`view-btn${view === 'events' ? ' active' : ''}`}
@@ -152,118 +123,69 @@ export default function SchedulePage() {
         </button>
       </div>
 
-      {/* ── Two-column events view ── */}
       {view === 'events' && (
-        <div className="timeline-grid">
+        <>
+          <div className="filter-bar">
+            {FILTER_GROUPS.map(({ label, color }) => (
+              <button
+                key={label}
+                className={`filter-btn${activeFilter === label ? ' active' : ''}`}
+                style={{ '--filter-color': color } as React.CSSProperties}
+                onClick={() => setActiveFilter(prev => prev === label ? null : label)}
+              >
+                <span className="filter-dot" />
+                {label}
+              </button>
+            ))}
+          </div>
 
-          {/* ── Events column ── */}
-          <div className={`timeline-col${eventsOpen ? '' : ' col-collapsed'}`}>
-            <div className="col-heading col-heading-toggle" onClick={() => setEventsOpen(p => !p)}>
-              📋 אירועי השכבה
-              <span className="col-chevron" />
+          {past.length > 0 && (
+            <div className="past-toggle-wrap">
+              <button
+                className={`past-toggle-btn${showPast ? ' open' : ''}`}
+                onClick={() => setShowPast(p => !p)}
+              >
+                🕐 אירועי עבר
+                <span className="past-arrow">{showPast ? '▲' : '▼'}</span>
+              </button>
+              {showPast && (
+                <div className="timeline timeline-past">
+                  {filteredPast.map(group => (
+                    <div key={group.month}>
+                      <div className="month-label">{group.month}</div>
+                      {group.items.map(item => (
+                        <EventCard key={item.id ?? item.start} item={item} isPast />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
+          )}
 
-            <div className="col-body">
-            <div className="filter-bar">
-              {FILTER_GROUPS.map(({ label, color }) => (
-                <button
-                  key={label}
-                  className={`filter-btn${activeFilter === label ? ' active' : ''}`}
-                  style={{ '--filter-color': color } as React.CSSProperties}
-                  onClick={() => setActiveFilter(prev => prev === label ? null : label)}
-                >
-                  <span className="filter-dot" />
-                  {label}
-                </button>
-              ))}
-            </div>
-            {past.length > 0 && (
-              <div className="past-toggle-wrap">
-                <button
-                  className={`past-toggle-btn${showPast ? ' open' : ''}`}
-                  onClick={() => setShowPast(p => !p)}
-                >
-                  🕐 אירועי עבר
-                  <span className="past-arrow">{showPast ? '▲' : '▼'}</span>
-                </button>
-                {showPast && (
-                  <div className="timeline timeline-past">
-                    {filteredPast.map(group => (
-                      <div key={group.month}>
-                        <div className="month-label">{group.month}</div>
-                        {group.items.map(item => (
-                          <EventCard key={item.id ?? item.start} item={item} isPast />
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+          <div className="timeline">
+            {filteredUpcoming.length === 0 ? (
+              <div className="no-events">אין אירועים בקטגוריה זו</div>
+            ) : (
+              filteredUpcoming.map(group => (
+                <div key={group.month}>
+                  <div className="month-label">{group.month}</div>
+                  {group.items.map(item => (
+                    <EventCard
+                      key={item.id ?? item.start}
+                      item={item}
+                      countdown={countdownMap.get(item.id ?? item.start)}
+                    />
+                  ))}
+                </div>
+              ))
             )}
-
-            <div className="timeline">
-              {filteredUpcoming.length === 0 ? (
-                <div className="no-events">אין אירועים בקטגוריה זו</div>
-              ) : (
-                filteredUpcoming.map(group => (
-                  <div key={group.month}>
-                    <div className="month-label">{group.month}</div>
-                    {group.items.map(item => (
-                      <EventCard
-                        key={item.id ?? item.start}
-                        item={item}
-                        countdown={countdownMap.get(item.id ?? item.start)}
-                      />
-                    ))}
-                  </div>
-                ))
-              )}
-            </div>
-            </div>{/* col-body */}
           </div>
-
-          {/* ── Marathons column ── */}
-          <div className={`timeline-col marathon-col${marathonsOpen ? '' : ' col-collapsed'}`}>
-            <div className="col-heading col-heading-toggle" onClick={() => setMarathonsOpen(p => !p)}>
-              🎯 ימי מרתון
-              <span className="col-chevron" />
-            </div>
-
-            <div className="col-body">
-            <SubjectWheel
-              subjects={MARATHON_SUBJECTS}
-              selected={selected}
-              onToggle={toggle}
-              onReset={reset}
-            />
-
-
-            <div className="timeline" style={{ marginTop: '0.75rem' }}>
-              {filteredMarathons.length === 0 ? (
-                <div className="no-events">אין מרתונים בתקופה הקרובה</div>
-              ) : (
-                filteredMarathons.map(group => (
-                  <div key={group.month}>
-                    <div className="month-label">{group.month}</div>
-                    {group.items.map(item => (
-                      <MarathonCard key={item.start} item={item} />
-                    ))}
-                  </div>
-                ))
-              )}
-            </div>
-            </div>{/* col-body */}
-          </div>
-
-        </div>
+        </>
       )}
 
       {view === 'calendar' && (
-        <CalendarView
-          schedule={schedule}
-          marathons={upcomingMarathons}
-          selectedSubjects={selected}
-        />
+        <CalendarView schedule={schedule} />
       )}
     </>
   )

@@ -177,7 +177,6 @@ body {
   gap: 0.75rem;
   background: var(--card);
   border: 1.5px solid var(--border);
-  border-right: 5px solid var(--border);
   border-radius: 10px;
   padding: 0.85rem 1rem;
   margin-bottom: 0.55rem;
@@ -186,16 +185,6 @@ body {
 }
 
 .card:hover { box-shadow: 0 4px 18px var(--shadow); }
-
-.card.cat-bagrut    { border-right-color: var(--c-bagrut-bg); }
-.card.cat-metakonet { border-right-color: var(--c-metakonet-bg); }
-.card.cat-holiday   { border-right-color: var(--c-holiday-bg); }
-.card.cat-army      { border-right-color: var(--c-army-bg); }
-.card.cat-mivhan    { border-right-color: var(--c-mivhan-bg); }
-.card.cat-gdna      { border-right-color: var(--c-gdna-bg); }
-.card.cat-special   { border-right-color: var(--c-special-bg); }
-.card.cat-memorial  { border-right-color: var(--c-memorial-bg); }
-.card.cat-trip      { border-right-color: var(--c-trip-bg); }
 
 /* dot */
 .dot {
@@ -599,7 +588,6 @@ body {
 .card-last-day {
   background: linear-gradient(135deg, #fffbea 0%, #fff3c4 55%, #ffe8a0 100%);
   border: 2px solid #d4a017;
-  border-right: 6px solid #c8900a;
   box-shadow: 0 2px 18px rgba(200,150,0,0.28);
   position: relative;
   overflow: hidden;
@@ -658,7 +646,6 @@ body {
 .card-aqua {
   background: linear-gradient(135deg, #e0f7ff 0%, #bae6fd 55%, #7dd3fc 100%);
   border: 2px solid #0ea5e9;
-  border-right: 6px solid #0284c7;
   box-shadow: 0 2px 18px rgba(14,165,233,0.28);
   position: relative;
   overflow: hidden;
