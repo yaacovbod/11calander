@@ -99,13 +99,39 @@ export default function SchedulePage() {
       .filter(group => group.items.length > 0),
   [past, activeFilter])
 
+  if (isSummerVacation) {
+    const remainingItems = upcoming.flatMap(g => g.items)
+    return (
+      <div className="summer-hero-wrap">
+        <div className="summer-hero-emoji">☀️</div>
+        <h2 className="summer-hero-title">חופש גדול!</h2>
+        <p className="summer-hero-sub">שנה נהדרת — בהצלחה בבגרויות האחרונות!</p>
+        {remainingItems.length > 0 && (
+          <div className="summer-exams-section">
+            <div className="summer-exams-label">בגרויות שנותרו</div>
+            <div className="timeline">
+              {upcoming.map(group => (
+                <div key={group.month}>
+                  <div className="month-label">{group.month}</div>
+                  {group.items.map(item => (
+                    <EventCard
+                      key={item.id ?? item.start}
+                      item={item}
+                      countdown={countdownMap.get(item.id ?? item.start)}
+                      hideTags
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     <>
-      {isSummerVacation && (
-        <div className="summer-vacation-banner">
-          ☀️ חופש גדול! עדיין נותרו בגרויות — בהצלחה!
-        </div>
-      )}
       <div className="view-toggle">
         <button
           className={`view-btn${view === 'events' ? ' active' : ''}`}

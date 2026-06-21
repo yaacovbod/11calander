@@ -136,10 +136,12 @@ export default function EventCard({
   item,
   isPast,
   countdown,
+  hideTags,
 }: {
   item: DateItem
   isPast?: boolean
   countdown?: { days: number; cat: EventCategory; festive?: boolean }
+  hideTags?: boolean
 }) {
   const CAT_PRIORITY: Partial<Record<EventCategory, number>> = { bagrut: 0, metakonet: 1, mivhan: 2 }
   const defaultTab = item.events.reduce((best, ev, i) => {
@@ -179,14 +181,16 @@ export default function EventCard({
                   <div className="card-title" style={{ marginTop: '0.5rem' }}>{ev.title}</div>
                   {ev.time && <div className="event-time">🕐 {ev.time}</div>}
                   <div className="card-footer">
-                    <div className="tags">
-                      {ev.tags.map(t => (
-                        <span key={t} className={`tag${t === 'מרתון' ? ' tag-marathon' : ''}`}
-                          style={{ background: c.bg, color: c.color, border: `1px solid ${c.border}` }}>
-                          {t}
-                        </span>
-                      ))}
-                    </div>
+                    {!hideTags && (
+                      <div className="tags">
+                        {ev.tags.map(t => (
+                          <span key={t} className={`tag${t === 'מרתון' ? ' tag-marathon' : ''}`}
+                            style={{ background: c.bg, color: c.color, border: `1px solid ${c.border}` }}>
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     <CalButtons start={item.start} end={item.end} title={ev.title} time={ev.time} />
                   </div>
                 </div>
@@ -198,17 +202,19 @@ export default function EventCard({
             <div className="card-title">{item.events[0].title}</div>
             {item.events[0].time && <div className="event-time">🕐 {item.events[0].time}</div>}
             <div className="card-footer">
-              <div className="tags">
-                {item.events[0].tags.map(t => {
-                  const c = catColors[item.events[0].cat]
-                  return (
-                    <span key={t} className={`tag${t === 'מרתון' ? ' tag-marathon' : ''}`}
-                      style={{ background: c.bg, color: c.color, border: `1px solid ${c.border}` }}>
-                      {t}
-                    </span>
-                  )
-                })}
-              </div>
+              {!hideTags && (
+                <div className="tags">
+                  {item.events[0].tags.map(t => {
+                    const c = catColors[item.events[0].cat]
+                    return (
+                      <span key={t} className={`tag${t === 'מרתון' ? ' tag-marathon' : ''}`}
+                        style={{ background: c.bg, color: c.color, border: `1px solid ${c.border}` }}>
+                        {t}
+                      </span>
+                    )
+                  })}
+                </div>
+              )}
               <CalButtons start={item.start} end={item.end} title={item.events[0].title} time={item.events[0].time} />
             </div>
           </>

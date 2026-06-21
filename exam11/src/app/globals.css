@@ -502,22 +502,57 @@ body {
   border-color: var(--muted);
 }
 
-/* ── Summer vacation banner ──────────────────────────── */
-.summer-vacation-banner {
+/* ── Summer hero ─────────────────────────────────────── */
+.summer-hero-wrap {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, #FFF3C4 0%, #FFE08A 100%);
-  border: 1.5px solid #D4A035;
-  border-radius: 10px;
-  padding: 0.7rem 1.2rem;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #7C4700;
-  box-shadow: 0 2px 8px rgba(180,120,0,0.15);
   text-align: center;
+  padding-top: 1rem;
+}
+
+.summer-hero-emoji {
+  font-size: 5rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  animation: summer-pulse 3s ease-in-out infinite;
+}
+
+@keyframes summer-pulse {
+  0%, 100% { transform: scale(1) rotate(-3deg); }
+  50%       { transform: scale(1.08) rotate(3deg); }
+}
+
+.summer-hero-title {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+  margin-bottom: 0.4rem;
+}
+
+.summer-hero-sub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.summer-exams-section {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 0.5rem;
+}
+
+.summer-exams-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+  border-top: 1.5px dashed var(--border);
+  padding-top: 1rem;
+  opacity: 0.75;
 }
 
 /* ── Year-end screen ─────────────────────────────────── */
