@@ -502,6 +502,24 @@ body {
   border-color: var(--muted);
 }
 
+/* ── Summer vacation banner ──────────────────────────── */
+.summer-vacation-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #FFF3C4 0%, #FFE08A 100%);
+  border: 1.5px solid #D4A035;
+  border-radius: 10px;
+  padding: 0.7rem 1.2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #7C4700;
+  box-shadow: 0 2px 8px rgba(180,120,0,0.15);
+  text-align: center;
+}
+
 /* ── Year-end screen ─────────────────────────────────── */
 .year-end-wrap {
   text-align: center;

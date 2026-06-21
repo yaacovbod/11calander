@@ -1,12 +1,17 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Image from 'next/image'
 
 const SCHOOL_ITEMS = [
   '✏️','📚','📐','📏','🔬','📓','🖊️','🧮','⚗️','🎒',
   '📌','💡','✂️','🖍️','📎','🔭','📊','📋','✏️','📚',
   '📐','🔬','🎒','💡',
+]
+
+const SUMMER_ITEMS = [
+  '☀️','🌊','🏖️','🌴','🍦','🏄','🐚','🌺','🍉','🕶️',
+  '⛱️','🦋','🌸','🎈','🐠','🌅','🏊','🌻','🍧','🌈',
+  '🦀','🐬','🎡','🎠','🍹','🌞','🦜','🌊','☀️','🏄',
 ]
 
 const TEXT_ITEMS = [
@@ -17,6 +22,8 @@ const TEXT_ITEMS = [
   { text: 'x²',      style: 'font-family:serif;font-weight:bold;color:#9B7020;font-size:1.2rem' },
 ]
 
+const IS_SUMMER = new Date() >= new Date(2026, 5, 19)
+
 export default function FloatingElements() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -24,10 +31,11 @@ export default function FloatingElements() {
     const container = containerRef.current
     if (!container) return
 
-    const all = [
-      ...SCHOOL_ITEMS.map((icon, i) => ({ type: 'emoji' as const, icon, size: 1.5 + (i % 3) * 0.25 })),
-      ...TEXT_ITEMS.map(t => ({ type: 'text' as const, ...t })),
-    ]
+    const emojiSource = IS_SUMMER ? SUMMER_ITEMS : SCHOOL_ITEMS
+    const emojiList = emojiSource.map((icon, i) => ({ type: 'emoji' as const, icon, size: 1.5 + (i % 3) * 0.25 }))
+    const all = IS_SUMMER
+      ? emojiList
+      : [...emojiList, ...TEXT_ITEMS.map(t => ({ type: 'text' as const, ...t }))]
 
     all.forEach((item, i) => {
       const el = document.createElement('span')
@@ -58,25 +66,26 @@ export default function FloatingElements() {
       container.appendChild(el)
     })
 
-    // לוגו בית הספר
-    const logoPositions = [8, 28, 50, 72, 90]
-    logoPositions.forEach((left, i) => {
-      const img = document.createElement('img')
-      img.src    = '/neimat.png'
-      img.width  = 38 + (i % 3) * 10
-      img.style.cssText = `
-        position: absolute;
-        bottom: -80px;
-        left: ${left}%;
-        opacity: 0;
-        animation: floatUp linear infinite;
-        animation-duration: ${(16 + i * 3.5).toFixed(1)}s;
-        animation-delay: ${(-(Math.random() * 20)).toFixed(1)}s;
-        filter: drop-shadow(0 2px 4px #d4a03530);
-        pointer-events: none;
-      `
-      container.appendChild(img)
-    })
+    if (!IS_SUMMER) {
+      const logoPositions = [8, 28, 50, 72, 90]
+      logoPositions.forEach((left, i) => {
+        const img = document.createElement('img')
+        img.src    = '/neimat.png'
+        img.width  = 38 + (i % 3) * 10
+        img.style.cssText = `
+          position: absolute;
+          bottom: -80px;
+          left: ${left}%;
+          opacity: 0;
+          animation: floatUp linear infinite;
+          animation-duration: ${(16 + i * 3.5).toFixed(1)}s;
+          animation-delay: ${(-(Math.random() * 20)).toFixed(1)}s;
+          filter: drop-shadow(0 2px 4px #d4a03530);
+          pointer-events: none;
+        `
+        container.appendChild(img)
+      })
+    }
   }, [])
 
   return (

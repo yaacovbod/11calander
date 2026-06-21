@@ -64,14 +64,7 @@ export default function SchedulePage() {
 
   if (today >= ALL_EXAMS_DONE) return null
 
-  if (today >= SCHOOL_YEAR_END) {
-    return (
-      <div className="year-end-wrap">
-        <div className="year-end-emoji">🎓</div>
-        <h2 className="year-end-title">סוף שנת הלימודים!</h2>
-      </div>
-    )
-  }
+  const isSummerVacation = today >= SCHOOL_YEAR_END
 
   const countdownMap = useMemo(() => {
     const allItems = schedule.flatMap(g => g.items)
@@ -108,6 +101,11 @@ export default function SchedulePage() {
 
   return (
     <>
+      {isSummerVacation && (
+        <div className="summer-vacation-banner">
+          ☀️ חופש גדול! עדיין נותרו בגרויות — בהצלחה!
+        </div>
+      )}
       <div className="view-toggle">
         <button
           className={`view-btn${view === 'events' ? ' active' : ''}`}
