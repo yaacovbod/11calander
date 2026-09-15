@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>דמוקרטיה ותקשורת</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Heebo', sans-serif;
+      background: #F9FAFB;
+      color: #111111;
+      height: 100vh;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* ===== אימוגים צפים ===== */
+    .bg-emojis {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .bg-emoji {
+      position: absolute;
+      opacity: 0.28;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(0px) rotate(0deg); }
+      50%  { transform: translateY(-16px) rotate(5deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    .e1  { top:4%;  left:5%;   font-size:2.2rem; animation-duration:7s;   animation-delay:0s; }
+    .e2  { top:10%; right:8%;  font-size:1.8rem; animation-duration:8s;   animation-delay:1s; }
+    .e3  { top:22%; left:15%;  font-size:1.5rem; animation-duration:6s;   animation-delay:2s; }
+    .e4  { top:28%; right:20%; font-size:2.6rem; animation-duration:9s;   animation-delay:0.5s; }
+    .e5  { top:40%; left:3%;   font-size:1.9rem; animation-duration:7.5s; animation-delay:3s; }
+    .e6  { top:48%; right:5%;  font-size:1.7rem; animation-duration:6.5s; animation-delay:1.5s; }
+    .e7  { top:58%; left:25%;  font-size:2rem;   animation-duration:8.5s; animation-delay:2.5s; }
+    .e8  { top:64%; right:28%; font-size:1.4rem; animation-duration:7s;   animation-delay:0.8s; }
+    .e9  { top:72%; left:8%;   font-size:2.4rem; animation-duration:6s;   animation-delay:4s; }
+    .e10 { top:76%; right:10%; font-size:1.6rem; animation-duration:9s;   animation-delay:1.2s; }
+    .e11 { top:85%; left:35%;  font-size:1.9rem; animation-duration:7.5s; animation-delay:3.5s; }
+    .e12 { top:88%; right:38%; font-size:1.5rem; animation-duration:5.5s; animation-delay:2.2s; }
+
+    /* ===== פס התקדמות ===== */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 4px;
+      background: #0891B2;
+      transition: width 0.3s ease;
+      z-index: 100;
+    }
+
+    /* ===== מונה סליידים ===== */
+    #slide-counter {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      color: #888;
+      z-index: 100;
+      font-family: 'Heebo', sans-serif;
+    }
+
+    /* ===== כפתורי ניווט ===== */
+    .nav-btn {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(8,145,178,0.15);
+      border: none;
+      width: 44px;
+      height: 64px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.4rem;
+      color: #0891B2;
+      z-index: 100;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-btn:hover { background: rgba(8,145,178,0.28); }
+    #btn-prev { right: 12px; }
+    #btn-next { left: 12px; }
+
+    /* ===== עטיפת סליידים ===== */
+    #slides-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      padding: 40px 72px 60px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .slide.active {
+      display: flex;
+    }
+    .slide.center {
+      align-items: center;
+      text-align: center;
+    }
+
+    /* ===== קלפים ===== */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 16px rgba(8,145,178,0.09);
+      margin-bottom: 16px;
+      width: 100%;
+    }
+
+    /* ===== כותרות ===== */
+    .chapter-tag {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0891B2;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    h1.main-title {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #0891B2;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    h2.slide-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #111;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    h3.card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0891B2;
+      margin-bottom: 10px;
+    }
+    p, li {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #333;
+    }
+    ul { padding-right: 20px; }
+    li { margin-bottom: 6px; }
+
+    /* ===== כרטיס כתבה מהעבר ===== */
+    .news-card {
+      background: #E0F2FE;
+      border-radius: 16px;
+      padding: 22px 26px;
+      border-right: 5px solid #0891B2;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+    .news-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #0369A1;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+    .news-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0C4A6E;
+      margin-bottom: 8px;
+    }
+    .news-card p {
+      font-size: 0.95rem;
+      color: #1e4a6e;
+    }
+
+    /* ===== סלייד משימה ===== */
+    .task-slide {
+      background: linear-gradient(135deg, #0891B2 0%, #0369A1 100%);
+    }
+    .task-slide h2.slide-title { color: #fff; }
+    .task-slide .chapter-tag { color: #BAE6FD; }
+    .task-card {
+      background: rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .task-card p, .task-card li { color: #fff; }
+    .task-num {
+      display: inline-block;
+      background: #fff;
+      color: #0891B2;
+      font-weight: 800;
+      font-size: 0.85rem;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      text-align: center;
+      margin-left: 8px;
+      flex-shrink: 0;
+    }
+    .task-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    /* ===== גריד שני עמודות ===== */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: 100%;
+    }
+
+    /* ===== שקיפות מנקדת ===== */
+    .quote-block {
+      border-right: 4px solid #0891B2;
+      padding: 12px 16px;
+      background: #F0F9FF;
+      border-radius: 0 8px 8px 0;
+      margin: 12px 0;
+      font-style: italic;
+    }
+    .quote-block p { color: #0369A1; font-size: 1.05rem; }
+    .quote-source {
+      font-size: 0.82rem;
+      color: #666;
+      margin-top: 4px;
+      font-style: normal;
+    }
+
+    /* ===== תפריט פרקים ===== */
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .chapter-btn {
+      background: #fff;
+      border: 2px solid #E0F2FE;
+      border-radius: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      text-align: right;
+      font-family: 'Heebo', sans-serif;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .chapter-btn:hover { border-color: #0891B2; background: #F0F9FF; }
+    .chapter-btn .ch-num { font-size: 0.72rem; color: #0891B2; font-weight: 700; }
+    .chapter-btn .ch-title { font-size: 0.9rem; font-weight: 700; color: #111; margin-top: 2px; }
+
+    /* ===== רספונסיביות ===== */
+    @media (max-width: 520px) {
+      .slide { padding: 28px 20px 56px; }
+      h1.main-title { font-size: 2rem; }
+      h2.slide-title { font-size: 1.35rem; }
+      .two-col { grid-template-columns: 1fr; }
+      .chapter-grid { grid-template-columns: 1fr; }
+      #btn-prev { right: 4px; width: 36px; }
+      #btn-next { left: 4px; width: 36px; }
+    }
+    @media (max-width: 360px) {
+      h1.main-title { font-size: 1.6rem; }
+      h2.slide-title { font-size: 1.1rem; }
+      p, li { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- אימוגים צפים -->
+<div class="bg-emojis" aria-hidden="true">
+  <span class="bg-emoji e1">📰</span>
+  <span class="bg-emoji e2">🗳️</span>
+  <span class="bg-emoji e3">⚖️</span>
+  <span class="bg-emoji e4">🎤</span>
+  <span class="bg-emoji e5">📢</span>
+  <span class="bg-emoji e6">🐕</span>
+  <span class="bg-emoji e7">👁️</span>
+  <span class="bg-emoji e8">🗞️</span>
+  <span class="bg-emoji e9">📺</span>
+  <span class="bg-emoji e10">🔍</span>
+  <span class="bg-emoji e11">✊</span>
+  <span class="bg-emoji e12">🏛️</span>
+</div>
+
+<!-- פס התקדמות -->
+<div id="progress-bar"></div>
+
+<!-- מונה סליידים -->
+<div id="slide-counter"></div>
+
+<!-- כפתורי ניווט -->
+<button class="nav-btn" id="btn-prev" aria-label="קודם">&#8250;</button>
+<button class="nav-btn" id="btn-next" aria-label="הבא">&#8249;</button>
+
+<!-- ===== סליידים ===== -->
+<div id="slides-container">
+
+  <!-- 1. שער -->
+  <section class="slide center active" id="s1">
+    <div style="max-width:640px;width:100%">
+      <div class="chapter-tag">אזרחות — תלמידי י"ב</div>
+      <h1 class="main-title">דמוקרטיה ותקשורת</h1>
+      <p style="font-size:1.1rem;color:#555;margin-bottom:32px">שבעה פרקים, מקרים מהעבר, ומשימות לדיון</p>
+      <div class="chapter-grid">
+        <button class="chapter-btn" onclick="goToSlide(3)">
+          <div class="ch-num">פרק 1</div>
+          <div class="ch-title">מהי דמוקרטיה</div>
+        </button>
+        <button class="chapter-btn" onclick="goToSlide(9)">
+          <div class="ch-num">פרק 2</div>
+          <div class="ch-title">תקשורת ודמוקרטיה</div>
+        </button>
+        <button class="chapter-btn" onclick="goToSlide(13)">
+          <div class="ch-num">פרק 3</div>
+          <div class="ch-title">שלוש מטאפורות</div>
+        </button>
+        <button class="chapter-btn" onclick="goToSlide(19)">
+          <div class="ch-num">פרק 4</div>
+          <div class="ch-title">חופש הביטוי ומגבלותיו</div>
+        </button>
+        <button class="chapter-btn" onclick="goToSlide(26)">
+          <div class="ch-num">פרק 5</div>
+          <div class="ch-title">לשון הרע והוצאת דיבה</div>
+        </button>
+        <button class="chapter-btn" onclick="goToSlide(33)">
+          <div class="ch-num">פרק 6</div>
+          <div class="ch-title">פרטיות וזכות הציבור לדעת</div>
+        </button>
+        <button class="chapter-btn" onclick="goToSlide(38)">
+          <div class="ch-num">פרק 7</div>
+          <div class="ch-title">מידע מהליכים פליליים</div>
+        </button>
+        <button class="chapter-btn" onclick="goToSlide(43)">
+          <div class="ch-num">סיכום</div>
+          <div class="ch-title">משימות ממתכלות</div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. מבוא: למה צריך להגדיר? -->
+  <section class="slide" id="s2">
+    <div class="chapter-tag">הקדמה</div>
+    <h2 class="slide-title">למה חשוב להגדיר מהי דמוקרטיה?</h2>
+    <div class="card">
+      <p>המושג "דמוקרטיה" שגור בפינו, אבל הגדרתו אינה פשוטה. קיימות לא פחות מ<strong>חמישים הגדרות שונות</strong> למושג — ובכל תקופה וחברה ניתן לו תוכן שונה.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">מקור המילה</h3>
+      <p>הדמוקרטיה (יוונית: <em>demos</em> = עם, <em>kratos</em> = שלטון) — <strong>שלטון העם</strong>. אך מי הם "העם"? ומה משמעות "שלטון"?</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">שאלת המפתח</h3>
+      <p>מה מבדיל בין מדינה דמוקרטית לבין מדינה שרק מתיימרת להיות כזו? זו שאלת העומק של הפרק הראשון.</p>
+    </div>
+  </section>
+
+  <!-- 3. הגדרת לינקולן -->
+  <section class="slide" id="s3">
+    <div class="chapter-tag">פרק 1 — מהי דמוקרטיה</div>
+    <h2 class="slide-title">הגדרת לינקולן: אבן יסוד</h2>
+    <div class="quote-block">
+      <p>"שלטון של העם, באמצעות העם, ולמען העם"</p>
+      <p class="quote-source">אברהם לינקולן, נשיא ארה"ב, נאום גטיסבורג 1863</p>
+    </div>
+    <div class="two-col" style="margin-top:8px">
+      <div class="card">
+        <h3 class="card-title">של העם</h3>
+        <p>הריבונות שייכת לאזרחים — לא למלך, לא לאל, לא לאליטה מיוחסת.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">באמצעות העם</h3>
+        <p>השלטון מתנהל דרך נציגים שנבחרים בידי האזרחים.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">למען העם</h3>
+        <p>מטרת השלטון היא לשרת את האינטרסים של הציבור — לא את טובת השליט.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">המגבלה של הגדרה זו</h3>
+        <p>הגדרת לינקולן מרמזת על <strong>דמוקרטיה ייצוגית</strong> — אך אינה מלאה. חסרים בה ערכים מהותיים.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. שני היבטים: הסדרי ומהותי -->
+  <section class="slide" id="s4">
+    <div class="chapter-tag">פרק 1 — מהי דמוקרטיה</div>
+    <h2 class="slide-title">שני היבטים של הדמוקרטיה</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3 class="card-title">ההיבט ההסדרי</h3>
+        <p>כלים שמאפשרים לשלטון לשקף את רצון העם:</p>
+        <ul style="margin-top:10px">
+          <li>בחירות חופשיות ותקופתיות</li>
+          <li>ריבוי מפלגות</li>
+          <li>הפרדת רשויות (מחוקקת, מבצעת, שופטת)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="card-title">ההיבט המהותי</h3>
+        <p>ערכים שחייבים להיות מכובדים. אין דמוקרטיה שלמה בלעדיהם:</p>
+        <ul style="margin-top:10px">
+          <li>חירות האזרח</li>
+          <li>שוויון בפני החוק</li>
+          <li>הגנה על מיעוטים</li>
+          <li>פלורליזם</li>
+        </ul>
+      </div>
+    </div>
+    <div class="news-card" style="margin-top:8px">
+      <div class="news-tag">מקרה ממחיש</div>
+      <h3>גרמניה הנאצית: הסדר ללא מהות</h3>
+      <p>בגרמניה הנאצית התקיימו משאלי עם — כולל על נכונות הגרמנים לשלול מעצמם זכויות אזרח. ההיבט ההסדרי התקיים. אך לכל הדעות, לא מדובר בחברה דמוקרטית — כי ההיבט המהותי נעדר לחלוטין.</p>
+    </div>
+  </section>
+
+  <!-- 5. חירות ושוויון -->
+  <section class="slide" id="s5">
+    <div class="chapter-tag">פרק 1 — מהי דמוקרטיה</div>
+    <h2 class="slide-title">חירות ושוויון: שני עקרונות בסיס</h2>
+    <div class="card">
+      <h3 class="card-title">מקורם: תקופת ההשכלה (מאות 17-18)</h3>
+      <p>הוגים כמו לוק, רוסו ומונטסקייה הניחו את היסודות לרעיון שכל אדם נולד עם זכויות טבעיות בלתי ניתנות לשלילה.</p>
+    </div>
+    <div class="two-col" style="margin-top:4px">
+      <div class="card">
+        <h3 class="card-title">חירות</h3>
+        <p>לכל אדם זכות לממש את הפוטנציאל שלו — בביטוי, בהתארגנות, בבחירת מקצוע — <strong>כל עוד אינו פוגע באחרים.</strong></p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">שוויון</h3>
+        <p>כל בני האדם נולדו שווים. על המדינה לשמור על שוויון בפני החוק, למנוע אפליה, ולהעניק לכל אחד הזדמנות שווה.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:4px;background:#FFF7ED;border-right:4px solid #F97316">
+      <h3 class="card-title" style="color:#C2410C">התנגשות בין הערכים</h3>
+      <p>לעיתים חירות ושוויון מתנגשים: חירות ההפגנה מול שוויון השקט לשכנים, חירות העסקים מול שוויון ההכנסות. <strong>האיזון ביניהם הוא אחד האתגרים המרכזיים של הדמוקרטיה.</strong></p>
+    </div>
+  </section>
+
+  <!-- 6. פלורליזם -->
+  <section class="slide" id="s6">
+    <div class="chapter-tag">פרק 1 — מהי דמוקרטיה</div>
+    <h2 class="slide-title">פלורליזם: כבוד לשונות</h2>
+    <div class="card">
+      <p><strong>פלורליזם</strong> (לטינית: pluralis = ריבוי) — הכרה בלגיטימיות של קבוצות שונות בחברה: דתיות, אתניות, פוליטיות — ומתן שוויון זכויות וחופש ביטוי לכולן, לרבות מיעוטים, כך שיוכלו לממש את שונותן ולהשמיע את קולן.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">למה פלורליזם הכרחי לדמוקרטיה?</h3>
+      <ul>
+        <li>שלטון הרוב לבד יכול לדכא מיעוטים — זה אינו דמוקרטיה אמיתית</li>
+        <li>פלורליזם מבטיח שגם מי שלא בצד המנצח ייהנה מזכויות מלאות</li>
+        <li>החברה מתעשרת מריבוי קולות ונקודות מבט</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="card-title">פלורליזם ותקשורת</h3>
+      <p>אמצעי התקשורת אמורים לשקף את ריבוי הקולות בחברה — ולא להיות צינור לקבוצה אחת בלבד. בהמשך נראה עד כמה זה מורכב בפועל.</p>
+    </div>
+  </section>
+
+  <!-- 7. סיכום פרק 1 -->
+  <section class="slide" id="s7">
+    <div class="chapter-tag">פרק 1 — מהי דמוקרטיה</div>
+    <h2 class="slide-title">סיכום: מה הופך מדינה לדמוקרטית?</h2>
+    <div class="card">
+      <p>דמוקרטיה שלמה דורשת <strong>גם</strong> היבט הסדרי (בחירות, הפרדת רשויות) <strong>וגם</strong> היבט מהותי (חירות, שוויון, פלורליזם).</p>
+    </div>
+    <div class="card" style="margin-top:4px">
+      <h3 class="card-title">ציר ההשוואה</h3>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:8px">
+        <div style="flex:1;min-width:160px;background:#F0F9FF;border-radius:10px;padding:14px">
+          <p style="font-weight:700;color:#0891B2;margin-bottom:6px">דמוקרטיה</p>
+          <p style="font-size:0.9rem">בחירות + ערכים + הגנה על מיעוטים</p>
+        </div>
+        <div style="flex:1;min-width:160px;background:#FEF2F2;border-radius:10px;padding:14px">
+          <p style="font-weight:700;color:#DC2626;margin-bottom:6px">אוטוקרטיה</p>
+          <p style="font-size:0.9rem">ריכוז כוח, ללא ביקורת, ללא זכויות מיעוט</p>
+        </div>
+        <div style="flex:1;min-width:160px;background:#FFFBEB;border-radius:10px;padding:14px">
+          <p style="font-weight:700;color:#D97706;margin-bottom:6px">פסאודו-דמוקרטיה</p>
+          <p style="font-size:0.9rem">בחירות בלי ערכים — כמו גרמניה הנאצית</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. משימה פרק 1 -->
+  <section class="slide task-slide" id="s8">
+    <div class="chapter-tag">משימה — פרק 1</div>
+    <h2 class="slide-title">מהי דמוקרטיה? — לדיון</h2>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">1</span>
+        <p>האם מדינה שמקיימת בחירות אך מפלה מיעוט אתני יכולה להיקרא דמוקרטיה? הסבירו בעזרת שני ההיבטים שלמדנו.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">2</span>
+        <p>לפי ההגדרות שלמדנו — האם ישראל היא דמוקרטיה שלמה? הביאו שני נימוקים בעד ושניים כנגד.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">3</span>
+        <p>מה תעדיפו: מדינה שמגינה על חירות הפרט אבל יש בה פערים כלכליים גדולים, או מדינה שמקיימת שוויון כלכלי אבל מגבילה חירויות? נמקו.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. תקשורת ודמוקרטיה: הרשות הרביעית -->
+  <section class="slide" id="s9">
+    <div class="chapter-tag">פרק 2 — תקשורת ודמוקרטיה</div>
+    <h2 class="slide-title">התקשורת: הרשות הרביעית</h2>
+    <div class="card">
+      <h3 class="card-title">מהי "הרשות הרביעית"?</h3>
+      <p>בדמוקרטיה ייצוגית קוראים לתקשורת "הרשות הרביעית" — כי היא מביאה לידיעת הציבור את פעולות ומחדלי שלוש הרשויות האחרות: המחוקקת, המבצעת והשופטת.</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">ולפעמים: "הממלכה השביעית"</h3>
+      <p>בתקופות שונות הוגדרה התקשורת כ"שדרה הרביעית" לצד המלך, הכנסייה והעם. בימינו: לצד המחוקקת, המבצעת, השופטת, ורשויות ביקורת אחרות.</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">מדוע יש לה כוח כזה?</h3>
+      <ul>
+        <li>לעיתונות הכוח <strong>לפרסם</strong> ידיעה — או לא לפרסמה</li>
+        <li>לעכב את פרסומה</li>
+        <li>להוסיף לה פרשנות זו או אחרת</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10. חופש מידע וביטוי -->
+  <section class="slide" id="s10">
+    <div class="chapter-tag">פרק 2 — תקשורת ודמוקרטיה</div>
+    <h2 class="slide-title">חופש המידע וחופש הביטוי</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3 class="card-title">חופש המידע</h3>
+        <p>הזכות <strong>לקבל</strong> מידע — לשמוע, לקרוא, לדעת. כולל חובה לספק לאזרחים מידע על פעולות הממשלה — גם מידע שהמערכת אינה חפצה לפרסמו.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">חופש הביטוי</h3>
+        <p>הזכות <strong>לבטא</strong> דעה — בכתב, בקול, בתמונה. העיתונות היא הבמה לביטוי ציבורי — מגבר לרעיונות שאנשים מביעים בינם לבין עצמם.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:8px;background:#FFF7ED;border-right:4px solid #F97316">
+      <h3 class="card-title" style="color:#C2410C">הדרישה מהשלטון</h3>
+      <p>כדי שהתקשורת תמלא את תפקידה, המדינה חייבת <strong>להבטיח</strong> את שני החופשות הללו. מדינה שחוסמת מידע או מגבילה ביטוי — אינה מקיימת את הצד שלה כדמוקרטיה.</p>
+    </div>
+  </section>
+
+  <!-- 11. דגש: למה תקשורת חופשית קריטית -->
+  <section class="slide" id="s11">
+    <div class="chapter-tag">פרק 2 — תקשורת ודמוקרטיה</div>
+    <h2 class="slide-title">בלי תקשורת חופשית: מה קורה?</h2>
+    <div class="card">
+      <h3 class="card-title">הבוחר אינו יכול לבחור חכם</h3>
+      <p>הצבעה מושכלת מחייבת מידע מהימן. ללא תקשורת עצמאית הבוחר לא יודע אם הממשלה עמדה בהבטחותיה.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">הכוח פועל ללא פיקוח</h3>
+      <p>שחיתות, כשלי מדיניות ופגיעה בזכויות מתרחשים בחשיכה. תקשורת מפוקחת אינה חושפת אותם.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">הדוגמה ההיסטורית</h3>
+      <p>במשטרים טוטליטריים (ברית המועצות, גרמניה הנאצית) תפסה המדינה את אמצעי התקשורת והפכה אותם לכלי תעמולה. הציבור קיבל תמונה מעוותת של המציאות — ולא יכול היה לכפות שינוי.</p>
+    </div>
+  </section>
+
+  <!-- 12. משימה פרק 2 -->
+  <section class="slide task-slide" id="s12">
+    <div class="chapter-tag">משימה — פרק 2</div>
+    <h2 class="slide-title">תקשורת ודמוקרטיה — לדיון</h2>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">1</span>
+        <p>מדוע כינוי התקשורת "רשות רביעית" מדויק יותר מ"מגזר רביעי"? מה ההבדל בין רשות לבין מגזר?</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">2</span>
+        <p>הביאו דוגמה מהחיים הישראליים (עכשווית או מהעבר) שבה חופש המידע בא לידי ביטוי — ודוגמה שבה הוא הופר.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">3</span>
+        <p>האם לטיקטוק ולאינסטגרם יש תפקיד של "רשות רביעית"? הסבירו בעד ונגד.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. שלוש מטאפורות: פתיחה -->
+  <section class="slide" id="s13">
+    <div class="chapter-tag">פרק 3 — שלוש מטאפורות</div>
+    <h2 class="slide-title">כיצד תפקיד התקשורת: שלוש מטאפורות</h2>
+    <div class="card">
+      <p>כולן רואות בתקשורת גורם שניצב <strong>בתווך</strong> בין בעלי הכוח לבין ציבור האזרחים. ההבדל — כיצד מוגדרות מחויבויותיה לשני הצדדים.</p>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px">
+      <div class="card" style="flex:1;min-width:160px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:6px">🔗</div>
+        <h3 class="card-title">מתווכת</h3>
+        <p style="font-size:0.9rem">מקשרת בין בעלי הכוח לבין הציבור</p>
+      </div>
+      <div class="card" style="flex:1;min-width:160px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:6px">🐕</div>
+        <h3 class="card-title">כלב שמירה</h3>
+        <p style="font-size:0.9rem">מבקרת ומתריעה על כשלי השלטון</p>
+      </div>
+      <div class="card" style="flex:1;min-width:160px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:6px">🏟️</div>
+        <h3 class="card-title">זירה</h3>
+        <p style="font-size:0.9rem">מקום מפגש בין בעלי דעות שונות</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. מתווכת -->
+  <section class="slide" id="s14">
+    <div class="chapter-tag">פרק 3 — שלוש מטאפורות</div>
+    <h2 class="slide-title">מטאפורה 1: התקשורת כמתווכת</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3 class="card-title">תיווך אנכי</h3>
+        <p>קשר בין האליטות לאזרחים. דוגמה: סיקור הפגנת עובדים במפעל שנסגר — מעביר את קול השכבות הנמוכות לבעלי הכוח.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">תיווך אופקי</h3>
+        <p>קישור בין ארגונים ומוסדות בקרב האליטות. דוגמה: העברת מידע מהכנסת לצבא ובחזרה.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:8px;background:#FFF7ED;border-right:4px solid #F97316">
+      <h3 class="card-title" style="color:#C2410C">ביקורת: נאיביות?</h3>
+      <p>לא מדובר בהעברת מידע בלבד — אלא בניסיון <strong>להשפיע</strong> על המציאות ולעצב אותה. כאשר שר האוצר מציג תוכנית הפחתת מיסים בתקשורת — מטרתו אינה רק ליידע את הציבור, אלא גם לשפר את תדמיתו.</p>
+    </div>
+  </section>
+
+  <!-- 15. כלב שמירה -->
+  <section class="slide" id="s15">
+    <div class="chapter-tag">פרק 3 — שלוש מטאפורות</div>
+    <h2 class="slide-title">מטאפורה 2: כלב שמירה</h2>
+    <div class="card">
+      <p>התקשורת עוקבת אחר ביצועי המערכות המוסדיות ומבקרת כאשר הן אינן ממלאות את תפקידן. "נובחת", מתריעה על חריגות. הציבור בוחר את מנהיגיו אך אין לו ידע להעריך את עבודתם — התקשורת ממלאת את החסר.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px">
+      <div class="card" style="background:#FEF2F2;border-right:4px solid #DC2626">
+        <h3 class="card-title" style="color:#DC2626">ביקורת א': "כלב משוגע"</h3>
+        <p style="font-size:0.9rem">הפוליטיקאים טוענים: דיווח על מחדלים תוך קריאה להדחה פוגע בסדר התקין וברצון הבוחרים.</p>
+      </div>
+      <div class="card" style="background:#FEF2F2;border-right:4px solid #DC2626">
+        <h3 class="card-title" style="color:#DC2626">ביקורת ב': "כלבלב מחמד"</h3>
+        <p style="font-size:0.9rem">הסיקור נועד לרצות בעלי הון ופוליטיקאים. המטרות שהתקשורת "נועצת שיניים" בהן נבחרות בקפידה.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">דוגמה: עליית מחירים</h3>
+      <p style="font-size:0.9rem">כאשר עליית מחירים נתלית ב"מציאות בעולם" — האצבע המאשימה אינה מופנית כלפי בעלי הון. מכאן שאין מהם תביעה לעשות דבר.</p>
+    </div>
+  </section>
+
+  <!-- 16. זירה -->
+  <section class="slide" id="s16">
+    <div class="chapter-tag">פרק 3 — שלוש מטאפורות</div>
+    <h2 class="slide-title">מטאפורה 3: התקשורת כזירה</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3 class="card-title">זירת התדיינות</h3>
+        <p>דומה לכיכר השוק היוונית (<em>agora</em>) או להייד פארק — מקום שבו כל אחד רשאי להשמיע דעתו. מושג המפתח: <strong>המרחב הציבורי</strong>.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">זירת עימותים</h3>
+        <p>קבוצות חזקות מתגוששות ביניהן, כל צד מנסה לכפות את דעתו. הציבור הרחב — אינו זוכה לתשומת לב תקשורתית.</p>
+      </div>
+    </div>
+    <div class="news-card" style="margin-top:12px">
+      <div class="news-tag">הגות פוליטית</div>
+      <h3>יורגן האברמס: המרחב הציבורי</h3>
+      <p>הפילוסוף הגרמני האברמס טען: בחברה דמוקרטית חייבים להתקיים מקומות שבהם אזרחים חופשיים מתדיינים ומגבשים דעה — ומפקחים על רשויות המדינה. אמצעי התקשורת, בתנאים מסוימים, יכולים לספק חלל שכזה — והעיתונאים לשמש מנחי דיון.</p>
+    </div>
+  </section>
+
+  <!-- 17. השוואת המטאפורות -->
+  <section class="slide" id="s17">
+    <div class="chapter-tag">פרק 3 — שלוש מטאפורות</div>
+    <h2 class="slide-title">השוואת שלוש המטאפורות</h2>
+    <div class="card">
+      <table style="width:100%;border-collapse:collapse;font-size:0.9rem">
+        <thead>
+          <tr style="background:#E0F2FE">
+            <th style="padding:10px;text-align:right;border-bottom:2px solid #0891B2">מטאפורה</th>
+            <th style="padding:10px;text-align:right;border-bottom:2px solid #0891B2">תפקיד התקשורת</th>
+            <th style="padding:10px;text-align:right;border-bottom:2px solid #0891B2">חולשה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #E5E7EB">
+            <td style="padding:10px;font-weight:700;color:#0891B2">מתווכת</td>
+            <td style="padding:10px">מקשרת בין כוח לציבור</td>
+            <td style="padding:10px">נאיבית — מסתירה את עיצוב המציאות</td>
+          </tr>
+          <tr style="border-bottom:1px solid #E5E7EB;background:#F9FAFB">
+            <td style="padding:10px;font-weight:700;color:#0891B2">כלב שמירה</td>
+            <td style="padding:10px">מבקרת ומתריעה</td>
+            <td style="padding:10px">עלולה להפוך לכלב משוגע או כלבלב מחמד</td>
+          </tr>
+          <tr>
+            <td style="padding:10px;font-weight:700;color:#0891B2">זירה</td>
+            <td style="padding:10px">מקום דיון פתוח</td>
+            <td style="padding:10px">בפועל — קבוצות חזקות שולטות בזירה</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 18. משימה פרק 3 -->
+  <section class="slide task-slide" id="s18">
+    <div class="chapter-tag">משימה — פרק 3</div>
+    <h2 class="slide-title">שלוש המטאפורות — לדיון</h2>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">1</span>
+        <p>לאיזו מטאפורה מתאים ביותר תוכנית תחקיר שמגלה שחיתות בעיריה? נמקו.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">2</span>
+        <p>האם ויכוח פוליטי בין שני פרשנים בערוץ 12 הוא "זירת התדיינות" או "זירת עימותים"? הסבירו את ההבדל.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">3</span>
+        <p>האם רשתות חברתיות כמו טוויטר/X הן "מרחב ציבורי" לפי הגדרת האברמס? מה חסר בהן?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. חופש הביטוי: פתיחה -->
+  <section class="slide" id="s19">
+    <div class="chapter-tag">פרק 4 — חופש הביטוי ומגבלותיו</div>
+    <h2 class="slide-title">חופש הביטוי: ערך יסוד — אבל לא מוחלט</h2>
+    <div class="card">
+      <p>חופש הביטוי — החופש לפרסם ולחלוק בכתב, בקול ובתמונה את מה שבנפשנו ובמוחנו. בחברות דמוקרטיות הוא נחשב ערך מרכזי. <strong>אך אין זכויות מוחלטות.</strong></p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">זכויות מתנגשות</h3>
+      <p>מתן חופש ביטוי לאחד עשוי לפגוע ב:</p>
+      <ul style="margin-top:8px">
+        <li>זכותו של אדם לשמירה על שמו הטוב</li>
+        <li>זכותו למשפט הוגן</li>
+        <li>זכות הציבור להגנה מפני הסתה לאלימות</li>
+        <li>ביטחון המדינה (חשיפת מידע סודי)</li>
+      </ul>
+    </div>
+    <div class="quote-block" style="margin-top:12px">
+      <p>"המבחן של כל רעיון הוא כוחו בשוק הדעות החופשי"</p>
+      <p class="quote-source">השופט אוליבר וונדל הולמס, בית המשפט העליון של ארה"ב</p>
+    </div>
+  </section>
+
+  <!-- 20. "סכנה קרובה ומיידית" -->
+  <section class="slide" id="s20">
+    <div class="chapter-tag">פרק 4 — חופש הביטוי ומגבלותיו</div>
+    <h2 class="slide-title">מתי ניתן להגביל חופש הביטוי?</h2>
+    <div class="card">
+      <h3 class="card-title">"סכנה קרובה ומיידית"</h3>
+      <p>המבחן שפותח בארה"ב: הגבלת חופש הביטוי מוצדקת רק כאשר התרת הביטוי משמעה <strong>נזק בלתי הפיך</strong> לאדם או לחברה כולה.</p>
+    </div>
+    <div class="news-card" style="margin-top:12px">
+      <div class="news-tag">דוגמה קלאסית</div>
+      <h3>"שרפה!" בתיאטרון</h3>
+      <p>מי שמתוך רצון להתל בקהל קורא "שרפה!" ליד אולם תיאטרון עמוס אנשים — גורם למנוסת המון ולרמיסת בני אדם. במקרה כזה חובה למנוע את הביטוי — הנזק קרוב, מיידי ובלתי הפיך. הדוגמה מבהירה: חופש ביטוי אינו רישיון לגרום נזק פיזי.</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">יישום בישראל</h3>
+      <p>בפסיקת בתי המשפט הישראליים: ניתן להרשיע על התבטאות <strong>רק כאשר יש הסתברות גבוהה</strong> שזו תתורגם למעשי אלימות.</p>
+    </div>
+  </section>
+
+  <!-- 21. ארה"ב מול ישראל -->
+  <section class="slide" id="s21">
+    <div class="chapter-tag">פרק 4 — חופש הביטוי ומגבלותיו</div>
+    <h2 class="slide-title">ארה"ב מול ישראל: מעמד חופש הביטוי</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3 class="card-title">ארה"ב: מעמד חוקתי חזק</h3>
+        <p>התיקון הראשון לחוקה (1791):</p>
+        <div class="quote-block" style="margin-top:10px">
+          <p style="font-size:0.9rem">"הקונגרס לא יחוקק כל חוק... שיגביל את חופש הביטוי, או העיתונות, או את זכותם של האנשים להתאסף בדרכי שלום"</p>
+        </div>
+        <p style="margin-top:8px;font-size:0.9rem">חקוק בחוקה — מחייב, קשה לשינוי.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">ישראל: מעמד חלש יותר</h3>
+        <p>אין לישראל חוקה מלאה. חופש הביטוי הוזכר רק בפסקי דין ובדברי שופטים — אינו מעוגן בחוק יסוד מפורש.</p>
+        <p style="margin-top:8px;font-size:0.9rem">הבסיס: מגילת העצמאות + פסיקת בית המשפט העליון.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. בג"ץ קול העם 1953 -->
+  <section class="slide" id="s22">
+    <div class="chapter-tag">פרק 4 — חופש הביטוי ומגבלותיו</div>
+    <h2 class="slide-title">כתבה מהעבר: בג"ץ קול העם</h2>
+    <div class="news-card">
+      <div class="news-tag">מקרה אמיתי — 1953</div>
+      <h3>ביטאוני המפלגה הקומוניסטית נגד שר הפנים</h3>
+      <p>העיתונים "קול העם" ו"אל איתיחאד" פרסמו שהממשלה מתכוונת לשלוח "מאות אלפי חיילים" לקוריאה ו"מספסרת בדם החיילים". שר הפנים ישראל רוקח ציווה לסגור אותם.</p>
+    </div>
+    <div class="card" style="margin-top:10px">
+      <h3 class="card-title">פסיקת השופט אגרנט</h3>
+      <p>בית המשפט העליון <strong>ביטל</strong> את הפסילה. השופט שמעון אגרנט קבע:</p>
+      <ul style="margin-top:8px">
+        <li>חופש הביטוי מעוגן ב"יסודות החירות" של מגילת העצמאות</li>
+        <li>"ייסוג חופש הביטוי רק כאשר יתקיים מבחן של ודאות קרובה לפגיעה ממשית ורצינית באינטרס מוגן"</li>
+        <li>דברי העיתונים לא הגיעו לרף הזה</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-top:8px;background:#F0F9FF">
+      <h3 class="card-title">המשמעות ההיסטורית</h3>
+      <p><strong>מבחן הוודאות הקרובה</strong> הפך לעיקרון יסוד בפסיקת בתי המשפט הישראליים עד היום.</p>
+    </div>
+  </section>
+
+  <!-- 23. פרשת כהנא -->
+  <section class="slide" id="s23">
+    <div class="chapter-tag">פרק 4 — חופש הביטוי ומגבלותיו</div>
+    <h2 class="slide-title">כתבה מהעבר: הרב כהנא ורשות השידור</h2>
+    <div class="news-card">
+      <div class="news-tag">מקרה אמיתי — 1984</div>
+      <h3>כשבגרות מגיעה לכנסת</h3>
+      <p>ב-1984 נבחר הרב מאיר כהנא לכנסת. מפלגת כ"ך כללה במצעה קריאות לאפליה חקיקתית נגד ערבים אזרחי ישראל ואף לגירושם. הוועד המנהל של רשות השידור הוציא הנחיה לבדוק כל ראיון איתו ולשדר אך ורק ידיעות בעלות ערך חדשותי מובהק.</p>
+    </div>
+    <div class="card" style="margin-top:10px">
+      <h3 class="card-title">פסיקת בג"ץ</h3>
+      <p>בית המשפט העליון <strong>לא אישר</strong> לרשות השידור לנקוט צעדים אלה — למרות ההסתייגות החריפה שהביע מדברי כהנא.</p>
+    </div>
+    <div class="card" style="margin-top:8px;background:#FFF7ED;border-right:4px solid #F97316">
+      <h3 class="card-title" style="color:#C2410C">הדילמה העקרונית</h3>
+      <p>מה מכריע: הגנה על מיעוטים מפני הסתה, או הגנה על חופש הביטוי של נבחר ציבור לגיטימי? בג"ץ בחר בחופש הביטוי — אבל הדילמה נותרת פתוחה.</p>
+    </div>
+  </section>
+
+  <!-- 24. הסתה לאלימות -->
+  <section class="slide" id="s24">
+    <div class="chapter-tag">פרק 4 — חופש הביטוי ומגבלותיו</div>
+    <h2 class="slide-title">גבול ברור: הסתה לאלימות</h2>
+    <div class="card">
+      <h3 class="card-title">מה אסור?</h3>
+      <p>מוצדק ואף מתחייב לאסור התבטאויות <strong>מתירות דם</strong>: קריאות לאלימות כלפי אדם או קבוצה, שבח לאלימות כזו — הן מצד ארגון הן מצד יחידים.</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">אבל: מבחן ההסתברות</h3>
+      <p>ניתן להרשיע ולהעניש על התבטאות <strong>רק כאשר יש הסתברות גבוהה</strong> שזו תתורגם למעשי אלימות בפועל. ביקורת חריפה — גם אם קשה — אינה בהכרח הסתה.</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">שאלות לדיון</h3>
+      <p>האם שידור סרטון המתעד רצח אכזרי בפיגוע טרור הוא חופש ביטוי? האם הפצת תמונה משפילה באינסטגרם היא עבירה? (ענו בפרק 5)</p>
+    </div>
+  </section>
+
+  <!-- 25. משימה פרק 4 -->
+  <section class="slide task-slide" id="s25">
+    <div class="chapter-tag">משימה — פרק 4</div>
+    <h2 class="slide-title">חופש הביטוי — לדיון</h2>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">1</span>
+        <p>בפרשת קול העם פסק בג"ץ שהעיתון לא עמד במבחן "ודאות קרובה". הסבירו: מה צריך היה לקרות כדי שהסגירה תהיה חוקית?</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">2</span>
+        <p>פוליטיקאי ישראלי פרסם בטוויטר: "כל ערבי הוא איום ביטחוני". האם זו הסתה לאלימות? הפעילו את מבחן ההסתברות.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">3</span>
+        <p>האם נכון שבג"ץ הגן על זכות כהנא לחשיפה תקשורתית? הביאו שני נימוקים בעד ושניים נגד.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 26. לשון הרע: פתיחה -->
+  <section class="slide" id="s26">
+    <div class="chapter-tag">פרק 5 — לשון הרע והוצאת דיבה</div>
+    <h2 class="slide-title">שמו הטוב של אדם: נכס יסוד</h2>
+    <div class="card">
+      <h3 class="card-title">מחכמי ישראל</h3>
+      <div class="quote-block" style="margin-top:6px">
+        <p>"טוב שם טוב משמן טוב"</p>
+        <p class="quote-source">קהלת ז', א'</p>
+      </div>
+      <div class="quote-block">
+        <p>"כל המוציא דיבתו של אדם — כאילו שפך דמים"</p>
+        <p class="quote-source">תלמוד בבלי, ערכין טו:</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">מדוע זה חשוב מעבר לאינדיבידואל?</h3>
+      <p>פגיעה בשמו הטוב של נושא משרה ציבורית עשויה לפגוע <strong>באמון הציבור במשרה עצמה</strong>. קיומה של דמוקרטיה מבוסס על אמון במוסדות השלטון — אובדן אמון עלול להביא לשחיקת המשטר הדמוקרטי.</p>
+    </div>
+  </section>
+
+  <!-- 27. מה אסור? -->
+  <section class="slide" id="s27">
+    <div class="chapter-tag">פרק 5 — לשון הרע והוצאת דיבה</div>
+    <h2 class="slide-title">חוק לשון הרע בישראל</h2>
+    <div class="card">
+      <h3 class="card-title">מה אוסר החוק?</h3>
+      <ul>
+        <li>השמצתו של אדם בציבור</li>
+        <li>השפלתו</li>
+        <li>פרסום מידע שעשוי לפגוע במשרתו או בעסקו — גם אם לא נאמרו דברים בגנותו</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">דוגמה: שמועות על מנהיג</h3>
+      <p>כאשר מפורסמות שמועות כי מנהיג לוקח כדורים פסיכיאטריים — יש בכך כדי לפגוע בסיכויו להיבחר. הקשר בין מחלה לבין יכולת תפקוד אינו אמת אוניברסאלית — הוא משקף סולם ערכים תרבותי מסוים.</p>
+    </div>
+    <div class="card" style="margin-top:8px;background:#FFF7ED;border-right:4px solid #F97316">
+      <h3 class="card-title" style="color:#C2410C">שפיטה מראש</h3>
+      <p>דיווח חורץ דין על אדם שהוגש נגדו כתב אישום — עלול להשפיע על האופן שבו יתייחסו אליו בבית המשפט. גם אם העיתונאי משוכנע שמדובר בעבריין — הפרסום פוגע במשפחה שלא חטאה.</p>
+    </div>
+  </section>
+
+  <!-- 28. פרסומים מוגנים -->
+  <section class="slide" id="s28">
+    <div class="chapter-tag">פרק 5 — לשון הרע והוצאת דיבה</div>
+    <h2 class="slide-title">פרסומים מוגנים: מה מותר?</h2>
+    <div class="card">
+      <h3 class="card-title">פרסומים שאינם מהווים לשון הרע</h3>
+      <ul>
+        <li>פרסומים מטעם גורמים ממלכתיים: ממשלה, מבקר המדינה, בתי משפט, ועדות חקירה</li>
+        <li>מסמכים שהוגשו לבית המשפט: כתבי תביעה, כתבי הגנה</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">תנאים לדיווח מוגן</h3>
+      <ul>
+        <li>הדיווח יהיה <strong>מלא ונכון</strong></li>
+        <li>מקור המידע יימסר</li>
+        <li>אין להוציא דברים מהקשרם</li>
+        <li>יש לעשות מאמץ לקבל את תגובת הצד השני</li>
+      </ul>
+      <p style="margin-top:8px;font-size:0.9rem">במקרים אלה אין לעיתונאים חובה לברר אם המידע אמיתי.</p>
+    </div>
+  </section>
+
+  <!-- 29. שני תנאי ההגנה -->
+  <section class="slide" id="s29">
+    <div class="chapter-tag">פרק 5 — לשון הרע והוצאת דיבה</div>
+    <h2 class="slide-title">שני תנאי ההגנה מפני תביעת לשון הרע</h2>
+    <div class="card">
+      <h3 class="card-title">תנאי 1: "אמת דיברתי"</h3>
+      <p>פרסום עובדה מחייב גיבוי בראיות קבילות ברמה משפטית. ככל שהאשמה חמורה יותר — רף ההוכחות גבוה יותר. וזאת אף שלעיתונאים אין אמצעי החקירה של רשויות האכיפה.</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">תנאי 2: "עניין ציבורי"</h3>
+      <p>יש להוכיח שהציבור יצא <strong>נשכר משמעותית</strong> מהפרסום. בתי המשפט מבחינים:</p>
+      <div class="two-col" style="margin-top:10px">
+        <div style="background:#F0F9FF;border-radius:10px;padding:12px">
+          <p style="font-weight:700;color:#0891B2;font-size:0.9rem">עניין ציבורי</p>
+          <p style="font-size:0.85rem;margin-top:4px">מידע שמשמעותי לאנשים רבים — הציבור זכאי לדעת</p>
+        </div>
+        <div style="background:#FEF2F2;border-radius:10px;padding:12px">
+          <p style="font-weight:700;color:#DC2626;font-size:0.9rem">עניין לציבור</p>
+          <p style="font-size:0.85rem;margin-top:4px">מידע שמספק מזון לסקרנים ורכלנים — אינו מצדיק פרסום פוגע</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 30. עניין ציבורי: איש ציבור מול פרט -->
+  <section class="slide" id="s30">
+    <div class="chapter-tag">פרק 5 — לשון הרע והוצאת דיבה</div>
+    <h2 class="slide-title">איש ציבור מול אזרח רגיל: המקרה הדמיוני</h2>
+    <div class="news-card">
+      <div class="news-tag">מקרה לדיון</div>
+      <h3>מועמד לראשות הממשלה פגע ברגלת</h3>
+      <p>מועמד לראשות הממשלה נסע במכוניתו שפגעה קלות בהולכת רגל. נהגו יצא לבדוק את מצבה — המועמד נותר במכוניתו ולא עשה דבר.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px">
+      <div class="card">
+        <h3 class="card-title">אם מדובר במועמד</h3>
+        <p>הציבור זכאי לכל מידע רלוונטי לגבי מי שמבקש את אמונו. הפרסום ראוי. המועמד אינו יכול לתבוע — הוא "הביא את עצמו לתשומת הציבור".</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">אם מדובר באזרח פרטי</h3>
+        <p>האדם יכול לטעון: לציבור אין עניין בפרסום. מטרת הדיווח היא לפגוע בתדמיתו. דיווח כזה חשוף לתביעת לשון הרע.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 31. סייגים נוספים -->
+  <section class="slide" id="s31">
+    <div class="chapter-tag">פרק 5 — לשון הרע והוצאת דיבה</div>
+    <h2 class="slide-title">סייגים נוספים ואתגר המדיה החדשה</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3 class="card-title">הסייג ההיסטורי</h3>
+        <p>בדיווח על אירועים מן העבר — די בהוכחת <strong>תום לב</strong>: שלא שובשו בכוונה עובדות, ושהדיווח מבוסס על מה שאדם סביר יכול לאמץ על סמך הנתונים שבידיו.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">עובדה מול דעה</h3>
+        <p>עיתונאי רשאי לבטא דעתו — אם הקורא הסביר מבין שזו דעה. כאשר עיתונאי קורא לאיש ציבור "אידיוט" — ברור שאינו קובע מנת משכל.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">אתגר הטוקבקים והמדיה החדשה</h3>
+      <p>אנונימיות ברשת מאפשרת אלימות מילולית. חוקרים ישראלים גילו שאנשים נמנעים מלהתבטא ברשת בנושאים רגישים אף יותר מבדיבור בקול — מחשש שיושמצו.</p>
+      <p style="margin-top:8px;font-size:0.9rem">ניסיון "חוק הטוקבקים" שיחייב ספקים לחשוף זהות עוברי עבירה — לא עבר בכנסת.</p>
+    </div>
+  </section>
+
+  <!-- 32. משימה פרק 5 -->
+  <section class="slide task-slide" id="s32">
+    <div class="chapter-tag">משימה — פרק 5</div>
+    <h2 class="slide-title">לשון הרע — לדיון</h2>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">1</span>
+        <p>כתב הגנה שהוגש לבית המשפט חושף שמנהיג ציבורי גנב כספים. מותר לתקשורת לפרסם? הפעילו את שני תנאי ההגנה.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">2</span>
+        <p>תלמיד הפיץ תמונה משפילה של חברו באינסטגרם. האם זו לשון הרע? מה קורה כשמדובר בפרופיל מזויף?</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">3</span>
+        <p>פרשן כתב שראש ממשלה "מנהל את ישראל כפושע". האם זו עובדה שדורשת "אמת דיברתי" או דעה שמוגנת? הסבירו.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 33. זכות הציבור לדעת ופרטיות: פתיחה -->
+  <section class="slide" id="s33">
+    <div class="chapter-tag">פרק 6 — פרטיות וזכות הציבור לדעת</div>
+    <h2 class="slide-title">שני ממדי הפרטיות</h2>
+    <div class="card">
+      <h3 class="card-title">הזכות לדעת: בסיס לכל השאר</h3>
+      <p>הזכות לדעת קודמת אפילו לחופש הביטוי — שהרי יכולת הביטוי תלויה בטיב המידע שעומד לרשות האדם. אך גם זכות זו מוגבלת.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px">
+      <div class="card">
+        <h3 class="card-title">ממד 1: מרחב פיזי ווירטואלי</h3>
+        <p>אי אפשר לחשוף ללא הסכמה: גוף האדם, פעולותיו הפרטיות, ביתו, עסקו, תכתובות אימייל, קבוצות פייסבוק סגורות.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">ממד 2: מידע אישי</h3>
+        <p>הזכות להישאר בלתי מזוהה במרחב הציבורי. מידע פיננסי, רפואי, גנטי — יימצא רק ברשות האדם עצמו.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">הכלל</h3>
+      <p>"אין נכנסים לרשות היחיד שלא בהסכמתו... אין פוגעים בסוד שיחו של אדם בכתביו או ברשומותיו." (חוק הגנת הפרטיות)</p>
+    </div>
+  </section>
+
+  <!-- 34. איסורים ועוד -->
+  <section class="slide" id="s34">
+    <div class="chapter-tag">פרק 6 — פרטיות וזכות הציבור לדעת</div>
+    <h2 class="slide-title">מה מותר ומה אסור לתקשורת?</h2>
+    <div class="two-col">
+      <div class="card" style="background:#FEF2F2;border-right:4px solid #DC2626">
+        <h3 class="card-title" style="color:#DC2626">אסור</h3>
+        <ul>
+          <li>האזנות סתר לצרכים עיתונאיים</li>
+          <li>פרסום שיחה שרק אחד הצדדים הסכים לפרסמה</li>
+          <li>פריצה לביתו של אדם להשגת מידע</li>
+        </ul>
+      </div>
+      <div class="card" style="background:#F0FFF4;border-right:4px solid #16A34A">
+        <h3 class="card-title" style="color:#16A34A">מותר</h3>
+        <ul>
+          <li>פרסום מידע פוגע בפרטיות — אם קיים אינטרס ציבורי</li>
+          <li>חשיפת מידע מבלי לחשוף את האנשים עצמם (למשל: צלקות ילדים מוכים)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">הכלל האתי</h3>
+      <p>הפגיעה בבני אדם צריכה להיות <strong>במידה הראויה</strong>. גם כאשר הפרסום מוצדק — אסור לפגוע מעבר להכרחי.</p>
+    </div>
+  </section>
+
+  <!-- 35. חוק בשורת איוב -->
+  <section class="slide" id="s35">
+    <div class="chapter-tag">פרק 6 — פרטיות וזכות הציבור לדעת</div>
+    <h2 class="slide-title">כתבה מהעבר: "חוק בשורת איוב"</h2>
+    <div class="news-card">
+      <div class="news-tag">מקרה אמיתי — 2009</div>
+      <h3>רונה רמון ואסף רמון: הבשורה המרה</h3>
+      <p>כאשר מטוסו של טייס הקרב <strong>אסף רמון</strong> (בנו של אילן רמון, טייס החלל) התרסק, הגיעו אמצעי התקשורת אל דלת ביתה של <strong>רונה רמון</strong> — האם והאלמנה — <strong>לפני</strong> שהגיעו אליה המבשרים הרשמיים. רונה קיבלה את בשורת מות בנה מהעיתונאים.</p>
+    </div>
+    <div class="card" style="margin-top:10px">
+      <h3 class="card-title">ההשלכות</h3>
+      <p>עלה לדיון "חוק בשורת איוב" — שיאסור על כלי תקשורת ליצור קשר עם קרובים של מי שמת בנסיבות טרגיות לפני שקיבלו את הבשורה מגורם רשמי. <strong>החוק לא עבר בכנסת</strong> — אך שולב בתקנוני האתיקה של העיתונאים בישראל.</p>
+    </div>
+  </section>
+
+  <!-- 36. צילומים מטושטשים -->
+  <section class="slide" id="s36">
+    <div class="chapter-tag">פרק 6 — פרטיות וזכות הציבור לדעת</div>
+    <h2 class="slide-title">דילמות עכשוויות בפרטיות</h2>
+    <div class="card">
+      <h3 class="card-title">צילומים מטושטשים</h3>
+      <p>תקשורת נוהגת לצלם ולפרסם תמונות מטושטשות של חשודים בעבירות ושל קורבנותיהם. אך טשטוש אינו מונע זיהוי — ולעיתים ניתן להגדירו כ"הטרדה".</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">פפראצי וסלבריטאים</h3>
+      <p>מהם הגבולות הראויים לצלמים שעוקבים אחר ידוענים? כאשר אדם בחר בחיים ציבוריים — מה נשאר לו פרטי? ומה קורה לילדיו שלא בחרו?</p>
+    </div>
+    <div class="card" style="margin-top:8px;background:#FFF7ED;border-right:4px solid #F97316">
+      <h3 class="card-title" style="color:#C2410C">שאלה לדיון</h3>
+      <p>האם ראוי לשדר בחדשות סרטון המתעד רצח אכזרי של אזרח בפיגוע טרור? מהו האינטרס הציבורי שמול פגיעה בכבוד הנרצח?</p>
+    </div>
+  </section>
+
+  <!-- 37. משימה פרק 6 -->
+  <section class="slide task-slide" id="s37">
+    <div class="chapter-tag">משימה — פרק 6</div>
+    <h2 class="slide-title">פרטיות וזכות הציבור לדעת — לדיון</h2>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">1</span>
+        <p>רופאה דיווחה לתקשורת שראש ממשלה מקבל טיפול נפשי. האם יש בכך הפרת פרטיות? האם יש עניין ציבורי? הכריעו ונמקו.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">2</span>
+        <p>כתב צילם שיחה פרטית של שר ללא ידיעתו. השיחה חושפת שחיתות. האם מותר לפרסם? הפעילו את ממדי הפרטיות וכלל האינטרס הציבורי.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">3</span>
+        <p>האם "חוק בשורת איוב" היה צריך לעבור בכנסת? הציגו שני נימוקים בעד ושניים נגד.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 38. מידע מהליכים פליליים: פתיחה -->
+  <section class="slide" id="s38">
+    <div class="chapter-tag">פרק 7 — מידע מהליכים פליליים</div>
+    <h2 class="slide-title">פומביות המשפט: ערך דמוקרטי</h2>
+    <div class="quote-block">
+      <p>"אור השמש הוא חומר החיטוי המשובח ביותר"</p>
+      <p class="quote-source">השופט האמריקני לואיס ברנדייס, 1914</p>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3 class="card-title">מדוע פומביות המשפט חשובה?</h3>
+      <ul>
+        <li>הציבור יכול לבחון אם המשפט מתנהל באופן אובייקטיבי</li>
+        <li>בעלי הדין נזהרים בדבריהם ונמנעים מהצגת עובדות לא בדוקות</li>
+        <li>שופטים מפגינים שיקול דעת ראוי בנקודות מפתח</li>
+        <li>האזרח רואה שהצדק נעשה — ולא רק נעשה</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 39. דלתיים סגורות -->
+  <section class="slide" id="s39">
+    <div class="chapter-tag">פרק 7 — מידע מהליכים פליליים</div>
+    <h2 class="slide-title">מגבלות על סיקור בתי המשפט</h2>
+    <div class="card">
+      <h3 class="card-title">דלתיים סגורות</h3>
+      <p>שופט רשאי להחליט על קיום דיון <strong>בדלתיים סגורות</strong> — ללא קהל ותקשורת. מקרים אופייניים: קטינים, קורבנות עבירות מין, ביטחון המדינה.</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">עקרון הסוביודיצה (Sub Judice)</h3>
+      <p>איסור על פרסום מידע סביב דיונים משפטיים באופן שעלול <strong>להשפיע על תוצאתם.</strong></p>
+      <p style="margin-top:8px;font-size:0.9rem">מה אסור? מאמרי דעה של עורכי דין שאינם חלק מהתהליך, עדויות חדשות שהצדדים לא נחשפו אליהן, פרסום תמונות ממצלמות מעקב שסותרות את כתב האישום.</p>
+    </div>
+  </section>
+
+  <!-- 40. שפיטה על ידי עיתונות -->
+  <section class="slide" id="s40">
+    <div class="chapter-tag">פרק 7 — מידע מהליכים פליליים</div>
+    <h2 class="slide-title">שפיטה על ידי העיתונות</h2>
+    <div class="card">
+      <h3 class="card-title">הדילמה</h3>
+      <p>הכיסוי התקשורתי לא רק משקף את המתחולל במשפט — הוא גם עשוי <strong>להשפיע על התוצאה</strong>. שופטים הם בני אדם. חשיפה תקשורתית כבדה יכולה ליצור לחץ ציבורי שיכניס שיקולים זרים לדיון המשפטי.</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">המתח הבסיסי</h3>
+      <div class="two-col" style="margin-top:8px">
+        <div style="background:#F0F9FF;border-radius:10px;padding:12px">
+          <p style="font-weight:700;color:#0891B2;font-size:0.9rem">בעד פרסום מלא</p>
+          <p style="font-size:0.85rem;margin-top:4px">שקיפות דמוקרטית, מניעת שחיתות שיפוטית, עדים נוספים עשויים לצוץ</p>
+        </div>
+        <div style="background:#FEF2F2;border-radius:10px;padding:12px">
+          <p style="font-weight:700;color:#DC2626;font-size:0.9rem">נגד פרסום מלא</p>
+          <p style="font-size:0.85rem;margin-top:4px">פגיעה בחזקת החפות, לחץ ציבורי על השופטים, סיקוי שיצר אפקט מצנן</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 41. יחסי תקשורת-משפט -->
+  <section class="slide" id="s41">
+    <div class="chapter-tag">פרק 7 — מידע מהליכים פליליים</div>
+    <h2 class="slide-title">סיכום: מערכת יחסים מורכבת</h2>
+    <div class="card">
+      <p>היחסים בין מוסד התקשורת למוסד המשפטי הם חלק ממערכת יחסים רחבה יותר — בין התקשורת לכל מוסדות הכוח בדמוקרטיה.</p>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <h3 class="card-title">שתי הסכנות</h3>
+      <ul>
+        <li><strong>תת-סיקור:</strong> משפטים מושחתים מתנהלים בחשיכה — הציבור לא יודע</li>
+        <li><strong>סיקור יתר:</strong> "כיכר הדין הציבורית" שולטת — הנאשם מורשע בתקשורת לפני שבית המשפט הגיע לפסיקה</li>
+      </ul>
+    </div>
+    <div class="quote-block" style="margin-top:12px">
+      <p>האיזון הנכון בין שקיפות לבין הגנה על הליך הוגן — הוא אחד המבחנים של בגרות דמוקרטית.</p>
+    </div>
+  </section>
+
+  <!-- 42. משימה פרק 7 -->
+  <section class="slide task-slide" id="s42">
+    <div class="chapter-tag">משימה — פרק 7</div>
+    <h2 class="slide-title">מידע מהליכים פליליים — לדיון</h2>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">1</span>
+        <p>עיתונאי קיבל תמונות ממצלמות מעקב שסותרות את גרסת הנאשם. פרסם — ובית המשפט זיכה. מי צדק: העיתונאי או עקרון הסוביודיצה? נמקו.</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">2</span>
+        <p>הביאו דוגמה ישראלית אחת של משפט שסוקר בהרחבה בתקשורת. האם לדעתכם הסיקור היה ראוי? האם הוא השפיע על ההליך?</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">3</span>
+        <p>כיצד הייתם נוסחים את הכלל לסיקור משפטי? כתבו שני עקרונות שיאזנו בין שקיפות להגנה על הליך הוגן.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 43. משימות מסכמות -->
+  <section class="slide task-slide" id="s43">
+    <div class="chapter-tag">סיכום — משימות ממתכלות</div>
+    <h2 class="slide-title">גדול מהפרקים: ניתוח משולב</h2>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">A</span>
+        <p>בחרו מקרה תקשורתי ישראלי מהשנה האחרונה. זהו: באיזו מטאפורה פעלה התקשורת? האם הופרו עקרונות של חופש ביטוי, לשון הרע, או פרטיות?</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">B</span>
+        <p>כתבו מאמר דעה קצר (10 שורות): "האם תקשורת ישראל ממלאת כיום את תפקיד הרשות הרביעית?" השתמשו בלפחות שלושה מושגי מפתח מהחומר.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 44. משימה מסכמת ב' -->
+  <section class="slide task-slide" id="s44">
+    <div class="chapter-tag">סיכום — משימות ממתכלות</div>
+    <h2 class="slide-title">קשה אבל חשוב: דילמות ערכיות</h2>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">C</span>
+        <p>ממשלה מבקשת לחוקק חוק שיחייב כלי תקשורת לפרסם רק מידע "מאומת" לפני פרסום. הסבירו: מדוע זה מסוכן לדמוקרטיה? איזה מבחן אחר תציעו?</p>
+      </div>
+    </div>
+    <div class="task-card">
+      <div class="task-row">
+        <span class="task-num">D</span>
+        <p>סכמו בטבלה: ארבעה ערכים דמוקרטיים שלמדנו. לכל ערך: הגדרה, דוגמה שבה הוא כובד בישראל, ודוגמה שבה הוא הופר.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 45. מילון מושגים -->
+  <section class="slide" id="s45">
+    <div class="chapter-tag">נספח</div>
+    <h2 class="slide-title">מילון מושגים מרכזיים</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="card" style="padding:16px 18px">
+        <h3 class="card-title" style="font-size:0.95rem">דמוקרטיה ייצוגית</h3>
+        <p style="font-size:0.85rem">שלטון דרך נציגים נבחרים</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <h3 class="card-title" style="font-size:0.95rem">פלורליזם</h3>
+        <p style="font-size:0.85rem">שוויון זכויות לקבוצות שונות, לרבות מיעוטים</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <h3 class="card-title" style="font-size:0.95rem">הרשות הרביעית</h3>
+        <p style="font-size:0.85rem">כינוי לתקשורת כמפקחת על שלוש הרשויות</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <h3 class="card-title" style="font-size:0.95rem">ודאות קרובה</h3>
+        <p style="font-size:0.85rem">מבחן לינקולן: מתי ניתן להגביל חופש הביטוי (בג"ץ קול העם)</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <h3 class="card-title" style="font-size:0.95rem">סוביודיצה</h3>
+        <p style="font-size:0.85rem">איסור פרסום שעלול להשפיע על הליך משפטי</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <h3 class="card-title" style="font-size:0.95rem">המרחב הציבורי</h3>
+        <p style="font-size:0.85rem">מקום דיון אזרחי חופשי (האברמס)</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <h3 class="card-title" style="font-size:0.95rem">עניין ציבורי</h3>
+        <p style="font-size:0.85rem">מידע שמשמעותי לרבים (vs. עניין לציבור)</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <h3 class="card-title" style="font-size:0.95rem">זכויות מתנגשות</h3>
+        <p style="font-size:0.85rem">מצב שבו מימוש זכות אחת פוגעת בזכות אחרת</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 46. סיום -->
+  <section class="slide center" id="s46">
+    <div style="max-width:560px;width:100%">
+      <div style="font-size:3rem;margin-bottom:16px">📰</div>
+      <h1 class="main-title" style="font-size:2.2rem">סיום המצגת</h1>
+      <p style="font-size:1.1rem;color:#555;margin-bottom:28px;line-height:1.7">דמוקרטיה היא לא רק שלטון — היא תרבות של ויכוח, ביקורת, ופיקוח הדדי. התקשורת היא אחד המנגנונים המרכזיים שמשמרים אותה.</p>
+      <div class="card" style="text-align:right">
+        <h3 class="card-title">7 פרקים, 3 מקרים מהעבר, משימות לדיון</h3>
+        <p style="margin-top:6px;font-size:0.9rem">בג"ץ קול העם 1953 · פרשת כהנא 1984 · חוק בשורת איוב 2009</p>
+      </div>
+      <button onclick="goToSlide(1)" style="margin-top:20px;background:#0891B2;color:#fff;border:none;border-radius:10px;padding:12px 28px;font-family:'Heebo',sans-serif;font-size:1rem;font-weight:700;cursor:pointer">חזרה לתחילה</button>
+    </div>
+  </section>
+
+</div><!-- /slides-container -->
+
+<script>
+  const totalSlides = 46;
+  let current = 1;
+  let touchStartX = 0;
+
+  function goToSlide(n) {
+    const prev = document.getElementById('s' + current);
+    if (prev) prev.classList.remove('active');
+    current = Math.max(1, Math.min(n, totalSlides));
+    const next = document.getElementById('s' + current);
+    if (next) next.classList.add('active');
+    updateUI();
+  }
+
+  function updateUI() {
+    document.getElementById('slide-counter').textContent = current + ' / ' + totalSlides;
+    const pct = ((current - 1) / (totalSlides - 1)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('btn-prev').style.opacity = current === 1 ? '0.3' : '1';
+    document.getElementById('btn-next').style.opacity = current === totalSlides ? '0.3' : '1';
+  }
+
+  document.getElementById('btn-next').addEventListener('click', function() { goToSlide(current + 1); });
+  document.getElementById('btn-prev').addEventListener('click', function() { goToSlide(current - 1); });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      goToSlide(current + 1);
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      goToSlide(current - 1);
+    }
+  });
+
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    const dx = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) {
+      if (dx > 0) goToSlide(current + 1);
+      else goToSlide(current - 1);
+    }
+  });
+
+  updateUI();
+</script>
+</body>
+</html>
