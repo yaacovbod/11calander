@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מטלת סיכום — פרקים 1–3 | דמוקרטיה ותקשורת</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Heebo',sans-serif;background:#F9FAFB;color:#111;min-height:100vh;padding:20px 16px}
+
+    .container{max-width:740px;margin:0 auto;padding-bottom:60px}
+
+    /* ── כותרת עליונה ── */
+    .header{text-align:center;padding:28px 0 24px}
+    .header h1{font-size:1.9rem;font-weight:800;color:#0891B2;margin-bottom:6px}
+    .header p{color:#666;font-size:.88rem}
+    .chips{display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+    .chip{background:#E0F2FE;color:#0369A1;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:20px}
+
+    /* ── כרטיס מקטע ── */
+    .section{background:#fff;border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 2px 10px rgba(8,145,178,.08)}
+    .sec-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+    .sec-num{width:34px;height:34px;background:#0891B2;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0}
+    .sec-title{font-size:1.05rem;font-weight:800}
+    .sec-sub{font-size:.78rem;color:#888;margin-top:2px}
+
+    /* ── שאלה ── */
+    .question{margin-bottom:20px}
+    .question:last-of-type{margin-bottom:0}
+    .q-text{font-size:.93rem;font-weight:700;color:#111;margin-bottom:11px;line-height:1.6}
+    .q-num{color:#0891B2}
+    hr.div{border:none;border-top:1px solid #F0F4F8;margin:18px 0}
+
+    /* ── בחירה מרובה ── */
+    .options{display:flex;flex-direction:column;gap:8px}
+    .opt{display:flex;align-items:center;gap:10px;padding:11px 14px;border:2px solid #E5E7EB;border-radius:10px;cursor:pointer;transition:border-color .13s,background .13s;user-select:none}
+    .opt:hover:not(.locked){border-color:#BAE6FD;background:#F8FBFF}
+    .opt.selected{border-color:#0891B2;background:#F0F9FF}
+    .opt.correct{border-color:#16A34A !important;background:#F0FFF4 !important}
+    .opt.wrong{border-color:#DC2626 !important;background:#FEF2F2 !important}
+    .opt.locked{cursor:default}
+    .radio{width:20px;height:20px;border-radius:50%;border:2px solid #CBD5E1;flex-shrink:0;transition:all .13s;position:relative}
+    .opt.selected .radio{border-color:#0891B2;background:#0891B2}
+    .opt.correct .radio{border-color:#16A34A;background:#16A34A}
+    .opt.wrong .radio{border-color:#DC2626;background:#DC2626}
+    .radio::after{content:'';width:8px;height:8px;background:#fff;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:none}
+    .opt.selected .radio::after,.opt.correct .radio::after,.opt.wrong .radio::after{display:block}
+    .opt-lbl{font-size:.91rem;color:#333;line-height:1.4}
+
+    /* ── השלמת חסר ── */
+    .sent{font-size:.95rem;line-height:2.4;color:#333;margin-bottom:14px}
+    .blank{display:inline-block;min-width:90px;border-bottom:3px solid #0891B2;padding:1px 8px;margin:0 3px;color:#0891B2;font-weight:700;cursor:pointer;border-radius:4px 4px 0 0;transition:background .13s;background:#F0F9FF;vertical-align:middle;text-align:center;font-size:.88rem}
+    .blank:hover:not(.locked){background:#E0F2FE}
+    .blank.active-blank{outline:3px solid #0891B2;outline-offset:2px}
+    .blank.filled{background:#E0F2FE}
+    .blank.correct{border-color:#16A34A;background:#F0FFF4;color:#16A34A}
+    .blank.wrong{border-color:#DC2626;background:#FEF2F2;color:#DC2626}
+    .bank{display:flex;flex-wrap:wrap;gap:8px;padding:14px;background:#F8FAFC;border-radius:10px;border:1px dashed #CBD5E1;margin-top:10px}
+    .bank-lbl{font-size:.72rem;font-weight:700;color:#888;width:100%;margin-bottom:2px}
+    .w-btn{background:#fff;border:2px solid #E0F2FE;border-radius:20px;padding:5px 14px;font-family:'Heebo',sans-serif;font-size:.86rem;font-weight:700;color:#0369A1;cursor:pointer;transition:all .13s}
+    .w-btn:hover:not(:disabled){border-color:#0891B2;background:#F0F9FF}
+    .w-btn.sel-word{border-color:#0891B2;background:#E0F2FE;outline:2px solid #0891B2;outline-offset:2px}
+    .w-btn:disabled,.w-btn.used{opacity:.33;cursor:default;border-color:#E5E7EB;color:#999;outline:none}
+
+    /* ── התאמה ── */
+    .match-hint{font-size:.78rem;color:#888;margin-bottom:12px}
+    .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .match-col-hd{font-size:.72rem;font-weight:700;color:#0891B2;text-align:center;padding-bottom:5px;border-bottom:2px solid #E0F2FE;margin-bottom:4px}
+    .mi{padding:11px 12px;border:2px solid #E5E7EB;border-radius:10px;cursor:pointer;font-size:.86rem;font-weight:700;color:#333;text-align:center;min-height:56px;display:flex;align-items:center;justify-content:center;line-height:1.4;transition:all .13s;user-select:none}
+    .mi:hover:not(.matched):not(.locked){border-color:#BAE6FD;background:#F0F9FF}
+    .mi.active{border-color:#0891B2;background:#E0F2FE;color:#0369A1}
+    .mi.matched{cursor:default}
+    .mi.correct{border-color:#16A34A !important;background:#F0FFF4 !important;color:#16A34A !important}
+    .mi.wrong{border-color:#DC2626 !important;background:#FEF2F2 !important;color:#DC2626 !important}
+    .p1.matched{border-color:#7C3AED;background:#F5F3FF;color:#7C3AED}
+    .p2.matched{border-color:#059669;background:#ECFDF5;color:#059669}
+    .p3.matched{border-color:#D97706;background:#FFFBEB;color:#D97706}
+    .p4.matched{border-color:#0891B2;background:#F0F9FF;color:#0891B2}
+
+    /* ── כפתור בדיקה ── */
+    .check-btn{width:100%;padding:14px;background:#0891B2;color:#fff;border:none;border-radius:12px;font-family:'Heebo',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;margin-top:6px;transition:background .15s}
+    .check-btn:hover:not(:disabled){background:#0369A1}
+    .check-btn:disabled{background:#94A3B8;cursor:default}
+
+    /* ── תוצאה ── */
+    .score-box{display:none;margin-top:18px;padding:26px;border-radius:14px;text-align:center;animation:fadeIn .3s ease}
+    .score-box.show{display:block}
+    .score-box.great{background:linear-gradient(135deg,#059669,#16A34A);color:#fff}
+    .score-box.ok{background:linear-gradient(135deg,#D97706,#F59E0B);color:#fff}
+    .score-box.low{background:linear-gradient(135deg,#DC2626,#EF4444);color:#fff}
+    .score-num{font-size:3rem;font-weight:800;line-height:1}
+    .score-lbl{font-size:1.05rem;margin-top:8px;font-weight:700}
+    .score-msg{font-size:.85rem;margin-top:8px;opacity:.9}
+    .reset-btn{background:none;border:2px solid rgba(255,255,255,.55);color:#fff;border-radius:10px;padding:8px 22px;font-family:'Heebo',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;margin-top:14px;transition:background .15s}
+    .reset-btn:hover{background:rgba(255,255,255,.15)}
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    @media(max-width:480px){
+      .header h1{font-size:1.5rem}
+      .match-grid{grid-template-columns:1fr;gap:6px}
+      .q-text,.sent{font-size:.88rem}
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>מטלת סיכום</h1>
+    <p>בדקו את עצמכם — דמוקרטיה ותקשורת</p>
+    <div class="chips">
+      <span class="chip">פרק 1 — מהי דמוקרטיה</span>
+      <span class="chip">פרק 2 — תקשורת ודמוקרטיה</span>
+      <span class="chip">פרק 3 — שלוש מטאפורות</span>
+    </div>
+  </div>
+
+  <!-- ══ חלק א': בחירה מרובה ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">א</div>
+      <div>
+        <div class="sec-title">בחירה מרובה</div>
+        <div class="sec-sub">בחרו את התשובה הנכונה בכל שאלה</div>
+      </div>
+    </div>
+
+    <div class="question" data-answer="1">
+      <div class="q-text"><span class="q-num">1.</span> מה פירוש המילה היוונית <em>demos</em> שממנה נגזרת המילה "דמוקרטיה"?</div>
+      <div class="options">
+        <div class="opt" data-val="0"><div class="radio"></div><span class="opt-lbl">שלטון</span></div>
+        <div class="opt" data-val="1"><div class="radio"></div><span class="opt-lbl">עם</span></div>
+        <div class="opt" data-val="2"><div class="radio"></div><span class="opt-lbl">חוק</span></div>
+        <div class="opt" data-val="3"><div class="radio"></div><span class="opt-lbl">אזרח</span></div>
+      </div>
+    </div>
+
+    <hr class="div">
+
+    <div class="question" data-answer="1">
+      <div class="q-text"><span class="q-num">2.</span> גרמניה הנאצית קיימה משאלי עם — ובכל זאת אינה נחשבת דמוקרטיה. מדוע?</div>
+      <div class="options">
+        <div class="opt" data-val="0"><div class="radio"></div><span class="opt-lbl">כי לא היו בה בחירות חופשיות</span></div>
+        <div class="opt" data-val="1"><div class="radio"></div><span class="opt-lbl">כי ההיבט המהותי — ערכי חירות, שוויון והגנה על מיעוטים — נעדר לחלוטין</span></div>
+        <div class="opt" data-val="2"><div class="radio"></div><span class="opt-lbl">כי לא היה בה ריבוי מפלגות</span></div>
+        <div class="opt" data-val="3"><div class="radio"></div><span class="opt-lbl">כי ההיבט ההסדרי לא התקיים</span></div>
+      </div>
+    </div>
+
+    <hr class="div">
+
+    <div class="question" data-answer="2">
+      <div class="q-text"><span class="q-num">3.</span> מדוע התקשורת מכונה "הרשות הרביעית"?</div>
+      <div class="options">
+        <div class="opt" data-val="0"><div class="radio"></div><span class="opt-lbl">כי יש לה כוח חוקי שווה לשלוש הרשויות</span></div>
+        <div class="opt" data-val="1"><div class="radio"></div><span class="opt-lbl">כי היא נוסדה אחרי שלוש הרשויות האחרות</span></div>
+        <div class="opt" data-val="2"><div class="radio"></div><span class="opt-lbl">כי היא מביאה לציבור מידע על פעולות ומחדלי שלוש הרשויות</span></div>
+        <div class="opt" data-val="3"><div class="radio"></div><span class="opt-lbl">כי היא ממנת את השלטון</span></div>
+      </div>
+    </div>
+
+    <hr class="div">
+
+    <div class="question" data-answer="1">
+      <div class="q-text"><span class="q-num">4.</span> מהי הביקורת המכנה את התקשורת "כלבלב מחמד"?</div>
+      <div class="options">
+        <div class="opt" data-val="0"><div class="radio"></div><span class="opt-lbl">שהיא מתריעה על בעיות שאינן קיימות ומפריעה לשלטון</span></div>
+        <div class="opt" data-val="1"><div class="radio"></div><span class="opt-lbl">שהיא משרתת אינטרסים של בעלי הון ואינה נוגעת בהם</span></div>
+        <div class="opt" data-val="2"><div class="radio"></div><span class="opt-lbl">שהיא פועלת ללא פיקוח ממשלתי</span></div>
+        <div class="opt" data-val="3"><div class="radio"></div><span class="opt-lbl">שהיא אגרסיבית מדי כלפי פוליטיקאים</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ חלק ב': השלמת חסר ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">ב</div>
+      <div>
+        <div class="sec-title">השלמת חסר</div>
+        <div class="sec-sub">לחצו על מילה ממאגר המילים, ואז על החסר המתאים</div>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5.</span> השלימו את הגדרת לינקולן:</div>
+      <div class="sent">
+        הדמוקרטיה היא שלטון
+        <span class="blank" data-answer="של העם"><span class="b-txt">___</span></span> ,
+        <span class="blank" data-answer="באמצעות העם"><span class="b-txt">___</span></span>
+        ו<span class="blank" data-answer="למען העם"><span class="b-txt">___</span></span>
+      </div>
+    </div>
+
+    <hr class="div">
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6.</span> השלימו את שלושת ערכי היסוד של הדמוקרטיה:</div>
+      <div class="sent">
+        חירות ,
+        <span class="blank" data-answer="שוויון"><span class="b-txt">___</span></span>
+        ו<span class="blank" data-answer="פלורליזם"><span class="b-txt">___</span></span>
+      </div>
+    </div>
+
+    <hr class="div">
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7.</span> השלימו לפי פרק 3:</div>
+      <div class="sent">
+        תקשורת שמקשרת בין אליטות לאזרחים פועלת כ<span class="blank" data-answer="מתווכת"><span class="b-txt">___</span></span> .
+        תקשורת שעוקבת על השלטון ו"נובחת" כשהוא כושל פועלת כ<span class="blank" data-answer="כלב שמירה"><span class="b-txt">___</span></span> .
+      </div>
+    </div>
+
+    <!-- מאגר מילים -->
+    <div class="bank">
+      <div class="bank-lbl">מאגר מילים — לחצו על מילה ואז על החסר:</div>
+      <button class="w-btn" data-word="של העם">של העם</button>
+      <button class="w-btn" data-word="באמצעות העם">באמצעות העם</button>
+      <button class="w-btn" data-word="למען העם">למען העם</button>
+      <button class="w-btn" data-word="שוויון">שוויון</button>
+      <button class="w-btn" data-word="פלורליזם">פלורליזם</button>
+      <button class="w-btn" data-word="מתווכת">מתווכת</button>
+      <button class="w-btn" data-word="כלב שמירה">כלב שמירה</button>
+      <button class="w-btn" data-word="זירה">זירה</button>
+      <button class="w-btn" data-word="ריבונות">ריבונות</button>
+    </div>
+  </div>
+
+  <!-- ══ חלק ג': התאמה ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">ג</div>
+      <div>
+        <div class="sec-title">התאמה</div>
+        <div class="sec-sub">לחצו על מושג בעמודה הימנית, ואז על ההגדרה המתאימה בשמאל</div>
+      </div>
+    </div>
+
+    <div class="match-grid">
+      <div id="match-left">
+        <div class="match-col-hd">הגדרה / דוגמה</div>
+        <div class="mi" id="ml1" data-pair="3">מקום שבו אזרחים חופשיים מתדיינים ומגבשים דעה — לפי הפילוסוף האברמס</div>
+        <div class="mi" id="ml2" data-pair="1">בחירות חופשיות, ריבוי מפלגות, הפרדת רשויות</div>
+        <div class="mi" id="ml3" data-pair="4">מביאה לציבור מידע על פעולות ומחדלי שלוש הרשויות</div>
+        <div class="mi" id="ml4" data-pair="2">חירות, שוויון, הגנה על מיעוטים</div>
+      </div>
+      <div id="match-right">
+        <div class="match-col-hd">מושג</div>
+        <div class="mi" id="mr1" data-pair="1">ההיבט ההסדרי</div>
+        <div class="mi" id="mr2" data-pair="2">ההיבט המהותי</div>
+        <div class="mi" id="mr3" data-pair="3">המרחב הציבורי</div>
+        <div class="mi" id="mr4" data-pair="4">הרשות הרביעית</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="check-btn" id="checkBtn">בדיקת תשובות ✓</button>
+
+  <div class="score-box" id="scoreBox">
+    <div class="score-num" id="scoreNum"></div>
+    <div class="score-lbl" id="scoreLbl"></div>
+    <div class="score-msg" id="scoreMsg"></div>
+    <button class="reset-btn" onclick="resetAll()">נסו שוב</button>
+  </div>
+
+</div>
+<script>
+// ── State ──
+let selWord = null;   // { word, btn }
+let activeBlank = null;
+let matchSel = null;  // selected left match item
+let done = false;
+
+// ── Multiple Choice ──
+document.querySelectorAll('.opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    if (done) return;
+    const q = opt.closest('.question');
+    q.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+
+// ── Fill in Blank ──
+document.querySelectorAll('.w-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (done || btn.classList.contains('used')) return;
+
+    if (selWord && selWord.btn === btn) {
+      // toggle off
+      btn.classList.remove('sel-word');
+      selWord = null;
+      clearBlankHighlight();
+      return;
+    }
+
+    // deselect previous word
+    if (selWord) selWord.btn.classList.remove('sel-word');
+    selWord = { word: btn.dataset.word, btn };
+    btn.classList.add('sel-word');
+
+    // if a blank is already active, fill it immediately
+    if (activeBlank) {
+      doFill(activeBlank);
+      activeBlank = null;
+    }
+  });
+});
+
+document.querySelectorAll('.blank').forEach(blank => {
+  blank.addEventListener('click', () => {
+    if (done) return;
+
+    if (selWord) {
+      // fill this blank with selected word
+      doFill(blank);
+      activeBlank = null;
+      return;
+    }
+
+    // no word selected
+    if (blank.dataset.current) {
+      // return word to bank
+      returnWord(blank);
+      clearBlankHighlight();
+      return;
+    }
+
+    // highlight this blank as waiting
+    clearBlankHighlight();
+    blank.classList.add('active-blank');
+    activeBlank = blank;
+  });
+});
+
+function doFill(blank) {
+  if (blank.dataset.current) returnWord(blank); // return old word first
+  const word = selWord.word;
+  blank.querySelector('.b-txt').textContent = word;
+  blank.dataset.current = word;
+  blank.classList.add('filled');
+  blank.classList.remove('active-blank');
+  selWord.btn.classList.add('used');
+  selWord.btn.disabled = true;
+  selWord.btn.classList.remove('sel-word');
+  selWord = null;
+  clearBlankHighlight();
+}
+
+function returnWord(blank) {
+  const word = blank.dataset.current;
+  blank.querySelector('.b-txt').textContent = '___';
+  delete blank.dataset.current;
+  blank.classList.remove('filled');
+  const btn = [...document.querySelectorAll('.w-btn')].find(b => b.dataset.word === word);
+  if (btn) { btn.classList.remove('used'); btn.disabled = false; }
+}
+
+function clearBlankHighlight() {
+  document.querySelectorAll('.blank').forEach(b => b.classList.remove('active-blank'));
+}
+
+// ── Matching ──
+document.querySelectorAll('#match-left .mi').forEach(item => {
+  item.addEventListener('click', () => {
+    if (done || item.classList.contains('matched')) return;
+    if (matchSel && matchSel.side === 'right') { matchSel.el.classList.remove('active'); matchSel = null; }
+    if (matchSel && matchSel.el === item) { item.classList.remove('active'); matchSel = null; return; }
+    if (matchSel) matchSel.el.classList.remove('active');
+    item.classList.add('active');
+    matchSel = { el: item, pair: item.dataset.pair, side: 'left' };
+  });
+});
+
+document.querySelectorAll('#match-right .mi').forEach(item => {
+  item.addEventListener('click', () => {
+    if (done || item.classList.contains('matched')) return;
+    if (!matchSel || matchSel.side !== 'left') return;
+
+    const pClass = 'p' + matchSel.pair;
+    matchSel.el.classList.remove('active');
+    matchSel.el.classList.add('matched', pClass);
+    item.classList.add('matched', pClass);
+    matchSel.el.dataset.matchedTo = item.id;
+    item.dataset.matchedBy = matchSel.el.id;
+    matchSel = null;
+  });
+});
+
+// ── Check ──
+document.getElementById('checkBtn').addEventListener('click', () => {
+  done = true;
+  document.getElementById('checkBtn').disabled = true;
+  if (selWord) selWord.btn.classList.remove('sel-word');
+  clearBlankHighlight();
+
+  let total = 0, correct = 0;
+
+  // MC
+  document.querySelectorAll('.question[data-answer]').forEach(q => {
+    total++;
+    const ans = q.dataset.answer;
+    const sel = q.querySelector('.opt.selected');
+    q.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
+    if (sel && sel.dataset.val === ans) {
+      sel.classList.add('correct'); correct++;
+    } else {
+      if (sel) sel.classList.add('wrong');
+      q.querySelectorAll('.opt').forEach(o => { if (o.dataset.val === ans) o.classList.add('correct'); });
+    }
+  });
+
+  // Fill
+  document.querySelectorAll('.blank').forEach(blank => {
+    total++;
+    blank.classList.add('locked');
+    const cur = blank.dataset.current || '';
+    if (cur === blank.dataset.answer) {
+      blank.classList.add('correct'); correct++;
+    } else {
+      blank.classList.add('wrong');
+      if (!cur) blank.querySelector('.b-txt').textContent = '—';
+    }
+  });
+
+  // Match
+  document.querySelectorAll('#match-left .mi').forEach(left => {
+    total++;
+    left.classList.add('locked');
+    const rightId = left.dataset.matchedTo;
+    if (!rightId) { left.classList.add('wrong'); return; }
+    const right = document.getElementById(rightId);
+    right.classList.add('locked');
+    // remove pair color classes before adding correct/wrong
+    ['p1','p2','p3','p4'].forEach(c => { left.classList.remove(c); right.classList.remove(c); });
+    left.classList.remove('matched'); right.classList.remove('matched');
+    if (right.dataset.pair === left.dataset.pair) {
+      left.classList.add('correct'); right.classList.add('correct'); correct++;
+    } else {
+      left.classList.add('wrong'); right.classList.add('wrong');
+    }
+  });
+  // mark unmatched right items as wrong
+  document.querySelectorAll('#match-right .mi').forEach(right => {
+    if (!right.dataset.matchedBy && !right.classList.contains('correct') && !right.classList.contains('wrong')) {
+      right.classList.add('wrong');
+    }
+  });
+
+  // Score
+  const pct = Math.round(correct / total * 100);
+  document.getElementById('scoreNum').textContent = correct + ' / ' + total;
+  const box = document.getElementById('scoreBox');
+  if (pct >= 80) {
+    box.className = 'score-box show great';
+    document.getElementById('scoreLbl').textContent = 'מצוין!';
+    document.getElementById('scoreMsg').textContent = 'שליטה מעולה בחומר של שלושת הפרקים הראשונים.';
+  } else if (pct >= 55) {
+    box.className = 'score-box show ok';
+    document.getElementById('scoreLbl').textContent = 'טוב — כמה נושאים לחזרה';
+    document.getElementById('scoreMsg').textContent = 'חזרו על הנושאים שטעיתם בהם ונסו שוב.';
+  } else {
+    box.className = 'score-box show low';
+    document.getElementById('scoreLbl').textContent = 'כדאי לחזור על החומר';
+    document.getElementById('scoreMsg').textContent = 'חזרו על פרקים 1–3 ונסו מחדש.';
+  }
+
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+// ── Reset ──
+function resetAll() {
+  done = false; selWord = null; activeBlank = null; matchSel = null;
+
+  document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected','correct','wrong','locked'));
+
+  document.querySelectorAll('.blank').forEach(b => {
+    b.querySelector('.b-txt').textContent = '___';
+    delete b.dataset.current;
+    b.classList.remove('filled','correct','wrong','active-blank','locked');
+  });
+  document.querySelectorAll('.w-btn').forEach(b => {
+    b.classList.remove('used','sel-word'); b.disabled = false;
+  });
+
+  document.querySelectorAll('.mi').forEach(m => {
+    m.classList.remove('matched','active','correct','wrong','locked','p1','p2','p3','p4');
+    delete m.dataset.matchedTo; delete m.dataset.matchedBy;
+  });
+
+  document.getElementById('scoreBox').className = 'score-box';
+  document.getElementById('checkBtn').disabled = false;
+}
+</script>
+</body>
+</html>
